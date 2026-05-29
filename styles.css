@@ -277,6 +277,8 @@ h1 {
 .detail-card .content p,
 .detail-card .content li {
   line-height: 1.75;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .detail-card .content img {
@@ -305,6 +307,10 @@ h1 {
   line-height: 1.4;
   margin: 1rem 0 .55rem;
   color: #1e3f63;
+}
+
+.word-clean p.minor-title[data-auto-question-num]::before {
+  content: attr(data-auto-question-num) ". ";
 }
 
 .word-clean p.answer-text {
@@ -377,12 +383,12 @@ h1 {
 }
 
 .code-wrap.answer-only pre {
-  background: rgba(255, 255, 255, .26);
-  border-color: rgba(255, 255, 255, .26);
+  background: rgba(255, 255, 255, .74);
+  border-color: rgba(20, 48, 78, .16);
 }
 
 .code-wrap.answer-only code {
-  color: #f8fbff;
+  color: #18324d;
   font-weight: 600;
 }
 
@@ -390,9 +396,9 @@ h1 {
   position: absolute;
   top: .45rem;
   right: .45rem;
-  border: 1px solid rgba(255, 255, 255, .35);
-  background: rgba(255, 255, 255, .18);
-  color: #fff;
+  border: 1px solid rgba(20, 48, 78, .18);
+  background: rgba(255, 255, 255, .86);
+  color: #18324d;
   padding: .28rem .55rem;
   border-radius: .42rem;
   font-size: .78rem;
@@ -400,12 +406,13 @@ h1 {
 }
 
 .code-copy-btn:hover {
-  background: rgba(255, 255, 255, .28);
+  background: rgba(255, 255, 255, .96);
 }
 
 .code-wrap pre {
   margin: 0;
   overflow: auto;
+  max-width: 100%;
   padding: 1rem;
   border-radius: .7rem;
   background: rgba(13, 18, 30, .68);
@@ -497,10 +504,10 @@ h1 {
   position: fixed;
   right: 0;
   bottom: 0;
-  width: min(28vw, 320px);
-  height: min(58vh, 520px);
+  width: min(34vw, 420px);
+  height: min(72vh, 760px);
   overflow: hidden;
-  z-index: 7;
+  z-index: 11;
   pointer-events: none;
 }
 
@@ -542,8 +549,8 @@ h1 {
   }
 
   .live2d-pet {
-    width: min(36vw, 260px);
-    height: min(48vh, 390px);
+    width: min(42vw, 320px);
+    height: min(56vh, 500px);
   }
 }
 
@@ -562,7 +569,7 @@ h1 {
   }
 
   .live2d-pet {
-    width: min(44vw, 220px);
-    height: min(40vh, 300px);
+    width: min(48vw, 240px);
+    height: min(44vh, 360px);
   }
 }

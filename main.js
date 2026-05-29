@@ -81,11 +81,17 @@ function enhanceWordContent(container) {
     const s = normalizeText(t);
     return s === '手机取证' || s === 'APK取证' || s === '计算机取证' || s === '移动介质取证' || s === '服务器取证';
   };
-  const isMinorTitle = (t) => /^\d+\s*[\.．、]/.test(normalizeText(t));
-  const isQuestionLine = (t) => {
+  const readQuestionNumber = (t) => {
     const s = normalizeText(t);
-    return /^\d+\s*[\.．、]/.test(s) && (/答案格式/.test(s) || /[?？]/.test(s));
+    const m = s.match(/^(\d+)\s*[\.．、]\s*(.*)$/);
+    return m ? m[1] : '';
   };
+  const isQuestionPrompt = (t) => {
+    const s = normalizeText(t);
+    return /答案格式/.test(s) && (/[?？]/.test(s) || /^(?:\d+\s*[\.．、]\s*)?(?:分析|接上题)/.test(s));
+  };
+  const isMinorTitle = (t) => !!readQuestionNumber(t) || isQuestionPrompt(t);
+  const isQuestionLine = (t) => isQuestionPrompt(t);
   const isAnswerLine = (t) => /^答案[:：]/.test(normalizeText(t));
   const isScriptTitle = (t) => {
     const s = normalizeText(t);
@@ -106,6 +112,10 @@ function enhanceWordContent(container) {
     if (/\\|\/.+\.\w+/.test(s)) return true;
     if (/\.(py|db|xml|json|txt|so|apk)\b/i.test(s)) return true;
     return false;
+  };
+  const isStrongCodeLine = (t) => {
+    const s = normalizeText(t);
+    return /^(?:-f\s+["']|windows\.[a-z]|import\s|from\s|CSV_PATH\s*=|#!\/|Path\(|SELECT\b|with open\(|sqlite3\.|python\s)/i.test(s);
   };
   const isLikelyAnswerLine = (t) => {
     const s = normalizeText(t);
@@ -129,13 +139,23 @@ function enhanceWordContent(container) {
 
   const ps = Array.from(container.querySelectorAll('p'));
 
+  let sectionQuestionNo = 0;
   ps.forEach((p) => {
     const t = normalizeText(p.textContent || '');
     if (isMajorTitle(t)) {
+      sectionQuestionNo = 0;
       p.classList.add('major-title');
       return;
     }
-    if (isMinorTitle(t) || isQuestionLine(t)) {
+    if (isQuestionLine(t)) {
+      const explicitNo = readQuestionNumber(t);
+      sectionQuestionNo = explicitNo ? Number(explicitNo) : sectionQuestionNo + 1;
+      p.dataset.questionNum = String(sectionQuestionNo);
+      if (!explicitNo) {
+        p.dataset.autoQuestionNum = String(sectionQuestionNo);
+      }
+    }
+    if (isMinorTitle(t)) {
       p.classList.add('minor-title');
     }
   });
@@ -220,7 +240,7 @@ function enhanceWordContent(container) {
       nodes.push(cur);
       lines.push((cur.textContent || '').replace(/\u00a0/g, ' ').replace(/\s+$/g, ''));
     }
-    if (nodes.length < 2) continue;
+    if (nodes.length < 2 && !isStrongCodeLine(t)) continue;
     const codeText = lines.join('\n').trim();
     if (!codeText) continue;
     nodes[0].before(makeCopyCard(codeText, 'answer-copy script-only'));
@@ -248,18 +268,19 @@ function buildQuestionToc(detailEl) {
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#39;');
 
-  const isQuestionLine = (s) => /^\d+\s*[\.．、]/.test(normalizeText(s)) && (/答案格式/.test(normalizeText(s)) || /[?？]/.test(normalizeText(s)));
   const isMajorTitle = (s) => ['手机取证', 'APK取证', '计算机取证', '移动介质取证', '服务器取证'].includes(normalizeText(s));
 
   const nodes = Array.from(contentEl.querySelectorAll('p, h3'));
   const items = [];
   let currentSectionId = '';
+  let sectionQuestionNo = 0;
 
   nodes.forEach((node, idx) => {
     const raw = normalizeText(node.textContent || '');
     if (!raw) return;
 
     if (isMajorTitle(raw)) {
+      sectionQuestionNo = 0;
       if (!node.id) node.id = `sec-${idx + 1}`;
       currentSectionId = node.id;
       items.push({ type: 'section', id: node.id, label: raw });
@@ -267,9 +288,12 @@ function buildQuestionToc(detailEl) {
       return;
     }
 
-    if (!isQuestionLine(raw)) return;
+    const dataNum = node.dataset.questionNum || node.dataset.autoQuestionNum;
+    const isQuestionNode = !!dataNum || (/答案格式/.test(raw) && (/[?？]/.test(raw) || /^(?:\d+\s*[\.．、]\s*)?(?:分析|接上题)/.test(raw)));
+    if (!isQuestionNode) return;
     const m = raw.match(/^(\d+)\s*[\.．、]?\s*(.*)$/);
-    const num = m ? m[1] : String(items.length + 1);
+    const num = dataNum || (m ? m[1] : String(++sectionQuestionNo));
+    if (!dataNum && m) sectionQuestionNo = Number(m[1]);
     let label = m ? m[2] : raw;
     label = label.replace(/[\[［]答案格式[\s\S]*$/, '').trim();
     if (!label) label = `第 ${num} 题`;
@@ -702,7 +726,7 @@ async function setupLive2D() {
   if (!host) return;
   if (!window.PIXI || !PIXI.live2d?.Live2DModel) return;
 
-  const modelPath = 'pet/huaqun/花裙拆分.model3.json';
+  const modelPath = './pet/huaqun/花裙拆分.model3.json';
   const app = new PIXI.Application({
     resizeTo: host,
     autoStart: true,
@@ -713,15 +737,17 @@ async function setupLive2D() {
   host.replaceChildren(app.view);
 
   const layout = () => {
-    const w = host.clientWidth || 280;
-    const h = host.clientHeight || 420;
+    const w = host.clientWidth || 360;
+    const h = host.clientHeight || 640;
     app.renderer.resize(w, h);
     if (!app.stage.children.length) return;
     const model = app.stage.children[0];
-    const scale = Math.min(w / model.width, h / model.height) * 1.18;
+    const baseWidth = model.width / (model.scale.x || 1) || model.width || 1;
+    const baseHeight = model.height / (model.scale.y || 1) || model.height || 1;
+    const scale = Math.min(w / baseWidth, h / baseHeight) * 1.45;
     model.scale.set(scale);
-    model.x = w * 0.54;
-    model.y = h * 1.03;
+    model.x = w * 0.52;
+    model.y = h * 1.18;
   };
 
   let model;
@@ -738,15 +764,16 @@ async function setupLive2D() {
   model.eventMode = 'none';
   model.cursor = 'default';
   app.stage.addChild(model);
+  host.style.display = 'block';
   layout();
 
   const move = (clientX, clientY) => {
     if (!model?.internalModel?.focusController) return;
     const rect = host.getBoundingClientRect();
-    const headX = rect.left + rect.width * 0.52;
-    const headY = rect.top + rect.height * 0.24;
-    const dx = (clientX - headX) / Math.max(140, rect.width * 0.9);
-    const dy = (clientY - headY) / Math.max(140, rect.height * 0.9);
+    const headX = rect.left + rect.width * 0.5;
+    const headY = rect.top + rect.height * 0.26;
+    const dx = (clientX - headX) / Math.max(120, rect.width * 0.42);
+    const dy = (clientY - headY) / Math.max(120, rect.height * 0.24);
     model.internalModel.focusController.focus(
       Math.max(-1, Math.min(1, dx)),
       Math.max(-1, Math.min(1, dy))
