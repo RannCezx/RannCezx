@@ -739,106 +739,170 @@ function setupMusicAndViz() {
 async function setupLive2D() {
   const host = document.getElementById('live2dPet');
   if (!host) return;
-  if (!window.PIXI || !PIXI.live2d?.Live2DModel) return;
 
   const encodePath = (p) => p.split('/').map(encodeURIComponent).join('/');
   const sourceDir = './pet/huaqun';
   const sourceModel = '花裙拆分.model3.json';
-  const sourceBaseUrl = new URL(`${encodePath(sourceDir)}/`, window.location.href).toString();
+  const modelUrl = new URL(encodePath(`${sourceDir}/${sourceModel}`), window.location.href).toString();
 
-  const createPatchedModelUrl = async () => {
-    const modelUrl = new URL(encodePath(`${sourceDir}/${sourceModel}`), window.location.href).toString();
+  const loadScript = (url) => new Promise((resolve, reject) => {
+    const existing = document.querySelector(`script[data-live2d-src="${url}"]`);
+    if (existing) {
+      if (existing.dataset.loaded === '1') {
+        resolve();
+        return;
+      }
+      existing.addEventListener('load', () => resolve(), { once: true });
+      existing.addEventListener('error', () => reject(new Error(`script load failed: ${url}`)), { once: true });
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = url;
+    script.async = true;
+    script.dataset.live2dSrc = url;
+    script.onload = () => {
+      script.dataset.loaded = '1';
+      resolve();
+    };
+    script.onerror = () => reject(new Error(`script load failed: ${url}`));
+    document.head.appendChild(script);
+  });
+
+  const ensureOML2D = async () => {
+    if (window.OML2D?.loadOml2d) return window.OML2D;
+
+    const cdnUrls = [
+      'https://cdn.jsdelivr.net/npm/oh-my-live2d@0.19.3/dist/index.min.js',
+      'https://unpkg.com/oh-my-live2d@0.19.3/dist/index.min.js'
+    ];
+
+    let lastError;
+    for (const url of cdnUrls) {
+      try {
+        await loadScript(url);
+        if (window.OML2D?.loadOml2d) return window.OML2D;
+      } catch (error) {
+        lastError = error;
+      }
+    }
+
+    throw lastError || new Error('OML2D runtime unavailable');
+  };
+
+  const styleStage = () => {
+    const stage = host.querySelector('#oml2d-stage');
+    if (!stage) return;
+    Object.assign(stage.style, {
+      left: '0',
+      right: '0',
+      width: '100%',
+      height: '100%',
+      bottom: '-12%',
+      top: 'auto',
+      zIndex: '1',
+      transform: 'translateY(0)',
+      overflow: 'hidden',
+      background: 'transparent',
+      pointerEvents: 'none'
+    });
+
+    const canvas = stage.querySelector('#oml2d-canvas');
+    if (canvas) {
+      canvas.style.pointerEvents = 'none';
+      canvas.style.background = 'transparent';
+    }
+  };
+
+  host.dataset.live2dError = '';
+  host.style.display = 'block';
+  host.style.pointerEvents = 'none';
+  host.replaceChildren();
+
+  try {
     const resp = await fetch(modelUrl, { cache: 'no-store' });
     if (!resp.ok) {
       throw new Error(`model json fetch failed: ${resp.status}`);
     }
 
-    const json = await resp.json();
-    const refs = json.FileReferences || {};
-    const toAbs = (file) => new URL(encodePath(String(file || '')), sourceBaseUrl).toString();
-
-    if (refs.Moc) refs.Moc = toAbs(refs.Moc);
-    if (refs.Physics) refs.Physics = toAbs(refs.Physics);
-    if (refs.DisplayInfo) refs.DisplayInfo = toAbs(refs.DisplayInfo);
-    if (Array.isArray(refs.Textures)) refs.Textures = refs.Textures.map(toAbs);
-    if (Array.isArray(refs.Expressions)) {
-      refs.Expressions = refs.Expressions.map((item) => ({
-        ...item,
-        File: toAbs(item.File)
-      }));
-    }
-    if (Array.isArray(refs.Motions)) {
-      refs.Motions = refs.Motions.map((item) => ({
-        ...item,
-        File: toAbs(item.File)
-      }));
-    }
-
-    const blob = new Blob([JSON.stringify(json)], { type: 'application/json' });
-    return URL.createObjectURL(blob);
-  };
-  const app = new PIXI.Application({
-    resizeTo: host,
-    autoStart: true,
-    autoDensity: true,
-    backgroundAlpha: 0,
-    antialias: true
-  });
-  host.replaceChildren(app.view);
-
-  const layout = () => {
-    const w = host.clientWidth || 360;
-    const h = host.clientHeight || 640;
-    app.renderer.resize(w, h);
-    if (!app.stage.children.length) return;
-    const model = app.stage.children[0];
-    const baseWidth = model.width / (model.scale.x || 1) || model.width || 1;
-    const baseHeight = model.height / (model.scale.y || 1) || model.height || 1;
-    const scale = Math.min(w / baseWidth, h / baseHeight) * 1.45;
-    model.scale.set(scale);
-    model.x = w * 0.52;
-    model.y = h * 1.18;
-  };
-
-  let model;
-  let patchedModelUrl = '';
-  try {
-    patchedModelUrl = await createPatchedModelUrl();
-    model = await PIXI.live2d.Live2DModel.from(patchedModelUrl, {
-      autoInteract: false
+    const oml2d = await ensureOML2D();
+    const pet = oml2d.loadOml2d({
+      sayHello: false,
+      dockedPosition: 'right',
+      primaryColor: 'rgba(0,0,0,0)',
+      mobileDisplay: true,
+      parentElement: host,
+      transitionTime: 0,
+      statusBar: {
+        disable: true
+      },
+      tips: {
+        style: { display: 'none' },
+        mobileStyle: { display: 'none' },
+        idleTips: { message: [], duration: 0, interval: 600000, priority: 0 },
+        welcomeTips: { message: {}, duration: 0, priority: 0 },
+        copyTips: { message: [], duration: 0, priority: 0 }
+      },
+      menus: {
+        disable: true
+      },
+      stageStyle: {
+        width: '100%',
+        height: '100%',
+        right: '0px',
+        bottom: '-12%',
+        zIndex: 1,
+        background: 'transparent'
+      },
+      models: [
+        {
+          path: modelUrl,
+          stageStyle: {
+            width: '100%',
+            height: '100%',
+            right: '0px',
+            bottom: '-12%'
+          },
+          mobileStageStyle: {
+            width: '100%',
+            height: '100%',
+            right: '0px',
+            bottom: '-8%'
+          }
+        }
+      ]
     });
-  } catch {}
 
-  if (!model) {
-    host.remove();
-    return;
+    const applyLayout = () => {
+      const width = window.innerWidth || 1440;
+      const scale =
+        width >= 1920 ? 0.25 :
+        width >= 1600 ? 0.23 :
+        width >= 1280 ? 0.21 :
+        width >= 960 ? 0.19 :
+        0.17;
+
+      try {
+        pet.setModelAnchor({ x: 0.5, y: 1 });
+        pet.setModelPosition({ x: 0, y: Math.round(Math.min(host.clientHeight * 0.18, 110)) });
+        pet.setModelScale(scale);
+      } catch {}
+
+      styleStage();
+    };
+
+    const observer = new MutationObserver(() => applyLayout());
+    observer.observe(host, { childList: true, subtree: true });
+    window.addEventListener('pagehide', () => observer.disconnect(), { once: true });
+    window.addEventListener('resize', applyLayout);
+    setTimeout(applyLayout, 0);
+    setTimeout(applyLayout, 600);
+    window.__blogLive2D = pet;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    host.dataset.live2dError = message;
+    console.error('Live2D model load failed:', error);
   }
-
-  model.anchor.set(0.5, 1);
-  model.eventMode = 'none';
-  model.cursor = 'default';
-  app.stage.addChild(model);
-  host.style.display = 'block';
-  if (patchedModelUrl) {
-    window.addEventListener('pagehide', () => URL.revokeObjectURL(patchedModelUrl), { once: true });
-  }
-  layout();
-
-  const move = (clientX, clientY) => {
-    if (!model?.internalModel?.focusController) return;
-    const rect = host.getBoundingClientRect();
-    const headX = rect.left + rect.width * 0.5;
-    const headY = rect.top + rect.height * 0.26;
-    const dx = (clientX - headX) / Math.max(120, rect.width * 0.42);
-    const dy = (clientY - headY) / Math.max(120, rect.height * 0.24);
-    model.internalModel.focusController.focus(
-      Math.max(-1, Math.min(1, dx)),
-      Math.max(-1, Math.min(1, dy))
-    );
-  };
-
-  window.addEventListener('mousemove', (e) => move(e.clientX, e.clientY));
-  window.addEventListener('resize', layout);
 }
 
 renderListPage();
