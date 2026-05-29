@@ -35,6 +35,17 @@ posts[0] = {
   content: 'assets/post-1.html'
 };
 
+const POST1_SUMMARY = '\u7eaf\u5c0f\u767d\uff0c\u6b22\u8fce\u6279\u8bc4\u6307\u6b63\uff0c\u8fd8\u8bf7\u8d3b\u7b11\u5927\u65b9\u3002ai\u6574\u7684\u6392\u7248\uff0c\u53ef\u80fd\u4f1a\u6709\u70b9\u95ee\u9898\uff0c\u89c1\u8c05\u3002';
+const POST1_PREFACE_HTML = [
+  '<p>\u7eaf\u5c0f\u767d\uff0c\u6b22\u8fce\u6279\u8bc4\u6307\u6b63\uff0c\u8fd8\u8bf7\u8d3b\u7b11\u5927\u65b9</p>',
+  '<p>ai\u6574\u7684\u6392\u7248\uff0c\u53ef\u80fd\u4f1a\u6709\u70b9\u95ee\u9898\uff0c\u89c1\u8c05</p>',
+  '<p>\u5f88\u591a\u662f\u4ee5\u5c0f\u767d\u7684\u89c6\u89d2\u53bb\u5199\u7684\uff0c\u4e13\u4e1a\u6027\u6709\u6240\u6b20\u7f3a\uff08ai\u6d53\u5ea6\u6709\u70b9\u9ad8\u3002\u3002\uff09</p>',
+  '<p>\u7269\u8054\u7f51\u6ca1\u5b9e\u529b\u4e5f\u6ca1\u7cbe\u529b\u53bb\u5199\u4e86\uff0c\u8981\u671f\u672b\u4e86</p>',
+  '<p>\u7b2c\u4e00\u6b21\u5199\u8fd9\u4e48\u957f\uff0c\u597d\u7d2f</p>'
+].join('');
+
+posts[0].summary = POST1_SUMMARY;
+
 function formatDate(isoDate) {
   const d = new Date(isoDate);
   return d.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -434,6 +445,10 @@ async function renderDetailPage() {
       .join('');
   }
 
+  if (post.id === '1') {
+    contentHtml = POST1_PREFACE_HTML + contentHtml;
+  }
+
   detailEl.innerHTML = `
     <h1>${post.title}</h1>
     <div class="meta">${formatDate(post.date)} 鐠?${post.readTime}</div>
@@ -769,9 +784,7 @@ async function setupLive2D() {
     host.remove();
     return;
   } finally {
-    if (patchedModelUrl) {
-      setTimeout(() => URL.revokeObjectURL(patchedModelUrl), 1000);
-    }
+    // Keep the blob URL alive for the model's follow-up asset loads.
   }
 
   model.anchor.set(0.5, 1);
