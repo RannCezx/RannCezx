@@ -726,10 +726,42 @@ async function setupLive2D() {
   if (!host) return;
   if (!window.PIXI || !PIXI.live2d?.Live2DModel) return;
 
-  const modelPaths = [
-    './pet/huaqun_web/model.model3.json',
-    './pet/huaqun/花裙拆分.model3.json'
-  ];
+  const encodePath = (p) => p.split('/').map(encodeURIComponent).join('/');
+  const sourceDir = './pet/huaqun';
+  const sourceModel = '花裙拆分.model3.json';
+  const sourceBaseUrl = new URL(`${encodePath(sourceDir)}/`, window.location.href).toString();
+
+  const createPatchedModelUrl = async () => {
+    const modelUrl = new URL(encodePath(`${sourceDir}/${sourceModel}`), window.location.href).toString();
+    const resp = await fetch(modelUrl, { cache: 'no-store' });
+    if (!resp.ok) {
+      throw new Error(`model json fetch failed: ${resp.status}`);
+    }
+
+    const json = await resp.json();
+    const refs = json.FileReferences || {};
+    const toAbs = (file) => new URL(encodePath(String(file || '')), sourceBaseUrl).toString();
+
+    if (refs.Moc) refs.Moc = toAbs(refs.Moc);
+    if (refs.Physics) refs.Physics = toAbs(refs.Physics);
+    if (refs.DisplayInfo) refs.DisplayInfo = toAbs(refs.DisplayInfo);
+    if (Array.isArray(refs.Textures)) refs.Textures = refs.Textures.map(toAbs);
+    if (Array.isArray(refs.Expressions)) {
+      refs.Expressions = refs.Expressions.map((item) => ({
+        ...item,
+        File: toAbs(item.File)
+      }));
+    }
+    if (Array.isArray(refs.Motions)) {
+      refs.Motions = refs.Motions.map((item) => ({
+        ...item,
+        File: toAbs(item.File)
+      }));
+    }
+
+    const blob = new Blob([JSON.stringify(json)], { type: 'application/json' });
+    return URL.createObjectURL(blob);
+  };
   const app = new PIXI.Application({
     resizeTo: host,
     autoStart: true,
@@ -754,14 +786,13 @@ async function setupLive2D() {
   };
 
   let model;
-  for (const modelPath of modelPaths) {
-    try {
-      model = await PIXI.live2d.Live2DModel.from(modelPath, {
-        autoInteract: false
-      });
-      break;
-    } catch {}
-  }
+  let patchedModelUrl = '';
+  try {
+    patchedModelUrl = await createPatchedModelUrl();
+    model = await PIXI.live2d.Live2DModel.from(patchedModelUrl, {
+      autoInteract: false
+    });
+  } catch {}
 
   if (!model) {
     host.remove();
@@ -773,6 +804,9 @@ async function setupLive2D() {
   model.cursor = 'default';
   app.stage.addChild(model);
   host.style.display = 'block';
+  if (patchedModelUrl) {
+    window.addEventListener('pagehide', () => URL.revokeObjectURL(patchedModelUrl), { once: true });
+  }
   layout();
 
   const move = (clientX, clientY) => {
