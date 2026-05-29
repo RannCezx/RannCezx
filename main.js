@@ -793,12 +793,15 @@ async function setupLive2D() {
   const styleStage = () => {
     const stage = host.querySelector('#oml2d-stage');
     if (!stage) return;
+    const hostWidth = Math.max(220, Math.round(host.clientWidth || 280));
+    const hostHeight = Math.max(280, Math.round(host.clientHeight || 420));
     Object.assign(stage.style, {
-      left: '0',
+      position: 'absolute',
+      left: 'auto',
       right: '0',
-      width: '100%',
-      height: '100%',
-      bottom: '-12%',
+      width: `${hostWidth}px`,
+      height: `${hostHeight}px`,
+      bottom: '0',
       top: 'auto',
       zIndex: '1',
       transform: 'translateY(0)',
@@ -847,27 +850,41 @@ async function setupLive2D() {
         disable: true
       },
       stageStyle: {
-        width: '100%',
-        height: '100%',
+        width: Math.max(220, Math.round(host.clientWidth || 280)),
+        height: Math.max(280, Math.round(host.clientHeight || 420)),
         right: '0px',
-        bottom: '-12%',
+        bottom: '0px',
+        left: 'auto',
+        top: 'auto',
+        position: 'absolute',
         zIndex: 1,
         background: 'transparent'
       },
       models: [
         {
           path: modelUrl,
+          scale: 0.135,
+          position: [0, 92],
+          mobileScale: 0.115,
+          mobilePosition: [0, 72],
+          anchor: [0.5, 1],
           stageStyle: {
-            width: '100%',
-            height: '100%',
+            width: Math.max(220, Math.round(host.clientWidth || 280)),
+            height: Math.max(280, Math.round(host.clientHeight || 420)),
             right: '0px',
-            bottom: '-12%'
+            bottom: '0px',
+            left: 'auto',
+            top: 'auto',
+            position: 'absolute'
           },
           mobileStageStyle: {
-            width: '100%',
-            height: '100%',
+            width: Math.max(180, Math.round(host.clientWidth || 220)),
+            height: Math.max(240, Math.round(host.clientHeight || 300)),
             right: '0px',
-            bottom: '-8%'
+            bottom: '0px',
+            left: 'auto',
+            top: 'auto',
+            position: 'absolute'
           }
         }
       ]
@@ -875,16 +892,34 @@ async function setupLive2D() {
 
     const applyLayout = () => {
       const width = window.innerWidth || 1440;
+      const hostWidth = Math.max(220, Math.round(host.clientWidth || 280));
+      const hostHeight = Math.max(280, Math.round(host.clientHeight || 420));
       const scale =
-        width >= 1920 ? 0.25 :
-        width >= 1600 ? 0.23 :
-        width >= 1280 ? 0.21 :
-        width >= 960 ? 0.19 :
-        0.17;
+        width >= 1920 ? 0.145 :
+        width >= 1600 ? 0.138 :
+        width >= 1280 ? 0.132 :
+        width >= 960 ? 0.126 :
+        0.112;
+      const yOffset =
+        width >= 1280 ? Math.round(hostHeight * 0.34) :
+        width >= 960 ? Math.round(hostHeight * 0.31) :
+        Math.round(hostHeight * 0.28);
 
       try {
+        if (typeof pet.setStageStyle === 'function') {
+          pet.setStageStyle({
+            position: 'absolute',
+            width: hostWidth,
+            height: hostHeight,
+            right: 0,
+            bottom: 0,
+            left: 'auto',
+            top: 'auto',
+            background: 'transparent'
+          });
+        }
         pet.setModelAnchor({ x: 0.5, y: 1 });
-        pet.setModelPosition({ x: 0, y: Math.round(Math.min(host.clientHeight * 0.18, 110)) });
+        pet.setModelPosition({ x: 0, y: yOffset });
         pet.setModelScale(scale);
       } catch {}
 
