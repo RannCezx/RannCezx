@@ -1,0 +1,1816 @@
+<p>手机取证</p>
+<p>分析黄志远phone.E01检材，黄志远手机总共安装了多少款短视频应用？[答案格式：1]</p>
+<p>4</p>
+<p>抖音，抖音极速版，快手，快手极速版。</p>
+<p>有争议，比如说bilibili算不算短视频平台））</p>
+<p class="doc-image"><img src="assets/post-1-media/image1.png" alt="image1"></p>
+<p>分析黄志远phone.E01检材，黄志远手机安装的龙虾应用的包名是什么？[答案格式：com.xxx.ui]</p>
+<p>gptos.intelligence.assistant</p>
+<p>OpenClaw &amp; Codex - Anyclaw</p>
+<p class="doc-image"><img src="assets/post-1-media/image2.png" alt="image2"></p>
+<p>接上题，首次打开应用的时间是？[答案格式：2021-01-11-01:11:44]</p>
+<p>2026-04-17-11:53:18</p>
+<p class="doc-image"><img src="assets/post-1-media/image3.png" alt="image3"></p>
+<p class="doc-image"><img src="assets/post-1-media/image4.png" alt="image4"></p>
+<p>UTC 是 协调世界时（Coordinated Universal Time），是全球统一的标准时间基准</p>
+<p>文件地址，我们这里选用UTC+8的北京时间</p>
+<p>文件地址</p>
+<p>\data\gptos.intelligence.assistant\shared_prefs\com.google.android.gms.measurement.prefs.xml</p>
+<p>shared_prefs/*.xml 一般存放：应用自己的设置（开关、登录状态、首次启动标记）、统计会话信息、存 SDK 配置和运行状态。</p>
+<p>分析黄志远phone.E01检材，黄志远使用此应用攻击过多少台主机？[答案格式：1]</p>
+<p>0（猜）</p>
+<p class="doc-image"><img src="assets/post-1-media/image5.png" alt="image5"></p>
+<p>ai列出的可能有嫌疑的文件，都没有找到</p>
+<p>分析黄志远phone.E01检材，黄志远使用哪款应用控制了其PC的agent工具[答案格式：wechat]</p>
+<p>discord</p>
+<p>注意小写。这里有多个可疑的软件（Discord，Termux，Hiddify）不要先入为主。在\data\com.discord\shared_prefs\CacheStore.xml里找到证据</p>
+<p class="doc-image"><img src="assets/post-1-media/image6.png" alt="image6"></p>
+<p class="doc-image"><img src="assets/post-1-media/image7.png" alt="image7"></p>
+<p>找到文件后借助AI工具快速锁定可疑记录。</p>
+<p>CacheStore.xml存放缓存数据，很杂。常见内容：账号状态、token、设置、实验开关、应用/Bot 使用记录、各种时间戳等</p>
+<p>分析黄志远phone.E01检材，黄志远使用这款应用的版本是多少？[答案格式：111.1]</p>
+<p>311.2</p>
+<p>有点搞的是最后那个零不要，要符合格式））</p>
+<p class="doc-image"><img src="assets/post-1-media/image8.png" alt="image8"></p>
+<p>7.分析黄志远phone.E01检材，接上题，登录的用户名是什么？[答案格式：wwww1234]</p>
+<p>test901234</p>
+<p class="doc-image"><img src="assets/post-1-media/image9.png" alt="image9"></p>
+<p>8.分析黄志远phone.E01检材，该应用与pc端agent的配对码是什么？[答案格式：ABC456]</p>
+<p>3EXEQ5R8</p>
+<p>\data\com.discord\files\kv-storage@account.1457974771206852664\a</p>
+<p>依旧ai帮找</p>
+<p class="doc-image"><img src="assets/post-1-media/image10.png" alt="image10"></p>
+<p>- 机器人不认识当前账号（未授权）。</p>
+<p>- 给了一个一次性配对码：3EXEQ5R8。</p>
+<p>- 要求机器人拥有者在其控制端执行命令：hermes pairing approve discord 3EXEQ5R8 完成绑定授权。</p>
+<p>\kv-storage@account.1457974771206852664\a 也是在手机端的缓存数据</p>
+<p>9. 分析黄志远phone.E01检材，该应用共对几个ip进行扫描？[答案格式：5]</p>
+<p>1</p>
+<p>同样是kv-storage@account.1457974771206852664\a</p>
+<p>依旧ai优势区间，只扫出1个ip</p>
+<p class="doc-image"><img src="assets/post-1-media/image11.png" alt="image11"></p>
+<p>经典的渗透命令</p>
+<p>10. 分析黄志远phone.E01检材，该应用总共调用了几个暴力破解工具？[答案格式：1]</p>
+<p>2</p>
+<p>还是kv-storage@account.1457974771206852664\a</p>
+<p>依旧ai优势区间hydra、gobuster</p>
+<p class="doc-image"><img src="assets/post-1-media/image12.png" alt="image12"></p>
+<p class="doc-image"><img src="assets/post-1-media/image13.png" alt="image13"></p>
+<p>11. 分析黄志远phone.E01检材，黄志远使用其内部通联工具进行沟通，其账号的登陆密码是多少？[答案格式：123456]</p>
+<p>08164085</p>
+<p>在数据库里找到盐和哈希，怎么找的后面会讲</p>
+<p>密钥逻辑是sha256(sha256(pass+salt).hexdigest()))，怎么来的后面会讲</p>
+<p>哈希：fc29eb768c139c05c0bfcb697d9b26d194878a66451b3ab91b202e9710874a63    盐：a3f8d9c2e1b4h7g6k9m2n5p8q1r4t7w</p>
+<p>要是敢猜是8位纯数字密钥，那么敢爆就敢出（甚至第一位是0，用下面的脚本两三分钟就跑出来了）</p>
+<p>依旧ai脚本：</p>
+<p>import hashlib</p>
+<p>import multiprocessing as mp</p>
+<p>import os</p>
+<p>TARGET = &quot;fc29eb768c139c05c0bfcb697d9b26d194878a66451b</p>
+<p>SALT = &quot;a3f8d9c2e1b4h7g6k9m2n5p8q1r4t7w&quot;</p>
+<p>MAX_NUM = 100_000_000</p>
+<p>def calc(pin: str) -&gt; str:</p>
+<p>first = hashlib.sha256((pin + SALT).encode()).hexd</p>
+<p>return hashlib.sha256(first.encode()).hexdigest()</p>
+<p>def worker(start: int, step: int, found: mp.Event, out</p>
+<p>i = start</p>
+<p>checked = 0</p>
+<p>while i &lt; MAX_NUM and not found.is_set():</p>
+<p>pin = f&quot;{i:08d}&quot;</p>
+<p>if calc(pin) == TARGET:</p>
+<p>out_q.put(pin)</p>
+<p>found.set()</p>
+<p>return</p>
+<p>i += step</p>
+<p>checked += 1</p>
+<p>if start == 0 and checked % 500_000 == 0:</p>
+<p>print(f&quot;[progress] checked~{checked * step</p>
+<p>def main() -&gt; None:</p>
+<p>workers = os.cpu_count() or 4</p>
+<p>print(f&quot;workers={workers}&quot;, flush=True)</p>
+<p>print(f&quot;target={TARGET}&quot;, flush=True)</p>
+<p>print(f&quot;salt={SALT}&quot;, flush=True)</p>
+<p>found = mp.Event()</p>
+<p>out_q = mp.Queue()</p>
+<p>procs = []</p>
+<p>for s in range(workers):</p>
+<p>p = mp.Process(target=worker, args=(s, workers</p>
+<p>p.start()</p>
+<p>procs.append(p)</p>
+<p>for p in procs:</p>
+<p>p.join()</p>
+<p>if not out_q.empty():</p>
+<p>print(&quot;FOUND:&quot;, out_q.get(), flush=True)</p>
+<p>else:</p>
+<p>print(&quot;NOT FOUND&quot;, flush=True)</p>
+<p>if __name__ == &quot;__main__&quot;:</p>
+<p>mp.freeze_support()</p>
+<p>main()</p>
+<p class="doc-image"><img src="assets/post-1-media/image14.png" alt="image14"></p>
+<p>08164085</p>
+<p>或者找工具，比如可以自定义算法的hashcat，应该可以更快</p>
+<p>12. 分析黄志远phone.E01检材，黄志远一共发送过几个文件给代号军师的嫌疑人？[答案格式：1]</p>
+<p>2</p>
+<p>数据库地址\data\com.socialchat.social_chat_app\databases\ social_chat.db</p>
+<p>数据库密码真的阴，在后面apk取证第15题时讲</p>
+<p>用DB Browser for SQLCipher打开数据库。</p>
+<p class="doc-image"><img src="assets/post-1-media/image15.png" alt="image15"></p>
+<p class="doc-image"><img src="assets/post-1-media/image16.png" alt="image16"></p>
+<p>这里输入密码很迷，如果那个-journal文件也在的话就打不开，火眼导出时记得单独导出第一个db文件（下图ai给的解释）</p>
+<p class="doc-image"><img src="assets/post-1-media/image17.png" alt="image17"></p>
+<p class="doc-image"><img src="assets/post-1-media/image18.png" alt="image18"></p>
+<p>打开后浏览数据切到message_flie,传过两个文件，记住id</p>
+<p class="doc-image"><img src="assets/post-1-media/image19.png" alt="image19"></p>
+<p>att_msg_000167</p>
+<p>att_msg_000181</p>
+<p>切到message,167和181的conversation_id基本确定是黄和军师的对话</p>
+<p class="doc-image"><img src="assets/post-1-media/image20.png" alt="image20"></p>
+<p class="doc-image"><img src="assets/post-1-media/image21.png" alt="image21"></p>
+<p>13. 分析方俊朗phone.E01，检材，方俊郎手机总共安装了多少款理财应用？[答案格式：1]</p>
+<p>4</p>
+<p>股参谋，欧易，京东金融，东方财富（欧易是交易虚拟货币的，京8是视频平台）</p>
+<p class="doc-image"><img src="assets/post-1-media/image22.png" alt="image22"></p>
+<p>14. 分析方俊朗phone.E01检材，方俊朗使用筛选优质客户的应用包名是什么？[答案格式：com.xxx.ui]</p>
+<p>com.example.predictor</p>
+<p class="doc-image"><img src="assets/post-1-media/image23.png" alt="image23"></p>
+<p>确认页面相同</p>
+<p class="doc-image"><img src="assets/post-1-media/image24.png" alt="image24"></p>
+<p>APK取证</p>
+<p>1. 分析方俊朗phone.E01检材，筛选优质客户应用将用户查询记录存储在一个加密的本地数据库中。请问该加密数据库的文件名是什么？[答案格式：12_abc.db]</p>
+<p>chat_history.db</p>
+<p>顺着上题找到/data/com.example.predictor/databases  只有一个.db文件</p>
+<p class="doc-image"><img src="assets/post-1-media/image25.png" alt="image25"></p>
+<p>2. 分析方俊朗phone.E01检材，该应用使用了哪种密钥派生算法来生成数据库加密密钥？请写出完整的算法标识名称。[答案格式：DFBDSDFGG123]</p>
+<p>PBKDF2WithHmacSHA256</p>
+<p>PBKDF2WithHmacSHA256 由三部分构成：</p>
+<p>1. PBKDF2 密钥派生算法家族名（KDF 主体）。</p>
+<p>2. With  连接词，表示“PBKDF2 使用下面这个 PRF”。</p>
+<p>3. HmacSHA256 PBKDF2 内部的伪随机函数（PRF）：HMAC + SHA-256。</p>
+<p>整体含义是：</p>
+<p>“使用 HMAC-SHA256 作为 PRF 的 PBKDF2”。</p>
+<p>配置文件：\data\com.example.predictor\shared_prefs\app_config.xml确定算法主名PBKDF2</p>
+<p class="doc-image"><img src="assets/post-1-media/image26.png" alt="image26"></p>
+<p>火眼导出apk包，关注与运行逻辑相关的dex文件，挂到jadx（奇怪的是后面用火眼导出又没有这个dex_extracted文件了。建议直接去雷电里脱壳）</p>
+<p class="doc-image"><img src="assets/post-1-media/image27.png" alt="image27"></p>
+<p>发现搜不到PBKDF2。classes3里，有壳入口类ShellApplication，可能是有加壳））</p>
+<p class="doc-image"><img src="assets/post-1-media/image28.png" alt="image28"></p>
+<p>额后来发现实则在雷电里就直接看出来有壳了））</p>
+<p class="doc-image"><img src="assets/post-1-media/image29.png" alt="image29"></p>
+<p>雷电脱壳后全部拖进jadx，全局搜PBKDF2，在0x7cf48ee3c000_0x658c.dex这个文件里搜出。（ctrl+shift+f全局搜索）</p>
+<p>（也可以靠ai粗略扫一下这些文件来确定0x7cf48ee3c000_0x658c.dex。里面内容命中了 ChatDatabaseHelper、deriveKey、encryptionKey、chat_history.db 等关键代码）</p>
+<p class="doc-image"><img src="assets/post-1-media/image30.png" alt="image30"></p>
+<p>3. 分析方俊朗phone.E01检材，该应用的密钥派生过程中使用了多少次迭代运算？[答案格式：345678]</p>
+<p>10000</p>
+<p class="doc-image"><img src="assets/post-1-media/image31.png" alt="image31"></p>
+<p>private static final int PBKDF2_ITERATIONS = 10000表示一个类内常量：PBKDF2 派生密钥时要重复运算 10000 次</p>
+<p>Keyriver是负责生成数据库密钥</p>
+<p>PBKDF2_ITERATIONS是密钥派生的迭代次数常量</p>
+<p>4. 分析方俊朗phone.E01检材，该应用检测动态调试工具时探测了哪个本地端口号？[答案格式：64321]</p>
+<p>27042</p>
+<p>0x7cf48ee3c000_0x658c.dex全局搜本地端口127.0.0.1</p>
+<p class="doc-image"><img src="assets/post-1-media/image32.png" alt="image32"></p>
+<p>定位到此段。在检查本机 127.0.0.1:27042 是否能连通，返回true，说明连接成功</p>
+<p class="doc-image"><img src="assets/post-1-media/image33.png" alt="image33"></p>
+<p>SecurityManager：安全管理器，这里是反调试/反注入检测类</p>
+<p>5. 分析方俊朗phone.E01检材，该应用密钥由多个&quot;盐值片段&quot;拼接后派生而来。请问第一个盐值片段的具体内容是什么？[答案格式：SAltsaltsalt]</p>
+<p>Pr3d1ct0r</p>
+<p>依旧在KeyDeriver</p>
+<p class="doc-image"><img src="assets/post-1-media/image34.png" alt="image34"></p>
+<p>6. 分析方俊朗phone.E01检材，当密钥派生过程出现异常时，应用会使用一个硬编码的备用密钥。请问该备用密钥的完整内容是什么？[答案格式salt_dlefe_123_dfefaf]</p>
+<p>f4ll8ack_k3y_2024_pr3d1ct0r</p>
+<p>依旧在KeyDeriver</p>
+<p class="doc-image"><img src="assets/post-1-media/image35.png" alt="image35"></p>
+<p>try 里只要出错（抛出 Exception），就会跳到这个 catch 代码块执行</p>
+<p>7. 分析方俊朗phone.E01检材，分析&quot;优质客户预测&quot;应用，该应用的安全检测模块通过检查一个特定的类名来判断设备是否安装了Hook框架。请问被检测的完整类名是什么？[答案格式：ru.foefn.DFeoagn.dfoandf.xoggdg]</p>
+<p>de.robv.android.xposed.XposedBridge</p>
+<p>Hook 框架是“拦截并修改应用运行行为”的工具框架,能在不改 APK 文件的情况下，动态改函数参数、返回值、执行流程。</p>
+<p>安全检测模块在SecurityManager</p>
+<p class="doc-image"><img src="assets/post-1-media/image36.png" alt="image36"></p>
+<p>直接有了</p>
+<p>Class.forName(...) 是按名字去加载这个类</p>
+<p>Xposed 是 Android 上的 Hook 框架，通过注入方式在运行时修改应用和系统方法行为，不改 APK 也能改逻辑</p>
+<p>8. 分析方俊朗phone.E01检材，该应用在偏好设置文件中存储了一个密钥校验值。请问存储该校验值的键名（key）是什么？[答案格式：ab_dfefegad_cadfeg]</p>
+<p>db_integrity_check</p>
+<p>依旧在KeyDeriver</p>
+<p class="doc-image"><img src="assets/post-1-media/image37.png" alt="image37"></p>
+<p>SharedPreferences prefs = this.context.getSharedPreferences是偏好设置</p>
+<p>prefs.edit().putString(&quot;db_integrity_check&quot;, checksum)</p>
+<p>prefs.edit() 是开始编辑偏好设置
+putString(...) 是往里面写一个字符串键值对</p>
+<p>9. 分析方俊朗phone.E01检材，该应用加密数据库中存储对话记录的数据表名是什么？[答案格式：liaotian_dfelge]</p>
+<p>chat_records</p>
+<p>在ChatDataBbaseHelper</p>
+<p class="doc-image"><img src="assets/post-1-media/image38.png" alt="image38"></p>
+<p>TABLE_CHAT = &quot;chat_records&quot;</p>
+<p>ChatDataBbaseHelper：聊天数据库助手类，负责创建、打开、写入和读取加密数据库 chat_history.db</p>
+<p>10. 分析方俊朗phone.E01检材，该应用的密钥生成逻辑，该应用中的第三个盐值片段是通过逐字符拼接生成的。请问该片段拼接后的完整内容是什么？[答案格式：K8m!pQ2x]</p>
+<p>X9kZ!qW3</p>
+<p>依旧KeyDeriver</p>
+<p class="doc-image"><img src="assets/post-1-media/image39.png" alt="image39"></p>
+<p>11.分析方俊朗phone.E01检材，该应用使用了载荷在内存中直接加载而不在磁盘落地。若选手希望通过Frida动态拦截明文的DEX字节数组，应该Hook该应用壳的哪个私有方法？[答案格式：loadDexFromMemory]</p>
+<p>initDexFromMemory</p>
+<p>第16题误入歧途看的壳竟然伏笔了，火眼导出apk文件的classes3.dex是壳文件</p>
+<p>（对应雷电脱壳的0x7cf1baa885a4_0x1ff8.dex）</p>
+<p>Frida动态拦截是在运行时Hook：不改apk文件，在应用运行的过程中，把某个函数挂钩，在函数执行前或后，读取或修改参数、返回值、内存数据</p>
+<p>ai分析定位</p>
+<p>沿加载链跟函数
+attachBaseContext()
+→ decrypt(...)
+→ parseDexPayload(decryptedPayload)
+→ initDexFromMemory(dexData)</p>
+<p>attachBaseContext() 是 Android Application 的早期生命周期回调。应用刚启动时会先执行它，所以壳常把解密和加载逻辑放这里</p>
+<p>decrypt(...) 是壳里“把加密载荷解密成明文字节”的函数。
+输入是 payload.dat 的密文，输出是后续 parseDexPayload(...) 使用的明文数据</p>
+<p>parseDexPayload(decryptedPayload)是把 decrypt(...) 得到的明文载荷 decryptedPayload 交给 parseDexPayload 去解析、拆分出各个 dexData</p>
+<p>initDexFromMemory(dexData)是把单个 dexData（DEX字节数组）直接在内存中加载的函数，它内部用 InMemoryDexClassLoader 完成加载</p>
+<p>initDexFromMemory 是壳里的私有方法名。
+作用：把 DEX 字节数组从内存直接加载进类加载器。</p>
+<p>12. 分析方俊朗phone.E01检材，分析应用的壳代码逻辑，其解密密钥由3个字符串片段混淆拼接而成。请通过静态分析，还原用于解密的3个片段拼接合并后的完整密钥明文。[答案格式：Ab6de_a8bc4d_a5b_345d]</p>
+<p>Sh3ll_L0ad3r_K3y_2024!</p>
+<p>依旧classes3.edx壳文件</p>
+<p>Part1</p>
+<p class="doc-image"><img src="assets/post-1-media/image40.png" alt="image40"></p>
+<p>Base64</p>
+<p class="doc-image"><img src="assets/post-1-media/image41.png" alt="image41"></p>
+<p>Part2</p>
+<p class="doc-image"><img src="assets/post-1-media/image42.png" alt="image42"></p>
+<p>xorBytes[i] ^ 17 每个字节都和十进制 17 做按位异或</p>
+<p>xor异或，bytes按位,^17和十进制17</p>
+<p class="doc-image"><img src="assets/post-1-media/image43.png" alt="image43"></p>
+<p>先From Decima将十进制转化为字节</p>
+<p>再XOR，Key17，记得改成Decimal（十进制）</p>
+<p>Part3</p>
+<p class="doc-image"><img src="assets/post-1-media/image44.png" alt="image44"></p>
+<p>Reverse反转顺序 3y_2024!</p>
+<p>13. 接上题，当选手尝试使用frida-dexdump等通用脱壳工具动态附加时，应用会立刻闪退。请分析该逻辑，写出该线程触发进程自杀所调用的完整Java系统方法签名。[答案格式：abcd.abcd.Abcdabc.abcd]</p>
+<p>java.lang.System.exit</p>
+<p>搜索关键词Frida</p>
+<p>在lambda$startAntiDumperDaemon$0里命中</p>
+<p class="doc-image"><img src="assets/post-1-media/image45.png" alt="image45"></p>
+<p class="doc-image"><img src="assets/post-1-media/image46.png" alt="image46"></p>
+<p>两处System.exit(0)触发自杀</p>
+<p>java.lang：包名</p>
+<p>System：类名</p>
+<p>exit：方法名</p>
+<p>在 Java 里 System 属于标准库类 java.lang.System，所以它的包名就是前半段 java.lang</p>
+<p>（要求完整签名，前面的包名好容易忘掉，，）</p>
+<p>另外还可以尝试全局搜索TracerPid（进程状态）、frida-agent（标识字符串）、frida-gadget（组件名）、Self-destructing</p>
+<p>14. 分析方俊朗phone.E01检材，方俊朗使用其内部通联工具时，共加入过几个群？[答案格式：7]</p>
+<p>2</p>
+<p>胆大的话就看手机里的图片直接确认两个群</p>
+<p class="doc-image"><img src="assets/post-1-media/image47.png" alt="image47"></p>
+<p>不放心的话后面再看数据库（后面有讲这个数据库解法）</p>
+<p>浏览数据里选conversation，可见是两个群</p>
+<p class="doc-image"><img src="assets/post-1-media/image48.png" alt="image48"></p>
+<p>15. 分析方俊朗phone.E01检材，方俊朗通过物联网设备漏洞，共获得多少用户信息？[答案格式：10]</p>
+<p>32</p>
+<p>还是那个socialchat，老样子找到包和里面的数据库</p>
+<p>\data\com.socialchat.social_chat_app\databases 数据库</p>
+<p class="doc-image"><img src="assets/post-1-media/image49.png" alt="image49"></p>
+<p>\data\com.socialchat.social_chat_app\shared_prefs\FlutterSharedPreferences.xml里有数据库密码，然而却解不开（ai一把梭的好多似在这个坑了，包括后面的33题）</p>
+<p class="doc-image"><img src="assets/post-1-media/image50.png" alt="image50"></p>
+<p>我们用雷电脱壳apk包，发现有so文件，说明这个apk是用Flutter框架。Flutter框架下主要看so文件，即libapp.so</p>
+<p>Java：多是壳、插件桥接、系统调用入口</p>
+<p>libapp.so：Flutter 业务逻辑（你要找的密码处理/截断通常在这）</p>
+<p>用ida打开，shift+F12打开字符串窗口，ctrl+f搜索db_password。结果是ida静态下看不了so文件，只能看一些字符串。</p>
+<p class="doc-image"><img src="assets/post-1-media/image51.png" alt="image51"></p>
+<p class="doc-image"><img src="assets/post-1-media/image52.png" alt="image52"></p>
+<p class="doc-image"><img src="assets/post-1-media/image53.png" alt="image53"></p>
+<p>（没有交叉引用。。）</p>
+<p>顺着前面题目的提示应该是走Frida动态调试，已严肃向手搓投降，交给ai了</p>
+<p class="doc-image"><img src="assets/post-1-media/image54.png" alt="image54"></p>
+<p class="doc-image"><img src="assets/post-1-media/image55.png" alt="image55"></p>
+<p>和前面讲的一样打开数据库，记得别和-journal文件放在一起。</p>
+<p class="doc-image"><img src="assets/post-1-media/image56.png" alt="image56"></p>
+<p>数据都是被加密的</p>
+<p>在user栏看到enc_key和enc_iv</p>
+<p class="doc-image"><img src="assets/post-1-media/image57.png" alt="image57"></p>
+<p>enc_key = &quot;bGx3iDfEn4O5kW+2hf0E594C+jcyE1aujg0RIE5DPMM=&quot;</p>
+<p>Base64 解码后是 32 字节</p>
+<p>32 字节 = 256 bit，对应 AES-256 密钥长度</p>
+<p>enc_iv = &quot;y1q+/i9a/85OsPry0WMffw==&quot;</p>
+<p>Base64 解码后是 16 字节</p>
+<p>16 字节正是 AES 分组大小对应的常见 IV 长度</p>
+<p>16字节iv在CBC/CFB/OFB/CTR 都会用到，CBC最典型</p>
+<p>（IV 是初始化向量（Initialization Vector）。</p>
+<p>作用：让同一明文在同一密钥下每次加密结果不同，避免密文模式泄露）</p>
+<p>这里摆一份同队大佬用ai跑出来的解析</p>
+<p>1. AuthRepository::_initMessageEncryption 先初始化密钥</p>
+<p>- 读取 JSON</p>
+<p>- 取 enc_key</p>
+<p>- 取 enc_iv</p>
+<p>- 都是 String</p>
+<p>- 传给 MessageEncryption::initKey</p>
+<p>2. MessageEncryption::initKey</p>
+<p>- 对 enc_key 做 base64Decode</p>
+<p>- 装成 Key</p>
+<p>- 对 enc_iv 做 base64Decode</p>
+<p>- 装成 IV</p>
+<p>3. MessageEncryption::encrypt</p>
+<p>- 先判断空字符串，空就直接返回 &quot;&quot;</p>
+<p>- 取静态 Key 和 IV</p>
+<p>- new Encrypter(AES(...))</p>
+<p>- 调 Encrypter.encrypt(...)</p>
+<p>- 再取 Encrypted.base64</p>
+<p>4. MessageRepository::sendMessage</p>
+<p>- 先把明文消息拼装成最终字符串</p>
+<p>- 再调用 MessageEncryption::encrypt</p>
+<p>- 把返回的 base64 密文写进 Message.content</p>
+<p>- 最后 MessageDao::insert</p>
+<p>所以简化成一句就是：</p>
+<p>明文消息 -&gt; AES 加密 -&gt; Base64 字符串 -&gt; 写入 message.content</p>
+<p>对应文件：</p>
+<p>output/asm/social_chat_app/core/utils/</p>
+<p>crypto_utils.dart</p>
+<p>output/asm/social_chat_app/data/repositories/</p>
+<p>auth_repository.dart</p>
+<p>output/asm/social_chat_app/data/repositories/</p>
+<p>message_repository.dart</p>
+<p>知道逻辑后交给ai解密，或者网上应该有相应的脚本</p>
+<p>ai写的脚本</p>
+<p>import sqlite3, json, base64, csv</p>
+<p>from pathlib import Path</p>
+<p>from Crypto.Cipher import AES</p>
+<p>from Crypto.Util.Padding import unpad</p>
+<p>DB = Path(r&quot;文件路径&quot;)</p>
+<p>OUT = Path(r&quot;文件路径&quot;)</p>
+<p>conn = sqlite3.connect(str(DB))</p>
+<p>conn.row_factory = sqlite3.Row</p>
+<p>cur = conn.cursor()</p>
+<p># load per-user key/iv from user.config_data</p>
+<p>user_crypto = {}</p>
+<p>for r in cur.execute(&quot;SELECT id, config_data FROM user&quot;):</p>
+<p>uid = r[&quot;id&quot;]</p>
+<p>cfg = r[&quot;config_data&quot;]</p>
+<p>if not cfg:</p>
+<p>continue</p>
+<p>try:</p>
+<p>j = json.loads(cfg)</p>
+<p>ek = j.get(&quot;enc_key&quot;)</p>
+<p>iv = j.get(&quot;enc_iv&quot;)</p>
+<p>if ek and iv:</p>
+<p>user_crypto[uid] = (base64.b64decode(ek), base64.b64decode(iv))</p>
+<p>except Exception:</p>
+<p>pass</p>
+<p>rows = list(cur.execute(&quot;SELECT id, conversation_id, sender_id, content, type, status, create_at FROM message ORDER BY create_at&quot;))</p>
+<p>with OUT.open(&#x27;w&#x27;, newline=&#x27;&#x27;, encoding=&#x27;utf-8-sig&#x27;) as f:</p>
+<p>w = csv.writer(f)</p>
+<p>w.writerow([&quot;id&quot;,&quot;conversation_id&quot;,&quot;sender_id&quot;,&quot;type&quot;,&quot;status&quot;,&quot;create_at&quot;,&quot;content_cipher&quot;,&quot;content_plain&quot;,&quot;decrypt_ok&quot;])</p>
+<p>for r in rows:</p>
+<p>mid = r[&quot;id&quot;]</p>
+<p>conv = r[&quot;conversation_id&quot;]</p>
+<p>sid = r[&quot;sender_id&quot;]</p>
+<p>ctext_b64 = r[&quot;content&quot;] or &quot;&quot;</p>
+<p>mtype = r[&quot;type&quot;]</p>
+<p>st = r[&quot;status&quot;]</p>
+<p>ts = r[&quot;create_at&quot;]</p>
+<p>plain = &quot;&quot;</p>
+<p>ok = 0</p>
+<p>keyiv = user_crypto.get(sid)</p>
+<p>if keyiv:</p>
+<p>key, iv = keyiv</p>
+<p>try:</p>
+<p>cbytes = base64.b64decode(ctext_b64)</p>
+<p>pt = AES.new(key, AES.MODE_CBC, iv).decrypt(cbytes)</p>
+<p>pt = unpad(pt, AES.block_size)</p>
+<p>plain = pt.decode(&#x27;utf-8&#x27;, errors=&#x27;replace&#x27;)</p>
+<p>ok = 1</p>
+<p>except Exception:</p>
+<p>pass</p>
+<p>w.writerow([mid, conv, sid, mtype, st, ts, ctext_b64, plain, ok])</p>
+<p>print(f&quot;users_with_crypto={len(user_crypto)}&quot;)</p>
+<p>print(f&quot;messages={len(rows)}&quot;)</p>
+<p>print(f&quot;out={OUT}&quot;)</p>
+<p class="doc-image"><img src="assets/post-1-media/image58.png" alt="image58"></p>
+<p>32个</p>
+<p>希望有大哥能写一份手搓这题的wp。。</p>
+<p>16. 分析周文杰Image.zip检材，周文杰跟其犯罪团伙人员内部通联工具包名是？[答案格式：com.apt.app]</p>
+<p>com.socialchat.social_chat_app</p>
+<p>都是同一款app，30~33题同理不赘述</p>
+<p>17. 分析周文杰Image.zip检材，内部通联app聊天数据库名称是？[答案格式：abc.db]</p>
+<p>social_chat.db</p>
+<p>18. 分析周文杰Image.zip检材，内部通联app聊天数据库密码保存在哪个文件中？[答案格式：Abc.txt]</p>
+<p>FlutterSharedPreferences.xml</p>
+<p>19. 分析周文杰Image.zip检材，周文杰内部通联app聊天数据库密码是？[答案格式：123-abc]</p>
+<p>s-dbw1776853545473Goo</p>
+<p>20. 分析周文杰Image.zip检材，内部通联app聊天数据使用的什么加密算法?[答案格式：ABCDEF]</p>
+<p>AES</p>
+<p>更细一点是AES-256-CBC。前面有讲。另外在之前的so文件中字符串中也有明文AES-256-CBC提示。</p>
+<p>21. 分析周文杰Image.zip检材，内部通联app用户密码的盐值是？[答案格式：1234abcd]</p>
+<p>a3f8d9c2e1b4h7g6k9m2n5p8q1r4t7w</p>
+<p>直接看</p>
+<p class="doc-image"><img src="assets/post-1-media/image59.png" alt="image59"></p>
+<p>22. 分析周文杰Image.zip检材，记录周文杰内部通联app登录密码提示的应用包名是？[答案格式：com.temp.app]</p>
+<p>com.jinghong.notebookkssjh</p>
+<p>注意断句是在“提示”后面段。通常这种都是笔记、备忘录之类的应用。</p>
+<p class="doc-image"><img src="assets/post-1-media/image60.png" alt="image60"></p>
+<p>有两个带note的文件</p>
+<p>com.wenying.notebook里的数据文件没开出有用信息</p>
+<p>C:\Users\jzz11\Desktop\data\data\com.jinghong.notebookkssjh里的NOtePal.db里的gt_note数据里有关键信息</p>
+<p class="doc-image"><img src="assets/post-1-media/image61.png" alt="image61"></p>
+<p>英文*2 +数字*6</p>
+<p>应该就是com.jinghong.notebookkssjh</p>
+<p>23. 分析周文杰Image.zip检材，内部通联app登录密码是？[答案格式：123abc]</p>
+<p>mb202623</p>
+<p>与手机11题一样，在数据库里有密码哈希和盐值，结合上一题的提示英文*2 +数字*6</p>
+<p>哈希39e50fced8d5b126a8f24c69408190d99127bd7a52d1c59ea18da32468af0955</p>
+<p>盐a3f8d9c2e1b4h7g6k9m2n5p8q1r4t7w</p>
+<p>两位英文加六位数字</p>
+<p>我们借助hashcat进行爆破，密码哈希是双SHA-256，似乎hashcat没有双哈希爆破的逻辑，我们用ai写个双哈希爆破的脚本爆破出结果</p>
+<p>import hashlib,itertools,string,sys</p>
+<p>target=&quot;5d85b77d7d6d1a76cd589c3ba21d1839b1dd28568e39f1d2facc3a1b7d2e8bcb&quot;</p>
+<p>salt=&quot;a3f8d9c2e1b4h7g6k9m2n5p8q1r4t7w&quot;</p>
+<p>for a,b in itertools.product(string.ascii_letters, repeat=2):</p>
+<p>p=a+b</p>
+<p>for n in range(1000000):</p>
+<p>pwd=f&quot;{p}{n:06d}&quot;</p>
+<p>h1=hashlib.sha256((pwd+salt).encode()).hexdigest()</p>
+<p>h2=hashlib.sha256(h1.encode()).hexdigest()</p>
+<p>if h2==target:</p>
+<p>print(&quot;FOUND:&quot;,pwd)</p>
+<p>sys.exit(0)</p>
+<p>print(&quot;NOT FOUND&quot;)</p>
+<p>跑出来mb202623</p>
+<p class="doc-image"><img src="assets/post-1-media/image62.png" alt="image62"></p>
+<p>双哈希逻辑：</p>
+<p>（x = password + salt</p>
+<p>h1 = SHA256(x)（得到 64 位十六进制串）</p>
+<p>h2 = SHA256(h1)</p>
+<p>password_hash = h2</p>
+<p>24. 分析周文杰Image.zip检材，周文杰在内部通联app中删除了几条聊天记录？[答案格式：123]</p>
+<p>6</p>
+<p>进行仿真，记得仿真完要改应用的数据文件包，不然没有用户信息登不进周的号</p>
+<p>（这里我换了好几个安装器甚至是连USB用雷电来装结果装完后都看不到数据目录，就抄同队大佬的了）</p>
+<p>把com.socialchat.social_chat_app的文件粘贴并替换到Android/data/com.socialchat.social_chat_app</p>
+<p class="doc-image"><img src="assets/post-1-media/image63.png" alt="image63"></p>
+<p>账密登录</p>
+<p>用户名zhouwenjie（前面数据库里有）</p>
+<p>密码mb202623</p>
+<p class="doc-image"><img src="assets/post-1-media/image64.png" alt="image64"></p>
+<p>数一下一共是六个</p>
+<p>25. 分析周文杰Image.zip检材，聊天数据库中，显示聊天数据删除的是哪个字段?</p>
+<p>is_deleted（我记得答案是这个，但didctf上是extra_val）</p>
+<p>数据库里有这个列名，看单词deleted我直接觉得就是答案了</p>
+<p class="doc-image"><img src="assets/post-1-media/image65.png" alt="image65"></p>
+<p>事后看别人的wp发现对应着聊天对话里单条聊天记录的字段是extra_val(保留字段)，is_deleted是整个聊天的删除</p>
+<p class="doc-image"><img src="assets/post-1-media/image66.png" alt="image66"></p>
+<p>右下角六个1正好对应着上题仿真出来的删掉的六条聊天记录</p>
+<p>26.分析林小婉手机检材，发现有个应用隐藏了很多信息，目前已经找到这个应用，它的程序名称是？</p>
+<p>今日头条</p>
+<p>给了附件，丢到雷电里直接出</p>
+<p class="doc-image"><img src="assets/post-1-media/image67.png" alt="image67"></p>
+<p>27. 分析林小婉手机检材，这个应用有一个安全加密的PIN码，它是多少？[答案格式：12345678]</p>
+<p>20150412</p>
+<p>开mumu打开该应用，发现页面是死的，按什么都没反应</p>
+<p class="doc-image"><img src="assets/post-1-media/image68.png" alt="image68"></p>
+<p>雷电脱壳，找到业务代码0x79fbb4346000_0x2cea8.dex</p>
+<p class="doc-image"><img src="assets/post-1-media/image69.png" alt="image69"></p>
+<p>看源代码，上面一坨ComposableSingletons$...是缓存文件，一般用不上。</p>
+<p>可以的是下面有很多NavigationKt$$，是涉及导航逻辑类的代码</p>
+<p>（虽然是马后炮，但是）可以猜想是否有隐藏的导航逻辑</p>
+<p class="doc-image"><img src="assets/post-1-media/image70.png" alt="image70"></p>
+<p>点进NavigationKt代码</p>
+<p class="doc-image"><img src="assets/post-1-media/image71.png" alt="image71"></p>
+<p>粗略浏览，有以下可疑代码</p>
+<p>TRIGGER_PRIMARY = &quot;13588452301&quot;</p>
+<p>TRIGGER_SECONDARY = &quot;深圳湾&quot;</p>
+<p>WhenMappings 里有 TriggerSource.LIN_XIAOWAN 和 TriggerSource.LU_ZHENGYU</p>
+<p>TRIGGER_PRIMARY：主触发常量。你图里是字符串 &quot;13588452301&quot;，通常作为“隐藏入口口令1”（比如搜索词、输入值、校验参数）。</p>
+<p>TRIGGER_SECONDARY：次触发常量。你图里是 &quot;深圳湾&quot;，通常是第二把钥匙（双条件触发）。</p>
+<p>WhenMappings：Kotlin 编译器自动生成的 when(enum) 映射表，不是业务手写逻辑。它把 TriggerSource 枚举值映射成整数，供 switch 使用</p>
+<p>似乎有“触发源 + 触发口令”逻辑</p>
+<p>搜索TRIGGER_PRIMARY</p>
+<p class="doc-image"><img src="assets/post-1-media/image72.png" alt="image72"></p>
+<p>定位到此处，结合上文，意思是：</p>
+<p>在搜索框 query 里包含 13588452301</p>
+<p>或者包含 深圳湾</p>
+<p>命中后会设置 source（分别是 LIN_XIAOWAN / LU_ZHENGYU）</p>
+<p>然后执行：$backStack.add(new Vault(source)); 直接进 Vault 页面</p>
+<p>搜索13588452301，弹出该页面</p>
+<p class="doc-image"><img src="assets/post-1-media/image73.png" alt="image73"></p>
+<p>搜索深圳湾</p>
+<p class="doc-image"><img src="assets/post-1-media/image74.png" alt="image74"></p>
+<p>好像听说还有其他方法打开，比如按右下角“我的”5次</p>
+<p>得到了提示，密码是女儿生日</p>
+<p>继续分析，在NavigationKt里有密钥逻辑</p>
+<p class="doc-image"><img src="assets/post-1-media/image75.png" alt="image75"></p>
+<p>输入PIN -&gt; 按固定算法算hashHex -&gt; 和硬编码expected比较 -&gt; 相等则通过</p>
+<p>hashHex == 7e881d49322271f3dd4fa24846a5cc53d1e0506b46007caa4b27f1416b27b54c</p>
+<p class="doc-image"><img src="assets/post-1-media/image76.png" alt="image76"></p>
+<p>同时上面也写有密钥算法是PBKDF2WithHmacSHA256</p>
+<p>知道逻辑后，ai写一个脚本开跑：</p>
+<p># 逻辑: 枚举 YYYYMMDD（八位生日的日期格式），计算 PBKDF2-HMAC-SHA256，与 expected 比较</p>
+<p>import hashlib</p>
+<p>import datetime</p>
+<p>EXPECTED = &quot;7e881d49322271f3dd4fa24846a5cc53d1e0506b46007caa4b27f1416b27b54c&quot;</p>
+<p>SALT = b&quot;JinriPIN_Salt_&quot;</p>
+<p>ITERATIONS = 10000</p>
+<p>DKLEN = 32</p>
+<p># 按“女儿生日”常见范围先跑</p>
+<p>START = datetime.date(2000, 1, 1)</p>
+<p>END = datetime.date(2026, 12, 31)</p>
+<p>def calc(pin: str) -&gt; str:</p>
+<p>return hashlib.pbkdf2_hmac(</p>
+<p>&quot;sha256&quot;,</p>
+<p>pin.encode(&quot;utf-8&quot;),</p>
+<p>SALT,</p>
+<p>ITERATIONS,</p>
+<p>dklen=DKLEN</p>
+<p>).hex()</p>
+<p>def main():</p>
+<p>d = START</p>
+<p>tested = 0</p>
+<p>while d &lt;= END:</p>
+<p>pin = d.strftime(&quot;%Y%m%d&quot;)</p>
+<p>h = calc(pin)</p>
+<p>tested += 1</p>
+<p>if h == EXPECTED:</p>
+<p>print(f&quot;[FOUND] PIN = {pin}&quot;)</p>
+<p>print(f&quot;[INFO ] hash = {h}&quot;)</p>
+<p>print(f&quot;[INFO ] tested = {tested}&quot;)</p>
+<p>return</p>
+<p>if tested % 1000 == 0:</p>
+<p>print(f&quot;[.... ] tested={tested}, last={pin}&quot;)</p>
+<p>d += datetime.timedelta(days=1)</p>
+<p>print(&quot;[FAIL ] no match in range&quot;)</p>
+<p>print(f&quot;[INFO ] tested = {tested}&quot;)</p>
+<p>if __name__ == &quot;__main__&quot;:</p>
+<p>main()</p>
+<p>十几秒就出来了，20150412</p>
+<p class="doc-image"><img src="assets/post-1-media/image77.png" alt="image77"></p>
+<p>28. 分析林小婉手机检材，这个应用隐藏的数据中，每个标签数据里，notes字段表示多少？[答案格式：事项]</p>
+<p>备注</p>
+<p>急哭我了输入密码后也打不开，原来是这个保险柜还有一层逻辑，要输入security_debug进入安全控制页把安全检测绕过给关闭（图中为开启状态）</p>
+<p class="doc-image"><img src="assets/post-1-media/image78.png" alt="image78"></p>
+<p class="doc-image"><img src="assets/post-1-media/image79.png" alt="image79"></p>
+<p>关闭之后正常输入密码进入保险柜</p>
+<p class="doc-image"><img src="assets/post-1-media/image80.png" alt="image80"></p>
+<p>然而靠这些数据并不能分析出该题，我们继续看应用数据包</p>
+<p>在data/data文件下找到数据包</p>
+<p class="doc-image"><img src="assets/post-1-media/image81.png" alt="image81"></p>
+<p>看了wp才知道这个vault_data.jth2是隐藏的数据</p>
+<p class="doc-image"><img src="assets/post-1-media/image82.png" alt="image82"></p>
+<p>一是这个文件和安卓文件常见的.xml .db .json等明文储存模式不同</p>
+<p>二是文件里单独分了一个vault文件夹来存放该文件，有些异常</p>
+<p>找了半天线索后面看wp反应过来直接全局搜vault_data就行了。。</p>
+<p class="doc-image"><img src="assets/post-1-media/image83.png" alt="image83"></p>
+<p class="doc-image"><img src="assets/post-1-media/image84.png" alt="image84"></p>
+<p>隐藏数据文件名
+DATA_FILE = &quot;vault_data.jth2&quot;，目录 DATA_DIR = &quot;vault&quot;</p>
+<p>主密钥不是用户 PIN
+deriveMasterKey() 用的是固定种子：
+MASTER_SEED = &quot;Jinritoutiao_Master_Key_2024_Secret&quot;</p>
+<p>密钥派生参数</p>
+<p>算法：PBKDF2WithHmacSHA256</p>
+<p>salt：&quot;JinriSalt_2024&quot;</p>
+<p>迭代：65536</p>
+<p>输出：256 bit（32 字节）</p>
+<p>数据加密算法
+AES/GCM/NoPadding</p>
+<p>文件结构（按字节切分）</p>
+<p>前 12 字节：IV</p>
+<p>中间：ciphertext</p>
+<p>后 16 字节：GCM tag</p>
+<p>解密流程
+cipher.doFinal(ciphertext + tag)，密钥是第 3 步派生出的 32 字节 key</p>
+<p>流程梳理为：vault_data.jth2 -&gt; VaultDataLoader.loadJTH2Data -&gt; deriveMasterKey(PBKDF2) -&gt; decryptAesGcm(AES-GCM)</p>
+<p>依旧ai脚本（注意文件后缀是.jth2但用的是jth3封装，起始iv位置会不同）</p>
+<p>import hashlib</p>
+<p>from pathlib import Path</p>
+<p>from cryptography.hazmat.primitives.ciphers.aead import AESGCM</p>
+<p># ===== 1) 输入文件 =====</p>
+<p># 这是待解密的 JTH3 文件路径</p>
+<p>p = Path(r&quot;文件路径&quot;)</p>
+<p>d = p.read_bytes()  # 读取整个文件为 bytes</p>
+<p># ===== 2) 按逆向得到的参数派生 AES 密钥 =====</p>
+<p># key = PBKDF2-HMAC-SHA256(</p>
+<p>#   password = &quot;Jinritoutiao_Master_Key_2024_Secret&quot;,</p>
+<p>#   salt     = &quot;JinriSalt_2024&quot;,</p>
+<p>#   iter     = 65536,</p>
+<p>#   dkLen    = 32</p>
+<p># )</p>
+<p>key = hashlib.pbkdf2_hmac(</p>
+<p>&quot;sha256&quot;,</p>
+<p>b&quot;Jinritoutiao_Master_Key_2024_Secret&quot;,</p>
+<p>b&quot;JinriSalt_2024&quot;,</p>
+<p>65536,</p>
+<p>dklen=32,</p>
+<p>)</p>
+<p># AES-GCM 解密器（只初始化一次）</p>
+<p>a = AESGCM(key)</p>
+<p># 存放所有“可成功解密”的候选结果</p>
+<p># 每条结构：</p>
+<p># (score, off, tag_off, ct_len, pt_len, plaintext_head)</p>
+<p>hits = []</p>
+<p># ===== 3) 暴力探测 JTH3 封装中 iv / ciphertext / tag 的偏移 =====</p>
+<p># off: 假设的 iv 起始偏移（iv 长度固定 12 字节）</p>
+<p>for off in range(0, 256):</p>
+<p># 至少要能取到 12 字节 iv</p>
+<p>if off + 12 &gt;= len(d):</p>
+<p>break</p>
+<p># 取 iv（GCM 常用 12 字节 nonce）</p>
+<p>iv = d[off : off + 12]</p>
+<p># tag_off: 假设的 tag 起始偏移（tag 长度固定 16 字节）</p>
+<p># tag 至少要在 iv 后面，并且留出 16 字节</p>
+<p>min_tag = off + 13</p>
+<p>max_tag = min(len(d) - 16, len(d) - 1)</p>
+<p>for tag_off in range(min_tag, max_tag + 1):</p>
+<p>tag = d[tag_off : tag_off + 16]</p>
+<p>if len(tag) &lt; 16:</p>
+<p>break</p>
+<p># 假设密文区间为 [off+12, tag_off)</p>
+<p>ct = d[off + 12 : tag_off]</p>
+<p>if not ct:</p>
+<p>continue</p>
+<p># GCM 解密时输入格式是 ciphertext + tag</p>
+<p>try:</p>
+<p>pt = a.decrypt(iv, ct + tag, None)</p>
+<p>except Exception:</p>
+<p># 认证失败或参数错误，直接跳过</p>
+<p>continue</p>
+<p># ===== 4) 对成功解密的候选做“可读性打分” =====</p>
+<p>score = 0</p>
+<p># JSON 常见起始符</p>
+<p>if pt[:1] in (b&quot;{&quot;, b&quot;[&quot;):</p>
+<p>score += 5</p>
+<p># 业务关键词命中加分（你的样本里常见）</p>
+<p>if b&quot;wallet&quot; in pt:</p>
+<p>score += 3</p>
+<p>if b&quot;bank&quot; in pt:</p>
+<p>score += 2</p>
+<p>if b&quot;password&quot; in pt:</p>
+<p>score += 2</p>
+<p># 可打印字符比例（越高越像正常文本/JSON）</p>
+<p>printable = sum((32 &lt;= c &lt; 127) or c in (9, 10, 13) for c in pt) / max(1, len(pt))</p>
+<p>if printable &gt; 0.85:</p>
+<p>score += 2</p>
+<p># 记录候选</p>
+<p>hits.append((score, off, tag_off, len(ct), len(pt), pt[:120]))</p>
+<p># ===== 5) 输出候选并选择最优 =====</p>
+<p>hits.sort(reverse=True)  # 按 score 从高到低排序</p>
+<p>print(&quot;hits&quot;, len(hits))</p>
+<p>for h in hits[:10]:</p>
+<p># 打印前10条：分数、偏移、长度、明文头</p>
+<p>print(h[:5], h[5])</p>
+<p>if hits:</p>
+<p># 取分数最高的一条作为最佳结构</p>
+<p>score, off, tag_off, ct_len, pt_len, head = hits[0]</p>
+<p>iv = d[off : off + 12]</p>
+<p>tag = d[tag_off : tag_off + 16]</p>
+<p>ct = d[off + 12 : tag_off]</p>
+<p># 用最佳参数再解一次，输出完整明文</p>
+<p>pt = a.decrypt(iv, ct + tag, None)</p>
+<p>out = Path(r&quot;C:\Users\jzz11\Desktop\vault_decrypted_best.bin&quot;)</p>
+<p>out.write_bytes(pt)</p>
+<p>print(&quot;best&quot;, score, &quot;off&quot;, off, &quot;tag_off&quot;, tag_off, &quot;pt_len&quot;, pt_len, &quot;out&quot;, str(out))</p>
+<p>print(&quot;head&quot;, head)</p>
+<p>else:</p>
+<p>print(&quot;no candidates&quot;)</p>
+<p>解出明文</p>
+<p class="doc-image"><img src="assets/post-1-media/image85.png" alt="image85"></p>
+<p>notes对应：备注</p>
+<p class="doc-image"><img src="assets/post-1-media/image86.png" alt="image86"></p>
+<p>29. 分析林小婉手机检材，这个应用隐藏的数据中，文件备份服务器的IP地址是多少？[答案格式：192.168.1.1]</p>
+<p>192.168.1.200</p>
+<p>在保险箱里直接看</p>
+<p class="doc-image"><img src="assets/post-1-media/image87.png" alt="image87"></p>
+<p>30. 分析林小婉手机检材，发现内部通联中财神撤回了一条消息，这个消息的内容是？[答案格式：盘古石杯。]</p>
+<p>把23年10月到24年6月的账本整理一下，发给我。</p>
+<p>socialchat还在追。。</p>
+<p>找到撤回的这条消息（撤回是state_bits为1，别和前面的删除列名extra_val搞混了）</p>
+<p class="doc-image"><img src="assets/post-1-media/image88.png" alt="image88"></p>
+<p class="doc-image"><img src="assets/post-1-media/image89.png" alt="image89"></p>
+<p>懒得全解了，单拉这一条拿key和iv直接赛博厨子了</p>
+<p class="doc-image"><img src="assets/post-1-media/image90.png" alt="image90"></p>
+<p>31. 分析林小婉手机检材，发现了账本，账本打开密码是什么？[答案格式：按实际填写]</p>
+<p>DragonTeng@2024#$</p>
+<p>保险箱直接看</p>
+<p class="doc-image"><img src="assets/post-1-media/image91.png" alt="image91"></p>
+<p>计算机取证</p>
+<p>1. 分析刘洋liuyang_pc.E01检材，提取磁盘镜像SHA1值的前6位？[答案格式：字母小写]</p>
+<p>5bc418</p>
+<p>火眼能算，</p>
+<p class="doc-image"><img src="assets/post-1-media/image92.png" alt="image92"></p>
+<p class="doc-image"><img src="assets/post-1-media/image93.png" alt="image93"></p>
+<p>SHA1：5BC41890367E9C79C6B415C922E30BC994BFB351</p>
+<p>注意用hashmyfiles算的话他会算整个镜像文件的原始二进制，结果会不对</p>
+<p>题目问的是磁盘镜像SHA1，只要算镜像里模拟的硬盘数据区</p>
+<p>2. 分析刘洋liuyang_pc.E01检材，计算机系统Build版本为？[答案格式：19000]</p>
+<p>26100</p>
+<p>火眼直接看</p>
+<p class="doc-image"><img src="assets/post-1-media/image94.png" alt="image94"></p>
+<p>（Build 版本（构建号），是系统在某一时刻源码编译后的唯一内部版本号，用来精确区分同一大版本下的不同更新 / 补丁状态）</p>
+<p>3. 3. 分析刘洋liuyang_pc.E01检材，计算机最后一次正常关机的时间为？UTC +0[答案格式：2025-05-06-09:00:00]</p>
+<p>2026-04-20-16:25:35</p>
+<p>注意时区，题目问的是UTC+0，该计算机是北京时间UTF+8</p>
+<p class="doc-image"><img src="assets/post-1-media/image95.png" alt="image95"></p>
+<p class="doc-image"><img src="assets/post-1-media/image96.png" alt="image96"></p>
+<p>减去8小时</p>
+<p>4. 分析刘洋liuyang_pc.E01检材，计算机网卡的MAC地址为？[答案格式：00-0B-00-A0-00-00]</p>
+<p>00-50-56-30-26-1C</p>
+<p class="doc-image"><img src="assets/post-1-media/image97.png" alt="image97"></p>
+<p>MAC Address，全称Media Access Control Address，即媒体接入控制地址，是固化在网络接口控制器</p>
+<p>5. 分析刘洋liuyang_pc.E01检材，分析机主是从那里下载的typora？[答案格式：阿里云]</p>
+<p>蓝奏云</p>
+<p>搜索了解到Typora 是一款跨平台、极简、所见即所得（WYSIWYG）的 Markdown 编辑器</p>
+<p>在chorme的下载记录里找到下载记录，结合URL：developer2.lanrar.com 是蓝奏云的下载节点</p>
+<p class="doc-image"><img src="assets/post-1-media/image98.png" alt="image98"></p>
+<p>6. 分析刘洋liuyang_pc.E01检材，刘洋在2026-04-19 13:46:01（UTC +0）曾访问过百度云盘，请给云盘的打开密码？[答案格式：11aa]</p>
+<p>48gy</p>
+<p>根据题干时间在Edge找到浏览记录，度盘最后的&amp;psw=xxxx就是密码，加上后访问者打开就不用输入密码，可直接打开</p>
+<p class="doc-image"><img src="assets/post-1-media/image99.png" alt="image99"></p>
+<p>7. 分析刘洋liuyang_pc.E01检材，请给出刘洋管理pve集群所用的端口号？[答案格式:8000]</p>
+<p>8006</p>
+<p>pve集群一般在web界面管理，果不其然在Chrome的书签中找到</p>
+<p class="doc-image"><img src="assets/post-1-media/image100.png" alt="image100"></p>
+<p>8. 分析刘洋liuyang_pc.E01检材，请给出刘洋登录理财网站所使用的密码？[答案格式:password]</p>
+<p>admin123</p>
+<p>Chrome里有保存密码admin123</p>
+<p class="doc-image"><img src="assets/post-1-media/image101.png" alt="image101"></p>
+<p>在常用网站里确认该网址是理财网站</p>
+<p class="doc-image"><img src="assets/post-1-media/image102.png" alt="image102"></p>
+<p>9. 分析刘洋liuyang_pc.E01检材，请给出理财网站的IP地址？[答案格式:127.0.0.1]</p>
+<p>192.168.0.70</p>
+<p>本机文件中有hosts 静态域名 IP 映射：C:\Windows\System32\drivers\etc\hosts</p>
+<p>对应文件直接找到</p>
+<p class="doc-image"><img src="assets/post-1-media/image103.png" alt="image103"></p>
+<p>10. 分析刘洋liuyang_pc.E01检材，请给出计算机内Bitlocker加密分区恢复密钥的前6位？[答案格式:6位数字]</p>
+<p>560615</p>
+<p>560615-577522-342881-216865-242561-312356-584837-421597</p>
+<p>Passwarekit选磁盘解密</p>
+<p class="doc-image"><img src="assets/post-1-media/image104.png" alt="image104"></p>
+<p>选Bitlocker解密</p>
+<p class="doc-image"><img src="assets/post-1-media/image105.png" alt="image105"></p>
+<p>拖入镜像和内存文件</p>
+<p>开了35分钟左右，不推荐</p>
+<p class="doc-image"><img src="assets/post-1-media/image106.png" alt="image106"></p>
+<p>可以用Elcomsoft-Forensic-Disk-Decryptor</p>
+<p class="doc-image"><img src="assets/post-1-media/image107.png" alt="image107"></p>
+<p class="doc-image"><img src="assets/post-1-media/image108.png" alt="image108"></p>
+<p class="doc-image"><img src="assets/post-1-media/image109.png" alt="image109"></p>
+<p>几秒出了</p>
+<p class="doc-image"><img src="assets/post-1-media/image110.png" alt="image110"></p>
+<p>好像在内存里找到的密码格式不是48位的密码，ai难梭出来</p>
+<p>Bitlocker出来了，开仿真</p>
+<p>11. 分析刘洋liuyang_pc.E01检材，找出VC加密容器的密钥文件，给出该密钥文件的绝对路径？[答案格式:D:\ABC\123\测试.txt]</p>
+<p>D:\BaiduNetdiskDownload\无标题.png</p>
+<p>下一题的提示很关键，确认是图片文件</p>
+<p>乱翻的时候看到了在度盘文件夹有一个命名为无标题的图片文件（起始在主文件夹的最近使用文件里也能看到最近打开该文件）</p>
+<p class="doc-image"><img src="assets/post-1-media/image111.png" alt="image111"></p>
+<p>丢到随便逐流里看，被修改了宽高</p>
+<p class="doc-image"><img src="assets/post-1-media/image112.png" alt="image112"></p>
+<p>修复完宽高后如图，提示为密钥文件</p>
+<p class="doc-image"><img src="assets/post-1-media/image113.png" alt="image113"></p>
+<p>该文件地址为D:\BaiduNetdiskDownload\无标题.png</p>
+<p>12. 接上题，该VC加密容器的密钥文件的图像高度是多少像素？[答案格式：1345]</p>
+<p>1080</p>
+<p>上一题随波逐流分析过</p>
+<p class="doc-image"><img src="assets/post-1-media/image112.png" alt="image112"></p>
+<p>13. 分析刘洋liuyang_pc.E01检材，请给出团队重要信息加密保存的软件名？[答案格式：abc123]</p>
+<p>1password</p>
+<p>在最近使用记录里早看这个名为1Password的压缩包可疑了</p>
+<p class="doc-image"><img src="assets/post-1-media/image114.png" alt="image114"></p>
+<p>默认用winrar打开，右边是压缩包的注释，确认1Password是加密软件</p>
+<p class="doc-image"><img src="assets/post-1-media/image115.png" alt="image115"></p>
+<p>（额额这p有的大写有的小写，这里小写符合题干格式）</p>
+<p class="doc-image"><img src="assets/post-1-media/image116.png" alt="image116"></p>
+<p>14.分析刘洋liuyang_pc.E01检材，该软件的保险库文件名为什么？[答案格式：abc.abc]</p>
+<p>liuyang.opvault</p>
+<p>（他甚至下了everything给我们用，好感动）</p>
+<p class="doc-image"><img src="assets/post-1-media/image117.png" alt="image117"></p>
+<p>在C:\Users\刘洋\Documents\1password找到文件</p>
+<p class="doc-image"><img src="assets/post-1-media/image118.png" alt="image118"></p>
+<p>问了下ai确认是保险库文件</p>
+<p class="doc-image"><img src="assets/post-1-media/image119.png" alt="image119"></p>
+<p>15.分析刘洋liuyang_pc.E01检材，该软件的保险库文件打开密码是什么？[答案格式：124@password]</p>
+<p>liuyang@6419</p>
+<p>前面压缩文件的注释得知密码是：姓名全拼@四位数字</p>
+<p>地址：&quot;C:\Users\刘洋\Documents\1password\liuyang.opvault\default\profile.js&quot;这个文件中存储着配置信息和用户信息</p>
+<p class="doc-image"><img src="assets/post-1-media/image120.png" alt="image120"></p>
+<p>内容大致为一个离线口令验证</p>
+<p class="doc-image"><img src="assets/post-1-media/image121.png" alt="image121"></p>
+<p>我们在passwarekit里面进行爆破</p>
+<p>选择运行向导</p>
+<p class="doc-image"><img src="assets/post-1-media/image122.png" alt="image122"></p>
+<p>在settings步骤选12字符，liuyang@????（英文问号），numbers</p>
+<p class="doc-image"><img src="assets/post-1-media/image123.png" alt="image123"></p>
+<p>秒出</p>
+<p class="doc-image"><img src="assets/post-1-media/image124.png" alt="image124"></p>
+<p>答案liuyang@6419</p>
+<p>16. 分析刘洋liuyang_pc.E01检材，请给出用户刘洋的开机密码？[答案格式：p@ssw0rd123]</p>
+<p>6yang@2o26</p>
+<p>这个路径在downloads的exe打开就是输入密码的界面</p>
+<p class="doc-image"><img src="assets/post-1-media/image125.png" alt="image125"></p>
+<p>输入密码</p>
+<p class="doc-image"><img src="assets/post-1-media/image126.png" alt="image126"></p>
+<p>密码直接复制：6yang@2o26</p>
+<p class="doc-image"><img src="assets/post-1-media/image127.png" alt="image127"></p>
+<p>17. 分析刘洋liuyang_pc.E01检材，请给出pve服务器的管理密码？[答案格式：p@ssw0rd123]</p>
+<p>pgscup2o@6</p>
+<p>点开没看到，点上面的编辑就有了</p>
+<p class="doc-image"><img src="assets/post-1-media/image128.png" alt="image128"></p>
+<p class="doc-image"><img src="assets/post-1-media/image129.png" alt="image129"></p>
+<p>密码为pgscup2o@6</p>
+<p>18. 分析刘洋liuyang_pc.E01检材，找出计算机内的脚本加密工具，给出该加密工具的SHA1的前6位？[答案格式：字母小写]</p>
+<p>7860dc</p>
+<p>回收站里给了vc容器的密码：pgscup的MD5（即8687f7d845649e03d02d4ff1f36ec952）</p>
+<p>和pim（迭代次数）：2016</p>
+<p class="doc-image"><img src="assets/post-1-media/image130.png" alt="image130"></p>
+<p class="doc-image"><img src="assets/post-1-media/image131.png" alt="image131"></p>
+<p>找镜像文件，一般镜像文件大小较大，我们在everything里选择视图-&gt;排序-&gt;大小</p>
+<p class="doc-image"><img src="assets/post-1-media/image132.png" alt="image132"></p>
+<p>在D盘的最大的这个文件比较可疑</p>
+<p class="doc-image"><img src="assets/post-1-media/image133.png" alt="image133"></p>
+<p>额额但是这里的vc密码和之前的密钥文件是分开的，我们这里只输入pim：2026和修复完宽高的密钥文件</p>
+<p class="doc-image"><img src="assets/post-1-media/image134.png" alt="image134"></p>
+<p>挂出来是这个，见文知意是这个encrypt_tool.py</p>
+<p>容易莫名其妙挂不上，多试几遍</p>
+<p class="doc-image"><img src="assets/post-1-media/image135.png" alt="image135"></p>
+<p>算出来是SHA1是：7860dc719e0bd9fddc2eafd6708ecf204d744ae7</p>
+<p class="doc-image"><img src="assets/post-1-media/image136.png" alt="image136"></p>
+<p>另外再只用8687f7d845649e03d02d4ff1f36ec952和pim：2026，挂出来不同的文件</p>
+<p class="doc-image"><img src="assets/post-1-media/image137.png" alt="image137"></p>
+<p>19.分析刘洋liuyang_pc.E01检材，该脚本加密工具在进行脚本加密时，最后一层是进行什么操作？[答案格式:字符替换]</p>
+<p>十六进制转换</p>
+<p>脚本前面的注释直接写了</p>
+<p class="doc-image"><img src="assets/post-1-media/image138.png" alt="image138"></p>
+<p>怕他骗我，去确认一遍，没在骗我</p>
+<p class="doc-image"><img src="assets/post-1-media/image139.png" alt="image139"></p>
+<p>20. 分析刘洋liuyang_pc.E01检材，请解密该脚本加密工具加密的文件database.php.obf，给出该文件内的数据库密码？[答案格式:p@ssw0rd123]</p>
+<p>根据题目找到文件，就在同目录下</p>
+<p>根据题意直接逆推就行了，手搓也可以出来，这边依旧ai脚本：</p>
+<p>#!/usr/bin/env python3</p>
+<p># -*- coding: utf-8 -*-</p>
+<p>import base64</p>
+<p>import argparse</p>
+<p>import sys</p>
+<p>XOR_KEY = 0x5A</p>
+<p>BASE64_TABLE = &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</p>
+<p>CUSTOM_TABLE = &quot;ZYXWVUTSRQPONMLKJIHGFEDCBAzyxwvutsrqponmlkjihgfedcba9876543210+/&quot;</p>
+<p>def xor_decrypt(data: str) -&gt; str:</p>
+<p>return &#x27;&#x27;.join(chr(ord(ch) ^ ((XOR_KEY + i) % 256)) for i, ch in enumerate(data))</p>
+<p>def char_swap_decode(data: str) -&gt; str:</p>
+<p>trans = str.maketrans(CUSTOM_TABLE, BASE64_TABLE)</p>
+<p>return data.translate(trans)</p>
+<p>def decrypt(cipher_hex: str) -&gt; str:</p>
+<p>step3 = bytes.fromhex(cipher_hex.strip()).decode(&quot;utf-8&quot;)</p>
+<p>step2 = char_swap_decode(step3)</p>
+<p>step1 = base64.b64decode(step2).decode(&quot;utf-8&quot;)</p>
+<p>return xor_decrypt(step1)</p>
+<p>def main():</p>
+<p>parser = argparse.ArgumentParser(description=&quot;Decrypt text encrypted by encrypt_tool.py&quot;)</p>
+<p>parser.add_argument(&quot;cipher&quot;, nargs=&quot;?&quot;, help=&quot;hex ciphertext string&quot;)</p>
+<p>parser.add_argument(&quot;-i&quot;, &quot;--input&quot;, help=&quot;ciphertext file path&quot;)</p>
+<p>args = parser.parse_args()</p>
+<p>if args.input:</p>
+<p>with open(args.input, &quot;r&quot;, encoding=&quot;utf-8&quot;) as f:</p>
+<p>cipher_hex = f.read().strip()</p>
+<p>elif args.cipher:</p>
+<p>cipher_hex = args.cipher.strip()</p>
+<p>else:</p>
+<p>cipher_hex = input(&quot;请输入密文(hex): &quot;).strip()</p>
+<p>try:</p>
+<p>plain = decrypt(cipher_hex)</p>
+<p>print(&quot;解密结果：&quot;)</p>
+<p>print(plain)</p>
+<p>except Exception as e:</p>
+<p>print(f&quot;[ERROR] 解密失败: {e}&quot;)</p>
+<p>sys.exit(1)</p>
+<p>if __name__ == &quot;__main__&quot;:</p>
+<p>main()</p>
+<p class="doc-image"><img src="assets/post-1-media/image140.png" alt="image140"></p>
+<p>得到密码明文：pgscup@o26</p>
+<p>21.分析刘洋liuyang_pc.E01检材，找出刘洋计算机内的交易信息.rar，给出该文件的打开密码？[答案格式：p@ssw0rd123]</p>
+<p>Pgscup@9541</p>
+<p>只用密码8687f7d845649e03d02d4ff1f36ec952和pim：2026挂出来题干的文件（注意不要加密钥文件）</p>
+<p>(在最近文件里有这个文件的使用记录，但是是在E盘非系统盘，算是提示)</p>
+<p class="doc-image"><img src="assets/post-1-media/image137.png" alt="image137"></p>
+<p>在保险库里有提示密码pgscup@四位数字</p>
+<p class="doc-image"><img src="assets/post-1-media/image141.png" alt="image141"></p>
+<p>另外再只用8687f7d845649e03d02d4ff1f36ec952和pim：2026，挂出来不同的文件</p>
+<p class="doc-image"><img src="assets/post-1-media/image137.png" alt="image137"></p>
+<p>老样子passwarekit爆破</p>
+<p class="doc-image"><img src="assets/post-1-media/image142.png" alt="image142"></p>
+<p>22. 分析刘洋liuyang_pc.E01检材，找出刘洋计算机内刘桂荣的身份证号码？[答案格式：510657199808071131]</p>
+<p>500000196606302245</p>
+<p>解压完压缩包反向有很多Excel表格</p>
+<p class="doc-image"><img src="assets/post-1-media/image143.png" alt="image143"></p>
+<p>发现这个user_real是储存有身份证号码的</p>
+<p>选择用户列ctrl+F搜索刘桂荣，发现第三个是符合题目格式的5开头的身份证号（前面两个靠前的是假的）</p>
+<p class="doc-image"><img src="assets/post-1-media/image144.png" alt="image144"></p>
+<p>身份证号：500000196606302245</p>
+<p>23. 分析刘洋ly-memdump.mem镜像，给出用户刘洋的NT哈希值？[答案格式：数字字母组合，字母小写]</p>
+<p>876dfe7bd78730b7b0baaf451414de8e</p>
+<p>Volatility3输入命令：</p>
+<p>-f &quot;文件地址&quot; windows.hashdump</p>
+<p class="doc-image"><img src="assets/post-1-media/image145.png" alt="image145"></p>
+<p>左往右分别是：用户名 RID LMHash NTHash</p>
+<p>- RID：Relative Identifier，用户在本机/域里的相对账号 ID</p>
+<p>- LMHash：LAN Manager 的旧式密码哈希，安全性很差，现代系统通常禁用或为空值。</p>
+<p>- NTHas`：NTLM 的密码哈希（MD4(UTF-16LE(password))），Windows 认证里常见。</p>
+<p>答案：876dfe7bd78730b7b0baaf451414de8e</p>
+<p>24. 分析刘洋ly-memdump.mem镜像，给出1Password密码管理器的数据库文件名？[答案格式：123ABc.abc]</p>
+<p>输入命令，查找含有password的文件：</p>
+<p>-f &quot;文件路径&quot; windows.filescan.FileScan | findstr /i &quot;password&quot;</p>
+<p class="doc-image"><img src="assets/post-1-media/image146.png" alt="image146"></p>
+<p>路径\Users\???\AppData\Local\1Password\data\1Password10.sqlite，符合数据库的路径特征</p>
+<p>答案：1Password10.sqlite</p>
+<p>25. 分析刘洋ly-memdump.mem镜像，1Password在VeraCrypt启动后约多少分钟启动？[答案格式：123]</p>
+<p>2</p>
+<p>用进程创建时间一把算：</p>
+<p>-f &quot;文件地址&quot; windows.pslist.PsList | findstr /i &quot;veracrypt 1password.exe&quot;</p>
+<p class="doc-image"><img src="assets/post-1-media/image147.png" alt="image147"></p>
+<p>相差2分15秒</p>
+<p>约两分钟</p>
+<p>26.分析黄志远PC.E01镜像，黄志远使用的ai agent的名称是什么？[答案格式：www]</p>
+<p>hermes</p>
+<p>历史命令行里发现调用了hermes</p>
+<p class="doc-image"><img src="assets/post-1-media/image148.png" alt="image148"></p>
+<p>路径/home/kali/.hermes也看到了hermes-agent</p>
+<p class="doc-image"><img src="assets/post-1-media/image149.png" alt="image149"></p>
+<p>可执行文件目录：/home/kali/.local/bin</p>
+<p>发现hermes存在且执行过，应该就是了</p>
+<p class="doc-image"><img src="assets/post-1-media/image150.png" alt="image150"></p>
+<p>27. 分析黄志远PC.E01镜像，黄志远使用的模型api后4位是什么？[答案格式：abcd]</p>
+<p>gioa</p>
+<p>home/kali/.hermes/sessions下一般存放命令的快照文件</p>
+<p>最后在\home\kali.hermes\sessions\request_dump_20260418_054303_f71430_20260418_054825_650853.json 找到</p>
+<p>其他配置文件里噪声很多，这个文件才是真实调用的记录</p>
+<p class="doc-image"><img src="assets/post-1-media/image151.png" alt="image151"></p>
+<p>28. 请分析黄志远PC.E01镜像中的渗透.rar文件，分析黄志远PC.E01镜像，黄志远总共攻击了多少台主机？[答案格式：123]</p>
+<p>16</p>
+<p>开仿真（用户名kali，密码火眼重置为123456）</p>
+<p>找到渗透.rar和渗透密码文件夹</p>
+<p class="doc-image"><img src="assets/post-1-media/image152.png" alt="image152"></p>
+<p>文件夹打开是一些图片碎片，似乎和上一个目录下的Reference.png是同一张图片</p>
+<p class="doc-image"><img src="assets/post-1-media/image153.png" alt="image153"></p>
+<p>让ai帮忙拼了，不知道有没有相关工具</p>
+<p class="doc-image"><img src="assets/post-1-media/image154.png" alt="image154"></p>
+<p>可以发现有文字，有的看不清，再让ai提取一下有字的图块</p>
+<p class="doc-image"><img src="assets/post-1-media/image155.png" alt="image155"></p>
+<p>差不多可以看出来了</p>
+<p>得到密码：今晚去杀鬼</p>
+<p>解压后发现有16份渗透报告</p>
+<p class="doc-image"><img src="assets/post-1-media/image156.png" alt="image156"></p>
+<p>29. 请分析黄志远PC.E01镜像中的渗透.rar文件，反编译exploit二进制文件发现其调用了setuid()、setgid()和system(&quot;/bin/bash&quot;)，该程序的源文件编译前名称是什么？[答案格式：xxx.c]</p>
+<p>exploit.c</p>
+<p>exploit：漏洞利用程序</p>
+<p>很多 ELF 二进制里本来就会保留一部分明文字符串</p>
+<p>提取字符串：strings &quot; \渗透\pentest-lab\exploit&quot;</p>
+<p class="doc-image"><img src="assets/post-1-media/image157.png" alt="image157"></p>
+<p>30. 请分析黄志远PC.E01镜像中的渗透.rar文件，Webshell 功能逻辑研判观察 file_shell.php 的源码，若攻击者请求 ?download=/etc/passwd，程序执行的核心函数是什么？[答案格式：func()]</p>
+<p>readfile()</p>
+<p class="doc-image"><img src="assets/post-1-media/image158.png" alt="image158"></p>
+<p>31. 请分析黄志远PC.E01镜像中的渗透.rar文件，Nikto扫描结果发现通过发送超长斜杠序列可以探测目录列举漏洞，该漏洞对应的CVE编号是什么？[答案格式：CVE-XXXX-XXXX]</p>
+<p>CVE-2002-1078</p>
+<p>搜索了解到Nikto 是一款命令行式的 Web 服务器漏洞扫描器</p>
+<p>这个文件应该是扫描结果</p>
+<p class="doc-image"><img src="assets/post-1-media/image159.png" alt="image159"></p>
+<p>在长斜杠后面就是，原理似乎是遇到多个斜杠服务器路径解析错误</p>
+<p class="doc-image"><img src="assets/post-1-media/image160.png" alt="image160"></p>
+<p>ps：CVE 编号（CVE ID）就是给每个公开安全漏洞分配的独有的id</p>
+<p>32. 请分析黄志远PC.E01镜像中的渗透.rar文件，SQLite 数据库结构分析在 users 表的定义中，id 字段使用了 AUTOINCREMENT。这意味着什么？[答案格式：SQL_KEYWORD]</p>
+<p>AUTOINCREMENT</p>
+<p>答案就是它本身</p>
+<p>在 SQLite 中，AUTOINCREMENT 关键字的作用就是强制主键 ID 严格自增、永不复用，这是它唯一的核心语义（AUTOINCREMENT 是 SQLite 官方定义的标准 SQL 关键字，符合 SQL_KEYWORD 格式要求）</p>
+<p>33. 请分析黄志远PC.E01镜像中的渗透.rar文件，Webshell 命令执行参数若要利用 file_shell.php 获取当前系统的用户权限，正确的 URL 参数构造是什么？[答案格式：cmd=xxx]</p>
+<p>题目问的是要获取当前系统的用户权限</p>
+<p>代码表示通过URL 传递 cmd 参数，直接执行系统命令</p>
+<p class="doc-image"><img src="assets/post-1-media/image161.png" alt="image161"></p>
+<p>linux查看当前系统用户权限的命令：cmd=id（win是cmd=whoami）</p>
+<p>34. 请分析黄志远PC.E01镜像中的渗透.rar文件，API 端口风险判定8000端口运行的技术组件是什么？[答案格式：XxxYyy]</p>
+<p>FastApi</p>
+<p>在漏洞清单里找到两个涉及8000端口的报告</p>
+<p>FastApi是开发框架，用于程序接口，默认端口8000，属技术开发组件</p>
+<p class="doc-image"><img src="assets/post-1-media/image162.png" alt="image162"></p>
+<p class="doc-image"><img src="assets/post-1-media/image163.png" alt="image163"></p>
+<p>CVSS是漏洞评分</p>
+<p>Apache HTTP Server，简称 Apache，是全球最老牌、最主流的开源 Web 服务器软件,监听端口，收发数据，运行程序</p>
+<p>OpenSSH 是一套开源的安全远程登录工具集，其中最核心的是 sshd 服务，与登录相关</p>
+<p>Uvicorn是底层运行服务器</p>
+<p>35. 请分析黄志远PC.E01镜像中的渗透.rar文件，数据库存储安全性评估users 表的密码存储存在什么安全隐患？[答案格式：CVE-XXXX-XXXX]</p>
+<p>CVE-2026-0004</p>
+<p>根据题干提示打开数据库，密码与admin对上（虽然好像没什么用）</p>
+<p class="doc-image"><img src="assets/post-1-media/image164.png" alt="image164"></p>
+<p>在：\渗透\pentest-lab\渗透测试报告_192.168.61.135.md里找到cve id</p>
+<p class="doc-image"><img src="assets/post-1-media/image165.png" alt="image165"></p>
+<p>36. 请分析黄志远PC.E01镜像中的渗透.rar文件，文件上传漏洞利用条件利用 upload.php 上传漏洞后，攻击者利用 Webshell 前最关键的一步是什么？[答案格式：xxx/]</p>
+<p>uploads/</p>
+<p>依旧在漏洞清单里</p>
+<p>问的是漏洞已上传的情况（利用webshell，那么前提就是webshell存在），根据分析即uploads/</p>
+<p class="doc-image"><img src="assets/post-1-media/image166.png" alt="image166"></p>
+<p>37. 请分析黄志远PC.E01镜像中的渗透.rar文件，根据通讯录管理系统漏洞清单，CVE-2026-0003（无限制文件上传漏洞）的CVSS评分是多少？[答案格式：1.2]</p>
+<p>8.8</p>
+<p>渗透测试报告_192.168.61.135.md</p>
+<p>之前看这个文件时就发现它的cve id的后四位是按顺序排列的。找到对应的8.8</p>
+<p class="doc-image"><img src="assets/post-1-media/image167.png" alt="image167"></p>
+<p>38. 请分析黄志远PC.E01镜像中的渗透.rar文件，根据file_shell.php源码，文件上传功能使用哪个PHP函数将临时文件移动到目标路径？[答案格式：php_func]</p>
+<p>move_uploaded_file</p>
+<p>见文知意</p>
+<p class="doc-image"><img src="assets/post-1-media/image168.png" alt="image168"></p>
+<p>39. 请分析黄志远PC.E01镜像中的渗透.rar文件，Web 目录遍历隐患uploads/ 目录启用目录列表功能通常由哪个组件控制？[答案格式：apache_opt]</p>
+<p>indexes（我觉得答案是apache_indexes）</p>
+<p>Indexes 是 Apache 服务器的配置参数，作用：开启目录列表浏览</p>
+<p>加 Indexes：打开文件夹就能看到里面所有文件（目录遍历漏洞根源）</p>
+<p>加 -Indexes：禁止查看目录文件，修复隐患</p>
+<p>40. 请分析黄志远PC.E01镜像中的渗透.rar文件，敏感凭据深度关联在 address_book.db 中，管理员密码 Str0ngP@ssw0rd2026! 是什么角色？[答案格式：SQL_DEFAULT]</p>
+<p>没看懂题</p>
+<p>41. 请分析黄志远PC.E01镜像中的渗透.rar文件，数据规模与风险评估遭受泄露的个人联系人信息条数大约为多少？[答案格式：12345]</p>
+<p>15000</p>
+<p>在渗透测试报告_192.168.61.135.md</p>
+<p class="doc-image"><img src="assets/post-1-media/image169.png" alt="image169"></p>
+<p>42. 请分析黄志远PC.E01镜像中的渗透.rar文件，系统运行权限分析Web服务器运行的用户身份是什么？[答案格式：xxx-xxx]</p>
+<p>www-data</p>
+<p>还在渗透测试报告_192.168.61.135.md</p>
+<p class="doc-image"><img src="assets/post-1-media/image170.png" alt="image170"></p>
+<p>43. 请分析黄志远PC.E01镜像中的渗透.rar文件，命令行注入漏洞识别验证 tools.php 命令执行漏洞时，哪个命令返回了uid的值？[答案格式：cmd]</p>
+<p>id</p>
+<p>在漏洞报搜uid搜到了，遇到id命令返回uid</p>
+<p class="doc-image"><img src="assets/post-1-media/image171.png" alt="image171"></p>
+<p>44. 请分析黄志远PC.E01镜像中的渗透.rar文件，数据库物理路径获取攻击者通过 generate_data.php 得知数据库在服务器上的绝对物理路径是什么？[答案格式：/xxx/xxx/xxx.db]</p>
+<p>/var/www/html/address_book.db</p>
+<p>在渗透测试报告_192.168.61.135.md，搜generate_data.php搜到了</p>
+<p class="doc-image"><img src="assets/post-1-media/image172.png" alt="image172"></p>
+<p>45.请分析黄志远PC.E01镜像中的渗透.rar文件，Webshell 下载参数逻辑源码中通过设置哪个 Header 实现浏览器自动弹出下载框？[答案格式：Content-xxx]</p>
+<p>Content-Disposition</p>
+<p>Header指请求头</p>
+<p>在之前的php代码里</p>
+<p class="doc-image"><img src="assets/post-1-media/image173.png" alt="image173"></p>
+<p>header(&#x27;Content-Disposition: attachment; filename=&quot;&#x27;.basename($file).&#x27;&quot;&#x27;);</p>
+<p>给浏览器发送命令，不要直接打开这个文件，直接弹出下载框，以下载模式保存文件，文件名就用 $file 里的真实文件名</p>
+<p>46. 请分析黄志远PC.E01镜像中的渗透.rar文件，身份验证策略评估系统中存在的弱密码策略漏洞不包括哪项？[答案格式：user/pass]</p>
+<p>admin/Str0ngP@ssw0rd2026!</p>
+<p>在漏洞清单里。数据库里的明文密码根据定义也属于弱密码。</p>
+<p class="doc-image"><img src="assets/post-1-media/image174.png" alt="image174"></p>
+<p class="doc-image"><img src="assets/post-1-media/image175.png" alt="image175"></p>
+<p>按照他的格式用户名/密码，应该是admin/Str0ngP@ssw0rd2026!</p>
+<p>47. 请分析黄志远PC.E01镜像中的渗透.rar文件，API 环境交互日志价值未授权访问8000端口日志接口，最可能导致哪类敏感信息泄露？[答案格式：/api/xxx]</p>
+<p>/api/logs</p>
+<p>就在这个端口所对应的url后面</p>
+<p class="doc-image"><img src="assets/post-1-media/image176.png" alt="image176"></p>
+<p>48.分析黄志远PC.E01镜像中的渗透.rar文件，攻击路径逻辑推演攻击者获取持久访问权限的最典型方式是什么？[答案格式：xxx.php]</p>
+<p>file_shell.php</p>
+<p>报告里有说上传webshell以获得持久访问</p>
+<p class="doc-image"><img src="assets/post-1-media/image177.png" alt="image177"></p>
+<p>和上传webshell有关的php是file_shell.php，在渗透测试报告_192.168.61.135.md</p>
+<p class="doc-image"><img src="assets/post-1-media/image178.png" alt="image178"></p>
+<p>49. 请分析黄志远PC.E01镜像中的渗透.rar文件，漏洞 CVE 编号识读被标识为未授权命令执行漏洞的虚拟CVE编号是什么？[答案格式：CVE-XXXX-XXXX]</p>
+<p>CVE-2026-0002</p>
+<p>搜未授权，在渗透测试报告_192.168.61.135.md</p>
+<p class="doc-image"><img src="assets/post-1-media/image179.png" alt="image179"></p>
+<p>50. 请分析黄志远PC.E01镜像中的渗透.rar文件，系统修复优先级研判24小时紧急加固中，哪项不属于立即修复级别？[答案格式：ABC]</p>
+<p>WAF</p>
+<p>在漏洞清单和渗透测试报告_192.168.61.138.md得知：</p>
+<p>部署web防火墙（WAF）不属于立即修复级别</p>
+<p class="doc-image"><img src="assets/post-1-media/image180.png" alt="image180"></p>
+<p class="doc-image"><img src="assets/post-1-media/image181.png" alt="image181"></p>
+<p>51. 请分析黄志远PC.E01镜像中的渗透.rar文件，管理员凭据有效性验证利用管理员密码，攻击者在哪个页面时才能生效？[答案格式：xxx.php]</p>
+<p>tools.php</p>
+<p>在漏洞清单</p>
+<p class="doc-image"><img src="assets/post-1-media/image182.png" alt="image182"></p>
+<p>52. 请分析黄志远PC.E01镜像中的渗透.rar文件，本系统使用的后端数据库技术是什么？[答案格式：DB_name]</p>
+<p>SQLite</p>
+<p>渗透测试报告_192.168.61.135.md里有系统信息</p>
+<p class="doc-image"><img src="assets/post-1-media/image183.png" alt="image183"></p>
+<p>53. 请分析黄志远PC.E01镜像中的渗透.rar文件，Webshell 目录处理逻辑文件上传功能中，源码将上传后的文件命名为什么？[答案格式：$_xxx]</p>
+<p>$_FILES（我觉得要小写）</p>
+<p>在php代码里</p>
+<p>target=basename(_FILES[&#x27;file&#x27;][&#x27;name&#x27;]) 这一步完成重命名，仅保留原始文件名作为保存名称</p>
+<p class="doc-image"><img src="assets/post-1-media/image184.png" alt="image184"></p>
+<p>54.请分析黄志远PC.E01镜像中的渗透.rar文件，目标系统运行的 Apache 具体版本号是什么？[答案格式：x.x.xx]</p>
+<p>2.4.66</p>
+<p>在漏洞清单</p>
+<p class="doc-image"><img src="assets/post-1-media/image185.png" alt="image185"></p>
+<p>55. 请分析黄志远PC.E01镜像中的渗透.rar文件，根据通讯录管理系统漏洞清单，CVE-2026-0001（敏感信息泄露漏洞）的CVSS评分是多少？[答案格式：1.2]</p>
+<p>9.8</p>
+<p class="doc-image"><img src="assets/post-1-media/image186.png" alt="image186"></p>
+<p>56. 请分析黄志远PC.E01镜像中的渗透.rar文件，攻击者最终获取了什么角色的权限？[答案格式：xxx-xxx]</p>
+<p>www-data</p>
+<p>在渗透测试报告_192.168.61.135.md</p>
+<p class="doc-image"><img src="assets/post-1-media/image187.png" alt="image187"></p>
+<p>移动介质取证</p>
+<p>分析方俊朗UDisk.img检材，第一个扇区前3字节的十六进制值是什么？[答案格式：AA-DD-WW]</p>
+<p>EB-3C-90</p>
+<p>010看前3个字节直接出</p>
+<p class="doc-image"><img src="assets/post-1-media/image188.png" alt="image188"></p>
+<p>另外在引导扇区头，每扇区字节数就在偏移 0x0B-0x0C处</p>
+<p class="doc-image"><img src="assets/post-1-media/image189.png" alt="image189"></p>
+<p>因为磁盘里的这类多字节数字用的是小端序（little-endian）存储，规则是低位字节放前面，高位字节放后面</p>
+<p>所以是把0x0200换算十进制为512，即每扇区512字节</p>
+<p>（这一块题都是看BPB/引导扇区字段</p>
+<p>BPB 是 BIOS Parameter Block，即“BIOS 参数块”。</p>
+<p>它位于 FAT/NTFS 等卷的引导扇区开头，保存文件系统关键参数，比如：</p>
+<p>- 每扇区字节数</p>
+<p>- 每簇扇区数</p>
+<p>- 保留扇区数</p>
+<p>- FAT 表个数</p>
+<p>- 总扇区数</p>
+<p>- 隐藏扇区数）</p>
+<p>.img是镜像文件的统称。扇区（Sector）是存储设备上最小的物理读写单位之一，常见大小512字节，现在很多设备也有4096字节的</p>
+<p>分析方俊朗UDisk.img检材，每簇占多少个扇区？[答案格式：2]</p>
+<p>8</p>
+<p>0x0D处存储即每簇扇区数</p>
+<p class="doc-image"><img src="assets/post-1-media/image190.png" alt="image190"></p>
+<p>即每簇8字节</p>
+<p>“簇”通常指簇（cluster），在磁盘文件系统里是“最小分配单位”。</p>
+<p>理清思路从小到大是字节—扇区—簇</p>
+<p>分析方俊朗UDisk.img检材，FAT12/16兼容字段&quot;根目录项数&quot;是多少？[答案格式：100]</p>
+<p>512</p>
+<p>ps：FAT（File Allocation Table）是一个经典文件系统，核心是用一张“文件分配表”记录文件占用了哪些簇、下一簇在哪里</p>
+<p>FAT12/16 指 FAT 文件系统的两种版本：</p>
+<p>- FAT12：文件分配表每个表项是 12 位</p>
+<p>- FAT16：文件分配表每个表项是 16 位</p>
+<p>FAT 表项位宽决定可管理的簇数量和卷容量上限</p>
+<p>根目录项数是指：</p>
+<p>根目录区域里最多能放多少个目录项</p>
+<p>偏移 0x11–0x12 存的是 BPB_RootEntCnt（根目录项数）</p>
+<p class="doc-image"><img src="assets/post-1-media/image191.png" alt="image191"></p>
+<p>偏移 0x11–0x12在第二行的序号1和2列</p>
+<p>依旧反转，0x0200换算十进制为512</p>
+<p>分析方俊朗UDisk.img检材，隐藏扇区数是多少？[答案格式：13]</p>
+<p>63</p>
+<p>“隐藏扇区”（Hidden Sectors）是指：</p>
+<p>在分区起始之前的扇区数量（从整盘 LBA 0 到该分区起点之间有多少扇区）</p>
+<p>在 FAT BPB 里它是 BPB_HiddSec，常用于把“分区内相对地址”换算成“整盘绝对地址”</p>
+<p>看 FAT 引导扇区里的 BPB_HiddSec 字段</p>
+<p>偏移：0x1C–0x1F</p>
+<p class="doc-image"><img src="assets/post-1-media/image192.png" alt="image192"></p>
+<p>小端还原为：0x0000003F = 63</p>
+<p>分析方俊朗UDisk.img检材，BPB中声明的总扇区数是多少？[答案格式：100000]</p>
+<p>50000000</p>
+<p>总扇区数看 BPB 里的这两个字段：</p>
+<p>1. 0x13–0x14：BPB_TotSec16（2字节）</p>
+<p>2. 如果上面是 00 00，就看 0x20–0x23</p>
+<p>这个镜像是第2种：0x20–0x23 = 80 F0 FA 02 → 0x02FAF080 → 50000000</p>
+<p class="doc-image"><img src="assets/post-1-media/image193.png" alt="image193"></p>
+<p>6. 分析方俊朗UDisk.img检材，每张FAT表占多少个扇区？[答案格式：10000]</p>
+<p>30000</p>
+<p>看 BPB 的 FATSz32字段（FAT32 BPB 里的字段，表示：每一张 FAT 表占用的扇区数）：</p>
+<p>- 偏移 0x24–0x27</p>
+<p>- 字节：30 75 00 00</p>
+<p>- 数值：0x00007530 = 30000</p>
+<p class="doc-image"><img src="assets/post-1-media/image194.png" alt="image194"></p>
+<p>7. 分析方俊朗UDisk.img检材，真实的根目录起始簇应为多少？[答案格式：3]</p>
+<p>2</p>
+<p>根目录起始簇看的是 BPB 字段 BPB_RootClus（偏移 0x2C–0x2F）</p>
+<p>BPB中声明的簇数是0x2C–0x2F是 05 00 00 00，是5（很多ai直接看这里就被骗了。。）</p>
+<p class="doc-image"><img src="assets/post-1-media/image195.png" alt="image195"></p>
+<p>然而进一步分析根据该起始簇定位簇位置发现都不是合法根目录区</p>
+<p>如Cluster2 = 63274*512 = 32396288 = 0x1EE4E00</p>
+<p>Cluster5 = (63274 + (5-2)*8)*512 = 32408576 = 0x1EE7E00</p>
+<p>0x1EE7E00 0x1EE4E00处明显不合法</p>
+<p class="doc-image"><img src="assets/post-1-media/image196.png" alt="image196"></p>
+<p class="doc-image"><img src="assets/post-1-media/image197.png" alt="image197"></p>
+<p>交给ai大人分析了：</p>
+<p>- LBA 0：</p>
+<p>- JMP=EB 3C 90，OEM=MSDOS5.0</p>
+<p>- RootClus=5</p>
+<p>- 但末尾签名不是 0x55AA（SIG=0x0000）→ 这份引导扇区不完整/不可信</p>
+<p>- LBA 6（镜像内另一份有效 FAT32 VBR）：</p>
+<p>- JMP=EB 58 90，OEM=MSDOS5.0</p>
+<p>- SIG=0xAA55（合法引导扇区签名）</p>
+<p>- RootClus=2</p>
+<p>解释：LBA：Logical Block Address，逻辑扇区号。LBA 6 就是第 6 个扇区。</p>
+<p>JMP：Jump 指令</p>
+<p>OEM：OEM Name，文件系统标识字符串。</p>
+<p>RootClus：BPB_RootClus，FAT32 根目录起始簇。</p>
+<p>SIG：Signature，引导扇区签名，末尾应为 55 AA。</p>
+<p>VBR：Volume Boot Record，卷引导扇区。</p>
+<p>BPB：BIOS Parameter Block，引导扇区里的参数区。</p>
+<p>FAT32：FAT 文件系统 32 位表项版本。</p>
+<p>1. 扇区转偏移公式</p>
+<p>字节偏移 = LBA × 每扇区字节数（这盘是 512）</p>
+<p>2. 定位 LBA 0（010里定位是ctrl+g，注意进制）</p>
+<p>定位输入 0x0。</p>
+<p>- JMP 在 0x000-0x002：看是否 EB 3C 90</p>
+<p>- OEM 在 0x003-0x00A：看是否 MSDOS5.0</p>
+<p>- RootClus 在 0x02C-0x02F：读到 05 00 00 00 -&gt; 5</p>
+<p>- SIG 在 0x1FE-0x1FF：应为 55 AA</p>
+<p>3. 定位 LBA 6</p>
+<p>6 × 512 = 3072 = 0xC00，定位输入 0xC00。</p>
+<p>- JMP 在 0xC00-0xC02：EB 58 90</p>
+<p>- OEM 在 0xC03-0xC0A：MSDOS5.0</p>
+<p>- RootClus 在 0xC2C-0xC2F：02 00 00 00 -&gt; 2</p>
+<p>- SIG 在 0xDFE-0xDFF：55 AA（合法）</p>
+<p>010看签名</p>
+<p>LBA 0 签名位置：0*512 + 0x1FE = 0x1FE（下一字节 0x1FF）</p>
+<p>不是55AA</p>
+<p class="doc-image"><img src="assets/post-1-media/image198.png" alt="image198"></p>
+<p>LBA 6 签名位置：6*512 + 0x1FE = 0xDFE（下一字节 0xDFF）</p>
+<p>55AA</p>
+<p class="doc-image"><img src="assets/post-1-media/image199.png" alt="image199"></p>
+<p>结论就是：用“有合法签名的 VBR（LBA 6）”作为可信来源，RootClus=2</p>
+<p>8.分析方俊朗UDisk.img检材，FSInfo扇区号是多少？[答案格式：1]</p>
+<p>3</p>
+<p class="doc-image"><img src="assets/post-1-media/image200.png" alt="image200"></p>
+<p>FSInfo是FAT32的文件系统信息扇区</p>
+<p>在LBA 0 的 BPB 字段 0x30-0x31</p>
+<p>作用：</p>
+<p>- 记录空闲簇数量（缓存值）</p>
+<p>- 记录下一个可分配簇提示（加速分配）</p>
+<p>9. 分析方俊朗UDisk.img检材，备份扇区实际引导扇区号是？[答案格式：2]</p>
+<p>6</p>
+<p>LBA 0在字段偏移0x32–0x33是声明的备份引导扇区号，是9，然而不合法，依旧虚晃ai</p>
+<p class="doc-image"><img src="assets/post-1-media/image201.png" alt="image201"></p>
+<p>实则在LBA 6中</p>
+<p>- LBA 6 起始 = 6 * 512 = 0xC00</p>
+<p>- 字段位置 = 0xC00 + 0x32 到 0xC00 + 0x33</p>
+<p>- 即 0xC32–0xC33</p>
+<p class="doc-image"><img src="assets/post-1-media/image202.png" alt="image202"></p>
+<p>是6</p>
+<p>FAT32 引导扇区常用“有效”标志：</p>
+<p>1. 末尾签名为 0x55AA（偏移 0x1FE-0x1FF）</p>
+<p>2. BPB 参数合理（如每扇区字节数、每簇扇区数、保留扇区数等在合法范围）</p>
+<p>3. FAT32 类型标识存在（偏移 0x52-0x59 常见为 FAT32   ）</p>
+<p>4. 关键字段自洽（如 FATSz32、FSInfo、BkBootSec 不矛盾）</p>
+<p>和之前</p>
+<p>依旧看签名</p>
+<p>LBA 0 签名位置：0*512 + 0x1FE = 0x1FE（下一字节 0x1FF）</p>
+<p>不是55AA</p>
+<p class="doc-image"><img src="assets/post-1-media/image198.png" alt="image198"></p>
+<p>LBA 6 签名位置：6*512 + 0x1FE = 0xDFE（下一字节 0xDFF）</p>
+<p>55AA</p>
+<p class="doc-image"><img src="assets/post-1-media/image199.png" alt="image199"></p>
+<p>10. 分析方俊朗UDisk.img检材，卷序列号的十六进制值是多少？[答案格式：0x45463]</p>
+<p>0x12345678</p>
+<p>卷序列号（Volume Serial Number）是文件系统在格式化时写入的一个 32 位标识值，用来标识该卷。</p>
+<p>在 FAT32 里它位于引导扇区的 0x43–0x46</p>
+<p class="doc-image"><img src="assets/post-1-media/image203.png" alt="image203"></p>
+<p>小端存储，记得倒序</p>
+<p>11. 分析方俊朗UDisk.img检材中的视频，进入暗门的密码是多少？[答案格式：123]</p>
+<p>747</p>
+<p>文件里有一个长视频文件，通过前几分钟确认是电影《英雄本色》（1986），结合题干应该是这部电影</p>
+<p class="doc-image"><img src="assets/post-1-media/image204.png" alt="image204"></p>
+<p>2:44处</p>
+<p class="doc-image"><img src="assets/post-1-media/image205.jpeg" alt="image205"></p>
+<p>12. 分析方俊朗UDisk.img检材中的视频，主角第一次带货去的国家是？[答案格式：泰国]</p>
+<p>印尼</p>
+<p>13:15处</p>
+<p class="doc-image"><img src="assets/post-1-media/image206.jpeg" alt="image206"></p>
+<p>13. 分析方俊朗UDisk.img检材中的视频，阿成乘坐的奔驰车牌号是多少？[答案格式：京A-1234]</p>
+<p>DF-8828</p>
+<p>38:20，注意格式</p>
+<p class="doc-image"><img src="assets/post-1-media/image207.jpeg" alt="image207"></p>
+<p>14. 分析方俊朗UDisk.img检材中的视频，男主角弟弟上司总共戴过几款领带？[答案格式：5]</p>
+<p>3</p>
+<p>实则是4，感谢热心网友</p>
+<p class="doc-image"><img src="assets/post-1-media/image208.png" alt="image208"></p>
+<p class="doc-image"><img src="assets/post-1-media/image209.png" alt="image209"></p>
+<p class="doc-image"><img src="assets/post-1-media/image210.png" alt="image210"></p>
+<p class="doc-image"><img src="assets/post-1-media/image211.png" alt="image211"></p>
+<p>15.分析方俊朗UDisk.img检材中的表格，出现电话号码最多的后四位是？[答案格式：1234]</p>
+<p>2133</p>
+<p>有个Excel表格，内容量很大，这种数据审计纯ai优势区间，网上相应的脚本也寥寥无几。交给ai，不多讲。</p>
+<p class="doc-image"><img src="assets/post-1-media/image212.png" alt="image212"></p>
+<p class="doc-image"><img src="assets/post-1-media/image213.png" alt="image213"></p>
+<p>16. 分析方俊朗UDisk.img检材中的表格，平均资产最高的BIN码？[答案格式：123456]</p>
+<p>622446</p>
+<p class="doc-image"><img src="assets/post-1-media/image214.png" alt="image214"></p>
+<p>17. 分析方俊朗UDisk.img检材中的表格，邮箱字段中出现几种不同的域名？[答案格式：4]</p>
+<p>3</p>
+<p class="doc-image"><img src="assets/post-1-media/image215.png" alt="image215"></p>
+<p>18. 分析方俊朗UDisk.img检材中的表格，男性比女性多出多少人？[答案格式：991]</p>
+<p>354</p>
+<p class="doc-image"><img src="assets/post-1-media/image216.png" alt="image216"></p>
+<p>19. 接上题，按“最后登录时间”的月份（2024-01~2024-12）计算每月近90天活跃率，并给出其变异系数CV=标准差/均值。[答案格式：2.234565]</p>
+<p>0.250003</p>
+<p>不一定对</p>
+<p>这里容易ai容易把分母当做全体用户，把标准差按样本来计算</p>
+<p>所用脚本：</p>
+<p>import csv</p>
+<p>import datetime</p>
+<p>import statistics</p>
+<p>CSV_PATH = r&quot;文件路径&quot;</p>
+<p>records = []</p>
+<p>with open(CSV_PATH, &quot;r&quot;, encoding=&quot;utf-8-sig&quot;, newline=&quot;&quot;) as f:</p>
+<p>reader = csv.DictReader(f)</p>
+<p>for row in reader:</p>
+<p>login_raw = (row.get(&quot;最后登录时间&quot;) or &quot;&quot;).strip()</p>
+<p>reg_raw = (row.get(&quot;注册时间&quot;) or &quot;&quot;).strip()</p>
+<p>login_dt = None</p>
+<p>reg_dt = None</p>
+<p>if login_raw:</p>
+<p>try:</p>
+<p>login_dt = datetime.datetime.strptime(login_raw, &quot;%Y-%m-%d %H:%M:%S&quot;)</p>
+<p>except ValueError:</p>
+<p>pass</p>
+<p>if reg_raw:</p>
+<p>try:</p>
+<p>reg_dt = datetime.datetime.strptime(reg_raw, &quot;%Y-%m-%d %H:%M:%S&quot;)</p>
+<p>except ValueError:</p>
+<p>pass</p>
+<p>records.append((login_dt, reg_dt))</p>
+<p>monthly_rates = []</p>
+<p>for month in range(1, 13):</p>
+<p>if month == 12:</p>
+<p>month_end = datetime.datetime(2024, 12, 31, 23, 59, 59)</p>
+<p>else:</p>
+<p>month_end = datetime.datetime(2024, month + 1, 1) - datetime.timedelta(seconds=1)</p>
+<p>start_90d = month_end - datetime.timedelta(days=90)</p>
+<p>active_90d = sum(</p>
+<p>1</p>
+<p>for login_dt, _ in records</p>
+<p>if login_dt is not None and start_90d &lt;= login_dt &lt;= month_end</p>
+<p>)</p>
+<p>registered_upto_end = sum(</p>
+<p>1</p>
+<p>for _, reg_dt in records</p>
+<p>if reg_dt is not None and reg_dt &lt;= month_end</p>
+<p>)</p>
+<p>rate = active_90d / registered_upto_end if registered_upto_end else 0.0</p>
+<p>monthly_rates.append(rate)</p>
+<p>mean_rate = sum(monthly_rates) / len(monthly_rates) if monthly_rates else 0.0</p>
+<p>std_rate = statistics.pstdev(monthly_rates) if monthly_rates else 0.0</p>
+<p>cv = (std_rate / mean_rate) if mean_rate else 0.0</p>
+<p>print(f&quot;CV={cv:.6f}&quot;)</p>
+<p>20. 接上题，做反事实模拟：每位客户信用评分统一+20分（上限900）。统计“由接上题，按“最后登录时间”的月份（2024-01~2024-12）计算每月近90天活跃率，并给出其变异系数CV=标准差/均值。[答案格式：2.234565]非目标迁入目标”的人数，目标定义为 信用&gt;=700 且 资产&gt;=全体中位数。[答案格式：12345]</p>
+<p>36636</p>
+<p class="doc-image"><img src="assets/post-1-media/image217.png" alt="image217"></p>
+<p>所用脚本：</p>
+<p>import csv</p>
+<p>import statistics</p>
+<p>CSV_PATH = r&quot;文件地址&quot;</p>
+<p>records = []</p>
+<p>assets = []</p>
+<p>with open(CSV_PATH, &quot;r&quot;, encoding=&quot;utf-8-sig&quot;, newline=&quot;&quot;) as f:</p>
+<p>reader = csv.DictReader(f)</p>
+<p>for row in reader:</p>
+<p>asset_raw = (row.get(&quot;资产（人民币）&quot;) or &quot;&quot;).strip()</p>
+<p>score_raw = (row.get(&quot;信用评分&quot;) or &quot;&quot;).strip()</p>
+<p>try:</p>
+<p>asset = float(asset_raw)</p>
+<p>score = int(score_raw)</p>
+<p>except ValueError:</p>
+<p>continue</p>
+<p>assets.append(asset)</p>
+<p>records.append((asset, score))</p>
+<p>median_asset = statistics.median(assets) if assets else 0.0</p>
+<p>migrated = 0</p>
+<p>for asset, score in records:</p>
+<p>old_target = (score &gt;= 700 and asset &gt;= median_asset)</p>
+<p>new_score = min(900, score + 20)</p>
+<p>new_target = (new_score &gt;= 700 and asset &gt;= median_asset)</p>
+<p>if (not old_target) and new_target:</p>
+<p>migrated += 1</p>
+<p>print(f&quot;migrated={migrated}&quot;)</p>
+<p>服务器取证</p>
+<p>叠甲：只是本人的复现流程心路历程，并非优解，内含大量：左右脑互搏、知识性错误、降智操作</p>
+<p>难在配置网络把服务器挂起来，不整网络大概只能做前7题左右</p>
+<p>参考过程：https://mp.weixin.qq.com/s?__biz=MzkwNTQ0MzQ5OQ==&amp;mid=2247483829&amp;idx=1&amp;sn=f243be896b08111178d8bfc64970b40d&amp;scene=21&amp;poc_token=HMS7FmqjFmtwFqTPNKFtC_SyPo8eXGaYcehPwTLW</p>
+<p>（感谢大佬，膜拜大佬）</p>
+<p>基本思路是分三层恢复：</p>
+<p>1.先把 VMware 里的“虚拟交换机”建好（让三块互相ping通，连在一个局域网里）</p>
+<p>2.再把每台 PVE 的两张虚拟网卡接对</p>
+<p>3.最后在 PVE 里配桥接、IP、集群、Ceph、再启动里面的 VM</p>
+<p>三个分开挂，每个有两个盘，一个系统盘一个数据盘</p>
+<p class="doc-image"><img src="assets/post-1-media/image218.png" alt="image218"></p>
+<p class="doc-image"><img src="assets/post-1-media/image219.png" alt="image219"></p>
+<p>虚拟机默认是vmbr虚拟网卡</p>
+<p>我们配两张卡，一张用来管理pve，一张用来给ceph存储</p>
+<p>（Ceph 是一种分布式存储系统：把多台机器上的磁盘合起来，做成一个网络存储池）</p>
+<p>子网号一个0一个1</p>
+<p class="doc-image"><img src="assets/post-1-media/image220.png" alt="image220"></p>
+<p class="doc-image"><img src="assets/post-1-media/image221.png" alt="image221"></p>
+<p class="doc-image"><img src="assets/post-1-media/image222.png" alt="image222"></p>
+<p>编辑虚拟机里添加硬件</p>
+<p class="doc-image"><img src="assets/post-1-media/image223.png" alt="image223"></p>
+<p>一个仅主机</p>
+<p class="doc-image"><img src="assets/post-1-media/image224.png" alt="image224"></p>
+<p>一个自定义为wmdr2</p>
+<p class="doc-image"><img src="assets/post-1-media/image225.png" alt="image225"></p>
+<p>（要关机后才能更改设置）</p>
+<p>三台机登录（账root，密码火眼重置为123456）</p>
+<p>查网卡名，目前没拉起来，互ping也ping不通</p>
+<p>ip -br a</p>
+<p class="doc-image"><img src="assets/post-1-media/image226.png" alt="image226"></p>
+<p>虚拟机的vmbr 网卡要桥到真实网卡 ens 上，之前确认了我的网卡是ens33和36（注意第二块的网卡不一样，改的时候要单独改一下网卡名）</p>
+<p>ai搞了个一键改配置命令，三块都跑一次（网段其实是170，后面会讲）：</p>
+<p>node=$(hostname)</p>
+<p>case &quot;$node&quot; in</p>
+<p>pve-node1) ip0=50; ip1=50;;</p>
+<p>pve-node2) ip0=51; ip1=51;;</p>
+<p>pve-node3) ip0=52; ip1=52;;</p>
+<p>*) echo &quot;unknown host: $node&quot;; exit 1;;</p>
+<p>esac</p>
+<p>cp /etc/network/interfaces /etc/network/interfaces.bak.$(date +%F_%H%M%S)</p>
+<p>cat &gt;/etc/network/interfaces &lt;&lt;EOF</p>
+<p>auto lo</p>
+<p>iface lo inet loopback</p>
+<p>auto ens33</p>
+<p>iface ens33 inet manual</p>
+<p>auto ens37</p>
+<p>iface ens37 inet manual</p>
+<p>auto vmbr0</p>
+<p>iface vmbr0 inet static</p>
+<p>address 192.168.0.$ip0/24</p>
+<p>bridge-ports ens33</p>
+<p>bridge-stp off</p>
+<p>bridge-fd 0</p>
+<p>auto vmbr1</p>
+<p>iface vmbr1 inet static</p>
+<p>address 192.168.170.$ip1/24</p>
+<p>bridge-ports ens37</p>
+<p>bridge-stp off</p>
+<p>bridge-fd 0</p>
+<p>EOF</p>
+<p>ifreload -a || systemctl restart networking</p>
+<p>ip -br a</p>
+<p>互ping通了:</p>
+<p>(ping -c 2 192.168.170.51</p>
+<p>ping -c 2 192.168.170.52</p>
+<p>应该是这个命令，网段是170，后面会讲)</p>
+<p class="doc-image"><img src="assets/post-1-media/image227.png" alt="image227"></p>
+<p class="doc-image"><img src="assets/post-1-media/image228.png" alt="image228"></p>
+<p>检查集群和 Ceph：</p>
+<p>pvecm status</p>
+<p>ceph -s</p>
+<p class="doc-image"><img src="assets/post-1-media/image229.png" alt="image229"></p>
+<p>ceph -s半天没反应，应该是似了</p>
+<p>看配置文件cat /etc/pve/ceph.conf</p>
+<p>发现原来的 Ceph 集群配置里监视器和公共网络写死在 192.168.170.0/24 这个网段上</p>
+<p class="doc-image"><img src="assets/post-1-media/image230.png" alt="image230"></p>
+<p>把网段对齐</p>
+<p>把vmbr2改成192.168.170.0</p>
+<p class="doc-image"><img src="assets/post-1-media/image231.png" alt="image231"></p>
+<p>再把三台 PVE 把第二张桥改回 192.168.170.x ：</p>
+<p>node=$(hostname)</p>
+<p>case &quot;$node&quot; in</p>
+<p>pve-node1) ip0=50; ip1=50;;</p>
+<p>pve-node3) ip0=52; ip1=52;;</p>
+<p>*) echo &quot;this script is only for pve-node1 or pve-node3&quot;; exit 1;;</p>
+<p>esac</p>
+<p>cp /etc/network/interfaces /etc/network/interfaces.bak.$(date +%F_%H%M%S)</p>
+<p>cat &gt;/etc/network/interfaces &lt;&lt;EOF</p>
+<p>auto lo</p>
+<p>iface lo inet loopback</p>
+<p>auto ens33</p>
+<p>iface ens33 inet manual</p>
+<p>auto ens37</p>
+<p>iface ens37 inet manual</p>
+<p>auto vmbr0</p>
+<p>iface vmbr0 inet static</p>
+<p>address 192.168.0.$ip0/24</p>
+<p>bridge-ports ens33</p>
+<p>bridge-stp off</p>
+<p>bridge-fd 0</p>
+<p>auto vmbr1</p>
+<p>iface vmbr1 inet static</p>
+<p>address 192.168.170.$ip1/24</p>
+<p>bridge-ports ens37</p>
+<p>bridge-stp off</p>
+<p>bridge-fd 0</p>
+<p>EOF</p>
+<p>ifreload -a || systemctl restart networking</p>
+<p>ip -br a</p>
+<p>发现还是连不上，不是网的问题</p>
+<p>检查：</p>
+<p>systemctl status ceph-mon@pve-node1 --no-pager | head -n 20</p>
+<p class="doc-image"><img src="assets/post-1-media/image232.png" alt="image232"></p>
+<p>pve-node1 的 ceph-mon 没起来</p>
+<p>修，三块都执行（改个编号）：</p>
+<p>systemctl reset-failed ceph-mon@pve-node1</p>
+<p>systemctl restart ceph-mon@pve-node1</p>
+<p>systemctl status ceph-mon@pve-node1 --no-pager | head -n 20</p>
+<p>ss -lntp | egrep &#x27;3300|6789&#x27;</p>
+<p>还有一点关于时间的小问题，先不管</p>
+<p class="doc-image"><img src="assets/post-1-media/image233.png" alt="image233"></p>
+<p>还是似了，先关闭虚拟化：</p>
+<p>qm set 100 --kvm 0</p>
+<p>qm start 100</p>
+<p>qm status 100</p>
+<p>还可以降一下cpu</p>
+<p>ping通了，ssh连上了，虚拟网卡也接上了</p>
+<p class="doc-image"><img src="assets/post-1-media/image234.png" alt="image234"></p>
+<p>访问https://192.168.0.50:8006（用哪一台都行 .51 .52）</p>
+<p>(8006是访问 PVE 的 Web 管理端口)</p>
+<p class="doc-image"><img src="assets/post-1-media/image235.png" alt="image235"></p>
+<p>登录</p>
+<p class="doc-image"><img src="assets/post-1-media/image236.png" alt="image236"></p>
+<p>宿主环境嵌套虚拟化</p>
+<p>qm set 100 --memory 1024 --cores 2 --cpu qemu64 --kvm 0</p>
+<p>qm start 100</p>
+<p>qm status 100</p>
+<p>qm set 100 --memory 1024 --cores 2 --cpu qemu64 --kvm 0</p>
+<p>临时把 100(web) 改成更容易启动的兼容配置</p>
+<p>--kvm 0：不用硬件虚拟化</p>
+<p>--cores 2：避免超过当前环境能支持的 vCPU 数</p>
+<p>--memory 1024：避免内存不够起不来</p>
+<p>qm start 100</p>
+<p>启动这台虚拟机</p>
+<p>qm status 100</p>
+<p>看它是不是已经变成 running</p>
+<p>有超时问题，不过好像跑起来了，试试</p>
+<p class="doc-image"><img src="assets/post-1-media/image237.png" alt="image237"></p>
+<p>node1-&gt;100(web)-&gt;Console</p>
+<p class="doc-image"><img src="assets/post-1-media/image238.png" alt="image238"></p>
+<p class="doc-image"><img src="assets/post-1-media/image239.png" alt="image239"></p>
+<p>似了</p>
+<p>按照前面给的连接的解决方法</p>
+<p>先解决 KVM virtualization configured, but not available</p>
+<p>然后再从网页里启动 100(web)</p>
+<p>确定KVM ……那一栏是NO</p>
+<p class="doc-image"><img src="assets/post-1-media/image240.png" alt="image240"></p>
+<p>Hardware-&gt;Display:改成Default</p>
+<p class="doc-image"><img src="assets/post-1-media/image241.png" alt="image241"></p>
+<p>没有 tap100i0，大概是内存分配原因</p>
+<p class="doc-image"><img src="assets/post-1-media/image242.png" alt="image242"></p>
+<p>改了一万步，让ai帮忙总结了</p>
+<p>把三台 PVE 的网络改对</p>
+<p>管理网统一成 192.168.0.50/51/52</p>
+<p>Ceph 网统一成 192.168.170.50/51/52</p>
+<p>并且每台桥接到自己真实存在的网卡名
+例如：</p>
+<p>111/333 用 ens33/ens37</p>
+<p>222 当时要按它实际识别到的网卡名配</p>
+<p>让三台节点重新互通</p>
+<p>这一步之后 pvecm status 才恢复成 Quorate: Yes</p>
+<p>集群名也正常回到 pgscup2026</p>
+<p>把 Ceph monitor 拉起来</p>
+<p>前面 ceph-mon@pve-node1 失败，是因为它当时还绑不上 192.168.170.50</p>
+<p>网络修好后，重新：</p>
+<p>systemctl reset-failed ceph-mon@pve-node1 systemctl restart ceph-mon@pve-node1</p>
+<p>后面 monitor 端口 3300/6789 监听成功，Ceph 才真正恢复</p>
+<p>让 Ceph 的 RBD 访问恢复</p>
+<p>前面 rbd info vm-100-disk-0 一直卡</p>
+<p>后来 Ceph 网络、mon、osd 都回正后，RBD 才能正常被 100 使用</p>
+<p>把 VM 100 从“假 running”拉成“真 running”</p>
+<p>之前虽然 qm status 100 显示 running</p>
+<p>但没有 tap100i0、没有 100.vnc</p>
+<p>后来你重新启动到成功时，出现了：</p>
+<p>/var/run/qemu-server/100.vnc</p>
+<p>tap100i0</p>
+<p>网页控制台能开，是因为 VNC 文件出来了</p>
+<p>前面打不开，是因为 100.vnc 根本没生成</p>
+<p>后来生成了，noVNC 才能真正连上</p>
+<p>通过第一关</p>
+<p class="doc-image"><img src="assets/post-1-media/image243.png" alt="image243"></p>
+<p>还有第二关，改账密</p>
+<p>重启，在登录界面按两下esc出来选第一个，</p>
+<p class="doc-image"><img src="assets/post-1-media/image244.png" alt="image244"></p>
+<p>选完秒按e</p>
+<p>按箭头下找到以 linux16 或 linuxefi 开头那一行</p>
+<p>在这一行最后面空格加：</p>
+<p>rd.break</p>
+<p>按 Ctrl+x 启动</p>
+<p>进去后依次执行：</p>
+<p>mount -o remount,rw /sysroot</p>
+<p>chroot /sysroot</p>
+<p>passwd root</p>
+<p>输入两次密码</p>
+<p>touch /.autorelabel （更新系统标签）</p>
+<p>exit</p>
+<p>exit</p>
+<p>ps：如果密码打不进去的话可能是路径掉了，修一下路径：</p>
+<p>export PATH=/usr/sbin:/usr/bin:/sbin:/bin</p>
+<p>mount -o remount,rw /sysroot</p>
+<p>chroot /sysroot /bin/bash</p>
+<p>mount -o remount,rw /</p>
+<p>passwd root</p>
+<p>力竭了，终于好了，开香槟</p>
+<p class="doc-image"><img src="assets/post-1-media/image245.png" alt="image245"></p>
+<p>1.分析pve集群，请给出pve主机版本号？[答案格式：1.2.3]</p>
+<p>9.1.1</p>
+<p>挂载好了后直接输pveversion查版本</p>
+<p class="doc-image"><img src="assets/post-1-media/image246.png" alt="image246"></p>
+<p>2.分析pve集群，请给出pve主机内核版本？[答案格式：1.2.3-123-abc]</p>
+<p>6.17.2-1-pve</p>
+<p>输uname -r</p>
+<p class="doc-image"><img src="assets/post-1-media/image247.png" alt="image247"></p>
+<p>3.分析pve集群，请给出pve集群名？[答案格式：abc132]</p>
+<p>pgscup2026</p>
+<p>输pvecm status</p>
+<p class="doc-image"><img src="assets/post-1-media/image248.png" alt="image248"></p>
+<p>4.分析pve集群，请给出加入集群所用指纹的前6位？[答案格式：AA:BB:CC]</p>
+<p>FD:11:CE</p>
+<p>“加入集群所用指纹”一般就是 pvecm add 用来校验证书的 SHA256 指纹</p>
+<p>输openssl x509 -in /etc/pve/local/pve-ssl.pem -noout -fingerprint -sha256</p>
+<p>意思是：用 openssl 读取一个证书文件，只显示它的 SHA256 指纹</p>
+<p>openssl</p>
+<p>OpenSSL 命令行工具。</p>
+<p>用来处理证书、密钥、加密相关内容。</p>
+<p>x509</p>
+<p>告诉 openssl：这次操作的对象是 X.509 证书（https用的X.509证书）</p>
+<p>pve-ssl.pem 就是 PVE 节点用的证书文件。</p>
+<p>-in /etc/pve/local/pve-ssl.pem</p>
+<p>指定输入文件。</p>
+<p>/etc/pve/local/pve-ssl.pem 是当前这台 PVE 节点的 SSL 证书。</p>
+<p>Web 管理界面 https://IP:8006 用的就是这类证书。</p>
+<p>-noout</p>
+<p>不把整个证书正文打印出来。</p>
+<p>否则你会看到一大堆证书细节，题目并不需要。</p>
+<p>-fingerprint</p>
+<p>打印证书指纹。</p>
+<p>“指纹”可以理解成证书内容算出来的唯一摘要值，常用于校验你连到的是不是目标主机。</p>
+<p>-sha256</p>
+<p>指定用 SHA256 算法来生成这个指纹</p>
+<p>取前三组</p>
+<p class="doc-image"><img src="assets/post-1-media/image249.png" alt="image249"></p>
+<p>5.分析pve集群，请给出pve集群中主机所用的时间服务器地址？[答案格式：www.baidu.com]</p>
+<p>ntp.aliyun.com</p>
+<p>先查这台 PVE 到底用的是哪种时间同步服务，再取服务器地址</p>
+<p class="doc-image"><img src="assets/post-1-media/image250.png" alt="image250"></p>
+<p>用的是 chrony</p>
+<p>输grep -E &#x27;^[[:space:]]*(server|pool)[[:space:]]&#x27; /etc/chrony/chrony.conf</p>
+<p>意思是：从 chrony 配置文件里，筛出以 server 或 pool 开头的配置行（server或者pool都是可能的服务器）</p>
+<p class="doc-image"><img src="assets/post-1-media/image251.png" alt="image251"></p>
+<p>时间服务器地址 ntp.aliyun.com</p>
+<p>6.分析pve集群，请给Ceph存储的资源池名？[答案格式：Abc_def]</p>
+<p>Ceph_pgscup_pool</p>
+<p>Ceph 是一种分布式存储系统：把多台机器上的磁盘合起来，做成一个网络存储池</p>
+<p>先看 PVE 的存储配置</p>
+<p class="doc-image"><img src="assets/post-1-media/image252.png" alt="image252"></p>
+<p>直接出了Ceph_pgscup_pool，不用碰Ceph命令</p>
+<p>7.分析pve集群，请给出Ceph存储资源池的类别？[答案格式：ABC]</p>
+<p>RBD</p>
+<p>上题有</p>
+<p class="doc-image"><img src="assets/post-1-media/image253.png" alt="image253"></p>
+<p>（rbd是为Ceph 提供的块存储设备，理解为为虚拟机提供的硬盘）</p>
+<p>8.分析pve集群，请给出Ceph集群的ID的前8位？？[答案格式：a1b2c3d4]</p>
+<p>3f28d8bb</p>
+<p>这题的 Ceph 集群 ID 应该就是 fsid</p>
+<p>fsid 是 Ceph 集群的唯一标识符</p>
+<p>离线争不了了，开始连网</p>
+<p>虚拟机默认是vmbr网卡，而本机计算机是ens网卡，我们要将其连接起来</p>
+<p>参考过程：2026-盘古石初赛 服务器仿真恢复</p>
+<p>配置好了输ceph fsid直接秒</p>
+<p class="doc-image"><img src="assets/post-1-media/image254.png" alt="image254"></p>
+<p>3f28d8bb-e754-475b-b471-b9c97161bbf7</p>
+<p>9.分析pve集群，请给出Ceph存储设置的最小副本数？[答案格式：123]</p>
+<p>2</p>
+<p>命令ceph osd pool ls detail | grep -A1 Ceph_pgscup_pool</p>
+<p>先列出所有 Ceph 存储池的详细信息，再筛出 Ceph_pgscup_pool 这一池，并顺带显示它后面一行</p>
+<p class="doc-image"><img src="assets/post-1-media/image255.png" alt="image255"></p>
+<p>Min_size 2 最小副本数2</p>
+<p>10.分析pve集群，请给出pve集群中虚拟机的快照创建时间？[答案格式：2025-01-11-11:01:01]</p>
+<p>2026-04-16-15:05:19</p>
+<p>面板里直接有</p>
+<p class="doc-image"><img src="assets/post-1-media/image256.png" alt="image256"></p>
+<p>11.对集群内的服务器进行分析，提取该服务器使用的Linux内核完整版本号？[答案格式：1.2.3-123abc_123]</p>
+<p>3.10.0-957.el7.x86_64</p>
+<p>这个不能再pve里查了，可以直接在web端的虚拟机查</p>
+<p>uname -r</p>
+<p class="doc-image"><img src="assets/post-1-media/image257.png" alt="image257"></p>
+<p>12.对集群内的服务器进行分析，提取该服务器SSH服务监听的TCP端口号？[答案格式：123]</p>
+<p>22</p>
+<p>查配置文件</p>
+<p class="doc-image"><img src="assets/post-1-media/image258.png" alt="image258"></p>
+<p>13.对集群内的服务器进行分析，提取该服务器网卡的IP地址？[答案格式：127.0.0.1]</p>
+<p>192.168.0.70</p>
+<p>查看网络地址信息：</p>
+<p>ip addr</p>
+<p class="doc-image"><img src="assets/post-1-media/image259.png" alt="image259"></p>
+<p>红线标的是这台服务器网卡的 IPv4 地址</p>
+<p>14.对集群内的服务器进行分析，提取金麟资本理财网站对应的域名？[答案格式：baidu.com]</p>
+<p>jlzb.vip</p>
+<p>之前计算机也有</p>
+<p>要复现可以查配置文件：</p>
+<p>cat /etc/nginx/conf.d/*.conf</p>
+<p class="doc-image"><img src="assets/post-1-media/image260.png" alt="image260"></p>
+<p>/etc/nginx/conf.d/ 放各个站点配置文件的子目录</p>
+<p>15.对集群内的服务器进行分析，服务器中有个加密工具，请给出该工具的名字？[答案格式：abc_def.sh]</p>
+<p>encrypt_tool.py</p>
+<p>有ssh连接直接在xftp8连了，图形化窗口找着方便点</p>
+<p>主机192.168.0.70</p>
+<p>端口22</p>
+<p class="doc-image"><img src="assets/post-1-media/image261.png" alt="image261"></p>
+<p>连不上可以试试虚拟机配置文件把</p>
+<p>PermitRootLogin yes</p>
+<p>PasswordAuthentication yes</p>
+<p>这两端前面的注释“#”去掉</p>
+<p>或者xftp改为仅用密码链接</p>
+<p>连上后根目录就是</p>
+<p class="doc-image"><img src="assets/post-1-media/image262.png" alt="image262"></p>
+<p>16.对集群内的服务器进行分析，服务器中加密工具在加密数据库备份文件时使用的密码是什么？[答案格式：ABC@123]</p>
+<p>JDSJ2026@Backup</p>
+<p>直接导出发现44行后是乱码</p>
+<p class="doc-image"><img src="assets/post-1-media/image263.png" alt="image263"></p>
+<p>发现要提取源码，把第44行后的gzip数据解压：</p>
+<p>tail -n +44 encrypt_tool.py | gzip -cd</p>
+<p class="doc-image"><img src="assets/post-1-media/image264.png" alt="image264"></p>
+<p>这不就是之前计算机那加密脚本吗</p>
+<p class="doc-image"><img src="assets/post-1-media/image265.png" alt="image265"></p>
+<p>17.对集群内的服务器进行分析，服务器中加密工具第1层加密的XOR密钥是什么？[答案格式：按实际填写]</p>
+<p>0x5A</p>
+<p class="doc-image"><img src="assets/post-1-media/image266.png" alt="image266"></p>
+<p>18.对集群内的服务器进行分析，给出MySQL数据库root用户的密码？[答案格式：abc@123]</p>
+<p>pgscup@o26</p>
+<p class="doc-image"><img src="assets/post-1-media/image267.png" alt="image267"></p>
+<p>19.对集群内的服务器进行分析，请给出网站后台数据库中存放聊天记录的数据表名字？[答案格式：adb_def]</p>
+<p>user_chat</p>
+<p>路径/var/www/html/app</p>
+<p>/var/www/html/ 是网站代码目录</p>
+<p>app/ 一般放业务逻辑或模型</p>
+<p>发现UserChat.php</p>
+<p class="doc-image"><img src="assets/post-1-media/image268.png" alt="image268"></p>
+<p>里面定义了数据表名</p>
+<p class="doc-image"><img src="assets/post-1-media/image269.png" alt="image269"></p>
+<p>20.对集群内的服务器进行分析，分析网站后台用户密码加密算法中type=0时的初始盐值是什么[答案格式：ABC]</p>
+<p>ABCDEFG</p>
+<p>在同目录的Users.php中</p>
+<p class="doc-image"><img src="assets/post-1-media/image270.png" alt="image270"></p>
+<p>甚至有注释</p>
+<p class="doc-image"><img src="assets/post-1-media/image271.png" alt="image271"></p>
+<p>21.对集群内的服务器进行应用取证，提取该Laravel应用的APP_KEY值的后8位？[答案格式：英文数字混合字符串]</p>
+<p>lotS+rWI</p>
+<p>Laravel 是一种PHP 框架</p>
+<p>APP_KEY 一般在/var/www/html的 .env文件 里</p>
+<p>记得设置勾选显示隐藏文件</p>
+<p class="doc-image"><img src="assets/post-1-media/image272.png" alt="image272"></p>
+<p class="doc-image"><img src="assets/post-1-media/image273.png" alt="image273"></p>
+<p>打开，是加密数据</p>
+<p class="doc-image"><img src="assets/post-1-media/image274.png" alt="image274"></p>
+<p>应该就是之前那个计算机的加密脚本加密的，用之前的反向解密脚本出来了</p>
+<p>是关于数据库的信息</p>
+<p class="doc-image"><img src="assets/post-1-media/image275.png" alt="image275"></p>
+<p>后八位lotS+rWI</p>
+<p>22.对集群内的服务器进行资金流水取证，提取该平台数据库中聊天记录总数？[答案格式：123]</p>
+<p>3</p>
+<p>开连数据库，用的Navicat</p>
+<p>ssh隧道连接</p>
+<p>记得general也要填</p>
+<p>注意区分密码</p>
+<p class="doc-image"><img src="assets/post-1-media/image276.png" alt="image276"></p>
+<p class="doc-image"><img src="assets/post-1-media/image277.png" alt="image277"></p>
+<p>成了</p>
+<p class="doc-image"><img src="assets/post-1-media/image278.png" alt="image278"></p>
+<p>结果没有有用的数据库</p>
+<p>应该是这个数据库被加密过。。。。</p>
+<p class="doc-image"><img src="assets/post-1-media/image279.png" alt="image279"></p>
+<p>虚拟机里解密：</p>
+<p>openssl aes-256-cbc -d -salt -pass pass:JDSJ2026@Backup -in /home/jinqin_backup.sql.gz.enc -out /tmp/jinqin_backup.sql.gz</p>
+<p>解压：</p>
+<p>gzip -dc /tmp/jinqin_backup.sql.gz &gt; /tmp/jinqin_backup.sql</p>
+<p>建库：</p>
+<p>mysql -uroot -p&#x27;pgscup@o26&#x27; -e &quot;create database if not exists jinqin;&quot;</p>
+<p>导入：</p>
+<p>mysql -uroot -p&#x27;pgscup@o26&#x27; jinqin &lt; /tmp/jinqin_backup.sql</p>
+<p>要等一会</p>
+<p>刷新，有了</p>
+<p class="doc-image"><img src="assets/post-1-media/image280.png" alt="image280"></p>
+<p>robot表里</p>
+<p class="doc-image"><img src="assets/post-1-media/image281.png" alt="image281"></p>
+<p>3条</p>
+<p>23. 对集群内的服务器进行资金流水取证，提取该平台数据库中聊天记录总数？[答案格式：123]</p>
+<p>11494</p>
+<p>user_chat表翻到底</p>
+<p class="doc-image"><img src="assets/post-1-media/image282.png" alt="image282"></p>
+<p>Sql命令也行</p>
+<p class="doc-image"><img src="assets/post-1-media/image283.png" alt="image283"></p>
+<p>24. 对集群内的服务器进行数据库取证，提取该平台数据库中注册用户总记录数？[答案格式：123]</p>
+<p>21722</p>
+<p>users表，翻底</p>
+<p class="doc-image"><img src="assets/post-1-media/image284.png" alt="image284"></p>
+<p>sql命令也行</p>
+<p>25.对集群内的服务器进行取证分析，提取平台内用户季丽华的身份证号？[答案格式：18位身份证]</p>
+<p>370100196901274436</p>
+<p>user_real是真名表，筛选</p>
+<p class="doc-image"><img src="assets/post-1-media/image285.png" alt="image285"></p>
+<p>sql命令要快很多</p>
+<p>26. 对集群内的服务器进行资金流水取证，提取该平台数据库中钱包流水金额第二大的用户名字？[答案格式：张三]</p>
+<p>林斌（我怎么查都是燕春梅）</p>
+<p>后面几题几乎不能自己找了，让ai搞sql命令了</p>
+<p>sql：</p>
+<p>SELECT ur.name, t.total_flow</p>
+<p>FROM (</p>
+<p>SELECT w.user_id, SUM(ABS(w.`change`)) AS total_flow</p>
+<p>FROM wallet_log w</p>
+<p>GROUP BY w.user_id</p>
+<p>) t</p>
+<p>JOIN user_real ur ON ur.user_id = t.user_id</p>
+<p>WHERE ur.name IS NOT NULL</p>
+<p>ORDER BY t.total_flow DESC</p>
+<p>LIMIT 10;</p>
+<p class="doc-image"><img src="assets/post-1-media/image286.png" alt="image286"></p>
+<p>27. 对集群内的服务器进行数据库取证，提取该平台法币交易中交易笔数最多的卖家的交易笔数？[答案格式：123]</p>
+<p>1727</p>
+<p>sql：</p>
+<p>select seller_id, count(*) as total</p>
+<p>from legal_deal</p>
+<p>group by seller_id</p>
+<p>order by total desc</p>
+<p>limit 1;</p>
+<p class="doc-image"><img src="assets/post-1-media/image287.png" alt="image287"></p>
+<p>28. 对集群内的服务器进行资金流水取证，提取该平台已完成结算的杠杆交易中保证金总额最多的用户的保证金总额？[答案格式：100.00]</p>
+<p>37240.76</p>
+<p>sql：</p>
+<p>SELECT SUM(l.caution_money) AS total_caution</p>
+<p>FROM lever_transaction l</p>
+<p>WHERE l.status = 3</p>
+<p>GROUP BY l.user_id</p>
+<p>ORDER BY total_caution DESC</p>
+<p>LIMIT 1;</p>
+<p class="doc-image"><img src="assets/post-1-media/image288.png" alt="image288"></p>
+<p>29. 对集群内的服务器进行资金流水取证，提取该平台商家中余额最小的商家的手机号？[答案格式：18036310808]</p>
+<p>15860623709</p>
+<p>sql:</p>
+<p>SELECT mobile FROM seller ORDER BY seller_balance ASC LIMIT 1;</p>
+<p>30.对集群内的服务器进行资金流水取证，提取该平台商家中余额最小的商家的余额？[答案格式：100.0]</p>
+<p class="doc-image"><img src="assets/post-1-media/image289.png" alt="image289"></p>
+<p>8461.4</p>
+<p>sql:</p>
+<p>select u.phone, s.seller_balance</p>
+<p>from seller s</p>
+<p>join users u on u.id = s.user_id</p>
+<p>order by s.seller_balance asc</p>
+<p>limit 1;</p>
+<p class="doc-image"><img src="assets/post-1-media/image290.png" alt="image290"></p>
