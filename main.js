@@ -726,7 +726,10 @@ async function setupLive2D() {
   if (!host) return;
   if (!window.PIXI || !PIXI.live2d?.Live2DModel) return;
 
-  const modelPath = './pet/huaqun/花裙拆分.model3.json';
+  const modelPaths = [
+    './pet/huaqun_web/model.model3.json',
+    './pet/huaqun/花裙拆分.model3.json'
+  ];
   const app = new PIXI.Application({
     resizeTo: host,
     autoStart: true,
@@ -751,11 +754,16 @@ async function setupLive2D() {
   };
 
   let model;
-  try {
-    model = await PIXI.live2d.Live2DModel.from(modelPath, {
-      autoInteract: false
-    });
-  } catch {
+  for (const modelPath of modelPaths) {
+    try {
+      model = await PIXI.live2d.Live2DModel.from(modelPath, {
+        autoInteract: false
+      });
+      break;
+    } catch {}
+  }
+
+  if (!model) {
     host.remove();
     return;
   }
