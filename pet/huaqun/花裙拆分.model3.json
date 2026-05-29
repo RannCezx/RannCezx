@@ -1,0 +1,49 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "花裙拆分.moc3",
+		"Textures": [
+			"花裙拆分.8192/texture_00.png"
+		],
+		"Physics": "花裙拆分.physics3.json",
+		"DisplayInfo": "花裙拆分.cdi3.json",
+		"Expressions": [
+			{
+				"Name": "expression1",
+				"File": "expression1.exp3.json"
+			},
+			{
+				"Name": "expression2",
+				"File": "expression2.exp3.json"
+			},
+			{
+				"Name": "expression3",
+				"File": "expression3.exp3.json"
+			},
+			{
+				"Name": "expression4",
+				"File": "expression4.exp3.json"
+			},
+			{
+				"Name": "expression5",
+				"File": "expression5.exp3.json"
+			}
+		]
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": [
+				"ParamEyeROpen",
+				"ParamEyeLOpen"
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		}
+	],
+	"HitAreas": []
+}
