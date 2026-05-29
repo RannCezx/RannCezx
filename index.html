@@ -1,0 +1,78 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RannCezx的博客</title>
+  <link id="appFavicon" rel="icon" href="avatar.jpg" type="image/jpeg" />
+  <link rel="shortcut icon" href="avatar.jpg" type="image/jpeg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="index.html">RannCezx.blog</a>
+      <div class="top-right">
+        <nav class="top-nav">
+          <a href="#posts">文章</a>
+          <a href="#about">关于</a>
+        </nav>
+        <button id="musicToggle" class="music-btn" type="button" aria-label="切换音乐" title="切换音乐">
+          <span class="note-icon">♪</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="live-row live-floating">
+    <div id="clock" class="clock">--:--:--</div>
+    <canvas id="audioViz" class="audio-viz" width="420" height="56"></canvas>
+  </div>
+
+  <audio id="bgm" src="bgm.mp3" loop preload="auto" autoplay></audio>
+
+  <main>
+    <section class="hero wrap">
+      <p class="tag">个人博客</p>
+      <h1>督促我蠕动着写完WP的地方</h1>
+      <p class="desc">五月份对我好一点</p>
+    </section>
+
+    <section id="posts" class="wrap section">
+      <div class="section-head">
+        <h2>文章</h2>
+        <span id="postCount" class="count-badge"></span>
+      </div>
+      <div id="postList" class="post-grid"></div>
+    </section>
+
+    <section id="about" class="wrap section">
+      <div class="section-head">
+        <h2>关于我</h2>
+      </div>
+      <div class="about">
+        <img id="aboutAvatar" class="about-avatar" src="avatar.jpg" alt="about avatar" />
+        <p>我是RannCezx，我想吃滨寿司了。</p>
+        <ul>
+          <li>关注方向：电子取证，西踢艾福</li>
+          <li>更新频率：希望在下次比赛前写得完</li>
+          <li>QQ：1367918985</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>© <span id="year"></span> RannCezx.blog · woxiangdawumeng</p>
+    </div>
+  </footer>
+
+  <div id="live2dPet" class="live2d-pet" aria-hidden="true"></div>
+
+  <script src="vendor/live2d/pixi.min.js"></script>
+  <script src="vendor/live2d/live2dcubismcore.min.js"></script>
+  <script src="vendor/live2d/cubism4.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
