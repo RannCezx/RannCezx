@@ -895,7 +895,7 @@ async function setupLive2D() {
       );
       const centerX = window.innerWidth <= 640 ? box.width * 0.53 : box.width * 0.54;
       const sinkOffset = box.height * sinkRatio;
-      const yNudge = 0;
+      const yNudge = window.innerWidth <= 640 ? box.height * 0.32 : box.height * 0.42;
 
       model.anchor.set(0.5, 1);
       model.rotation = 0;
