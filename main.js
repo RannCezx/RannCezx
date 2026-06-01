@@ -806,7 +806,8 @@ async function setupLive2D() {
       overflow: 'hidden',
       background: 'transparent',
       pointerEvents: 'none',
-      animation: 'none'
+      animation: 'none',
+      transform: 'none'
     });
 
     const canvas = stage.querySelector('#oml2d-canvas');
@@ -857,7 +858,8 @@ async function setupLive2D() {
         top: '0px',
         position: 'absolute',
         zIndex: 1,
-        background: 'transparent'
+        background: 'transparent',
+        transform: 'none'
       },
       models: [
         {
@@ -874,7 +876,8 @@ async function setupLive2D() {
             bottom: '0px',
             left: '0px',
             top: '0px',
-            position: 'absolute'
+            position: 'absolute',
+            transform: 'none'
           },
           mobileStageStyle: {
             width: '100%',
@@ -883,7 +886,8 @@ async function setupLive2D() {
             bottom: '0px',
             left: '0px',
             top: '0px',
-            position: 'absolute'
+            position: 'absolute',
+            transform: 'none'
           }
         }
       ]
@@ -900,7 +904,8 @@ async function setupLive2D() {
             bottom: 0,
             left: 0,
             top: 0,
-            background: 'transparent'
+            background: 'transparent',
+            transform: 'none'
           });
         }
         if (window.innerWidth <= 640) {
