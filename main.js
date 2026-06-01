@@ -790,11 +790,44 @@ async function setupLive2D() {
     throw lastError || new Error('OML2D runtime unavailable');
   };
 
+  const getLayoutMetrics = () => {
+    const width = window.innerWidth || 1440;
+    const hostWidth = Math.max(180, Math.round(host.clientWidth || 280));
+    const hostHeight = Math.max(240, Math.round(host.clientHeight || 420));
+
+    if (width <= 640) {
+      return {
+        hostWidth,
+        hostHeight,
+        scale: 0.095,
+        x: Math.round(hostWidth * 0.58),
+        y: Math.round(hostHeight * 0.99)
+      };
+    }
+
+    if (width <= 960) {
+      return {
+        hostWidth,
+        hostHeight,
+        scale: 0.108,
+        x: Math.round(hostWidth * 0.56),
+        y: Math.round(hostHeight * 0.995)
+      };
+    }
+
+    return {
+      hostWidth,
+      hostHeight,
+      scale: 0.118,
+      x: Math.round(hostWidth * 0.55),
+      y: Math.round(hostHeight * 1.0)
+    };
+  };
+
   const styleStage = () => {
     const stage = host.querySelector('#oml2d-stage');
     if (!stage) return;
-    const hostWidth = Math.max(220, Math.round(host.clientWidth || 280));
-    const hostHeight = Math.max(280, Math.round(host.clientHeight || 420));
+    const { hostWidth, hostHeight } = getLayoutMetrics();
     Object.assign(stage.style, {
       position: 'absolute',
       left: 'auto',
@@ -807,7 +840,8 @@ async function setupLive2D() {
       transform: 'translateY(0)',
       overflow: 'hidden',
       background: 'transparent',
-      pointerEvents: 'none'
+      pointerEvents: 'none',
+      animation: 'none'
     });
 
     const canvas = stage.querySelector('#oml2d-canvas');
@@ -829,6 +863,7 @@ async function setupLive2D() {
     }
 
     const oml2d = await ensureOML2D();
+    const initialMetrics = getLayoutMetrics();
     const pet = oml2d.loadOml2d({
       sayHello: false,
       dockedPosition: 'right',
@@ -850,77 +885,73 @@ async function setupLive2D() {
         disable: true
       },
       stageStyle: {
-        width: Math.max(220, Math.round(host.clientWidth || 280)),
-        height: Math.max(280, Math.round(host.clientHeight || 420)),
+        width: initialMetrics.hostWidth,
+        height: initialMetrics.hostHeight,
         right: '0px',
         bottom: '0px',
         left: 'auto',
         top: 'auto',
         position: 'absolute',
         zIndex: 1,
-        background: 'transparent'
+        background: 'transparent',
+        transform: 'translateY(0)'
       },
       models: [
         {
           path: modelUrl,
-          scale: 0.135,
-          position: [0, 92],
-          mobileScale: 0.115,
-          mobilePosition: [0, 72],
+          scale: initialMetrics.scale,
+          position: [initialMetrics.x, initialMetrics.y],
+          mobileScale: 0.095,
+          mobilePosition: [Math.round(initialMetrics.hostWidth * 0.58), Math.round(initialMetrics.hostHeight * 0.99)],
           anchor: [0.5, 1],
           stageStyle: {
-            width: Math.max(220, Math.round(host.clientWidth || 280)),
-            height: Math.max(280, Math.round(host.clientHeight || 420)),
+            width: initialMetrics.hostWidth,
+            height: initialMetrics.hostHeight,
             right: '0px',
             bottom: '0px',
             left: 'auto',
             top: 'auto',
-            position: 'absolute'
+            position: 'absolute',
+            transform: 'translateY(0)'
           },
           mobileStageStyle: {
-            width: Math.max(180, Math.round(host.clientWidth || 220)),
-            height: Math.max(240, Math.round(host.clientHeight || 300)),
+            width: Math.max(180, Math.round(initialMetrics.hostWidth)),
+            height: Math.max(240, Math.round(initialMetrics.hostHeight)),
             right: '0px',
             bottom: '0px',
             left: 'auto',
             top: 'auto',
-            position: 'absolute'
+            position: 'absolute',
+            transform: 'translateY(0)'
           }
         }
       ]
     });
 
     const applyLayout = () => {
-      const width = window.innerWidth || 1440;
-      const hostWidth = Math.max(220, Math.round(host.clientWidth || 280));
-      const hostHeight = Math.max(280, Math.round(host.clientHeight || 420));
-      const scale =
-        width >= 1920 ? 0.145 :
-        width >= 1600 ? 0.138 :
-        width >= 1280 ? 0.132 :
-        width >= 960 ? 0.126 :
-        0.112;
-      const yOffset =
-        width >= 1280 ? Math.round(hostHeight * 0.34) :
-        width >= 960 ? Math.round(hostHeight * 0.31) :
-        Math.round(hostHeight * 0.28);
+      const metrics = getLayoutMetrics();
 
       try {
         if (typeof pet.setStageStyle === 'function') {
           pet.setStageStyle({
             position: 'absolute',
-            width: hostWidth,
-            height: hostHeight,
+            width: metrics.hostWidth,
+            height: metrics.hostHeight,
             right: 0,
             bottom: 0,
             left: 'auto',
             top: 'auto',
-            background: 'transparent'
+            background: 'transparent',
+            transform: 'translateY(0)'
           });
         }
         pet.setModelAnchor({ x: 0.5, y: 1 });
-        pet.setModelPosition({ x: 0, y: yOffset });
-        pet.setModelScale(scale);
+        pet.setModelPosition({ x: metrics.x, y: metrics.y });
+        pet.setModelScale(metrics.scale);
+        if (pet.stage?.element) {
+          pet.stage.element.style.animation = 'none';
+          pet.stage.element.style.transform = 'translateY(0)';
+        }
       } catch {}
 
       styleStage();
