@@ -740,92 +740,28 @@ async function setupLive2D() {
   const host = document.getElementById('live2dPet');
   if (!host) return;
 
+  if (typeof window.__blogLive2DDestroy === 'function') {
+    try {
+      window.__blogLive2DDestroy();
+    } catch {}
+  }
+
   const encodePath = (p) => p.split('/').map(encodeURIComponent).join('/');
   const sourceDir = './pet/huaqun';
   const sourceModel = '花裙拆分.model3.json';
   const modelUrl = new URL(encodePath(`${sourceDir}/${sourceModel}`), window.location.href).toString();
 
-  const loadScript = (url) => new Promise((resolve, reject) => {
-    const existing = document.querySelector(`script[data-live2d-src="${url}"]`);
-    if (existing) {
-      if (existing.dataset.loaded === '1') {
-        resolve();
-        return;
-      }
-      existing.addEventListener('load', () => resolve(), { once: true });
-      existing.addEventListener('error', () => reject(new Error(`script load failed: ${url}`)), { once: true });
-      return;
-    }
-
-    const script = document.createElement('script');
-    script.src = url;
-    script.async = true;
-    script.dataset.live2dSrc = url;
-    script.onload = () => {
-      script.dataset.loaded = '1';
-      resolve();
-    };
-    script.onerror = () => reject(new Error(`script load failed: ${url}`));
-    document.head.appendChild(script);
-  });
-
-  const ensureOML2D = async () => {
-    if (window.OML2D?.loadOml2d) return window.OML2D;
-
-    const cdnUrls = [
-      'https://cdn.jsdelivr.net/npm/oh-my-live2d@0.19.3/dist/index.min.js',
-      'https://unpkg.com/oh-my-live2d@0.19.3/dist/index.min.js'
-    ];
-
-    let lastError;
-    for (const url of cdnUrls) {
-      try {
-        await loadScript(url);
-        if (window.OML2D?.loadOml2d) return window.OML2D;
-      } catch (error) {
-        lastError = error;
-      }
-    }
-
-    throw lastError || new Error('OML2D runtime unavailable');
-  };
-
-  const styleStage = () => {
-    const stage = host.querySelector('#oml2d-stage');
-    if (!stage) return;
-    Object.assign(stage.style, {
-      position: 'absolute',
-      inset: '0',
-      left: '0',
-      right: '0',
-      width: '100%',
-      height: '100%',
-      bottom: '0',
-      top: '0',
-      zIndex: '1',
-      overflow: 'hidden',
-      background: 'transparent',
-      pointerEvents: 'none',
-      animation: 'none',
-      transform: 'none'
-    });
-
-    const canvas = stage.querySelector('#oml2d-canvas');
-    if (canvas) {
-      canvas.style.pointerEvents = 'none';
-      canvas.style.background = 'transparent';
-    }
-  };
-
-  const getHostBox = () => ({
-    width: host.clientWidth || 300,
-    height: host.clientHeight || 460
-  });
-
   host.dataset.live2dError = '';
   host.style.display = 'block';
   host.style.pointerEvents = 'none';
   host.replaceChildren();
+
+  if (!window.PIXI?.Application || !window.PIXI?.live2d?.Live2DModel) {
+    const message = 'local live2d runtime unavailable';
+    host.dataset.live2dError = message;
+    console.error('Live2D model load failed:', message);
+    return;
+  }
 
   try {
     const resp = await fetch(modelUrl, { cache: 'no-store' });
@@ -833,113 +769,117 @@ async function setupLive2D() {
       throw new Error(`model json fetch failed: ${resp.status}`);
     }
 
-    const oml2d = await ensureOML2D();
-    const pet = oml2d.loadOml2d({
-      sayHello: false,
-      dockedPosition: 'right',
-      primaryColor: 'rgba(0,0,0,0)',
-      mobileDisplay: true,
-      parentElement: host,
-      transitionTime: 0,
-      statusBar: {
-        disable: true
-      },
-      tips: {
-        style: { display: 'none' },
-        mobileStyle: { display: 'none' },
-        idleTips: { message: [], duration: 0, interval: 600000, priority: 0 },
-        welcomeTips: { message: {}, duration: 0, priority: 0 },
-        copyTips: { message: [], duration: 0, priority: 0 }
-      },
-      menus: {
-        disable: true
-      },
-      stageStyle: {
-        width: '100%',
-        height: '100%',
-        right: '0px',
-        bottom: '0px',
-        left: '0px',
-        top: '0px',
-        position: 'absolute',
-        zIndex: 1,
-        background: 'transparent',
-        transform: 'none'
-      },
-      models: [
-        {
-          path: modelUrl,
-          scale: 0.16,
-          position: [300, 460],
-          mobileScale: 0.12,
-          mobilePosition: [190, 250],
-          anchor: [1, 1],
-          stageStyle: {
-            width: '100%',
-            height: '100%',
-            right: '0px',
-            bottom: '0px',
-            left: '0px',
-            top: '0px',
-            position: 'absolute',
-            transform: 'none'
-          },
-          mobileStageStyle: {
-            width: '100%',
-            height: '100%',
-            right: '0px',
-            bottom: '0px',
-            left: '0px',
-            top: '0px',
-            position: 'absolute',
-            transform: 'none'
-          }
-        }
-      ]
+    const getHostBox = () => ({
+      width: Math.max(1, host.clientWidth || 300),
+      height: Math.max(1, host.clientHeight || 460)
     });
 
-    const applyLayout = () => {
+    const { width, height } = getHostBox();
+    const app = new window.PIXI.Application({
+      width,
+      height,
+      autoStart: true,
+      autoDensity: true,
+      antialias: true,
+      backgroundAlpha: 0
+    });
+
+    Object.assign(app.view.style, {
+      display: 'block',
+      position: 'absolute',
+      inset: '0',
+      width: '100%',
+      height: '100%',
+      pointerEvents: 'none',
+      background: 'transparent'
+    });
+
+    app.stage.interactiveChildren = false;
+    host.appendChild(app.view);
+
+    let destroyed = false;
+    let model = null;
+    let resizeObserver = null;
+    let resizeTimer = 0;
+
+    const cleanup = () => {
+      if (destroyed) return;
+      destroyed = true;
+      window.removeEventListener('resize', queueLayout);
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pagehide', cleanup);
+      if (resizeObserver) resizeObserver.disconnect();
+      if (resizeTimer) window.clearTimeout(resizeTimer);
       try {
-        const { width, height } = getHostBox();
-
-        if (typeof pet.setStageStyle === 'function') {
-          pet.setStageStyle({
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            right: 0,
-            bottom: 0,
-            left: 0,
-            top: 0,
-            background: 'transparent',
-            transform: 'none'
-          });
-        }
-        if (window.innerWidth <= 640) {
-          pet.setModelScale(0.12);
-        } else if (window.innerWidth <= 960) {
-          pet.setModelScale(0.14);
-        } else {
-          pet.setModelScale(0.16);
-        }
-        pet.setModelAnchor({ x: 1, y: 1 });
-        pet.setModelPosition({ x: width, y: height });
-        if (pet.stage?.element) {
-          pet.stage.element.style.animation = 'none';
-        }
+        app.destroy(true, { children: true, texture: false, baseTexture: false });
       } catch {}
-
-      styleStage();
+      if (host.isConnected) {
+        host.replaceChildren();
+      }
     };
 
-    const observer = new MutationObserver(() => applyLayout());
-    observer.observe(host, { childList: true, subtree: true });
-    window.addEventListener('pagehide', () => observer.disconnect(), { once: true });
-    window.addEventListener('resize', applyLayout);
-    setTimeout(applyLayout, 0);
-    setTimeout(applyLayout, 600);
-    setTimeout(applyLayout, 1400);
-    window.__blogLive2D = pet;
+    const applyLayout = () => {
+      if (destroyed || !model) return;
+
+      const box = getHostBox();
+      app.renderer.resize(box.width, box.height);
+
+      model.scale.set(1);
+      const bounds = model.getLocalBounds();
+      const rawWidth = Math.max(1, bounds.width || model.width || 1);
+      const rawHeight = Math.max(1, bounds.height || model.height || 1);
+      const maxWidth = box.width * (window.innerWidth <= 640 ? 0.96 : 0.99);
+      const maxHeight = box.height * 0.995;
+      const scale = Math.max(0.05, Math.min(maxWidth / rawWidth, maxHeight / rawHeight));
+      const inset = window.innerWidth <= 640 ? 0 : 2;
+
+      model.scale.set(scale);
+      model.x = box.width - (bounds.x + bounds.width) * scale - inset;
+      model.y = box.height - (bounds.y + bounds.height) * scale - inset;
+    };
+
+    const queueLayout = () => {
+      if (destroyed) return;
+      if (resizeTimer) window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(applyLayout, 16);
+    };
+
+    const handlePointerMove = (event) => {
+      if (destroyed || !model || typeof model.focus !== 'function') return;
+      const rect = host.getBoundingClientRect();
+      model.focus(event.clientX - rect.left, event.clientY - rect.top);
+    };
+
+    window.__blogLive2DDestroy = cleanup;
+
+    model = await window.PIXI.live2d.Live2DModel.from(modelUrl, {
+      autoInteract: false,
+      autoUpdate: true
+    });
+
+    model.interactive = false;
+    model.anchor.set(0, 0);
+    app.stage.addChild(model);
+
+    if (typeof model.motion === 'function') {
+      try {
+        model.motion('Idle');
+      } catch {}
+    }
+
+    if ('ResizeObserver' in window) {
+      resizeObserver = new ResizeObserver(() => queueLayout());
+      resizeObserver.observe(host);
+    }
+
+    window.addEventListener('resize', queueLayout);
+    window.addEventListener('pointermove', handlePointerMove, { passive: true });
+    window.addEventListener('pagehide', cleanup, { once: true });
+
+    queueLayout();
+    window.setTimeout(queueLayout, 120);
+    window.setTimeout(queueLayout, 600);
+    window.__blogLive2D = { app, model, cleanup };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     host.dataset.live2dError = message;
