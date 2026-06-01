@@ -894,7 +894,7 @@ async function setupLive2D() {
       const scaledHeight = rawHeight * scale;
       const centerX = window.innerWidth <= 640 ? box.width * 0.53 : box.width * 0.54;
       const topPadding = box.height * topPaddingRatio;
-      const yNudge = window.innerWidth <= 640 ? box.height * -1.42 : box.height * -1.62;
+      const yNudge = window.innerWidth <= 640 ? box.height * -4.02 : box.height * -4.62;
 
       model.anchor.set(0.5, 1);
       model.rotation = 0;
