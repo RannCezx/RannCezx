@@ -882,16 +882,16 @@ async function setupLive2D() {
       const insetX = window.innerWidth <= 640 ? 4 : 8;
       const insetY = window.innerWidth <= 640 ? 2 : 4;
       const maxWidth = Math.max(1, box.width - insetX * 2);
-      const portraitCropRatio = window.innerWidth <= 640 ? 3.2 : 3.8;
-      const targetWidth = Math.max(1, maxWidth * 1.45);
+      const portraitCropRatio = window.innerWidth <= 640 ? 2.6 : 3.0;
+      const targetWidth = Math.max(1, maxWidth * 1.28);
       const targetHeight = Math.max(1, box.height * portraitCropRatio);
       const scale = Math.max(
         0.01,
         Math.max(targetWidth / rawWidth, targetHeight / rawHeight)
       );
       const scaledHeight = rawHeight * scale;
-      const centerX = window.innerWidth <= 640 ? box.width * 0.62 : box.width * 0.64;
-      const sinkOffset = window.innerWidth <= 640 ? box.height * 1.2 : box.height * 1.5;
+      const centerX = window.innerWidth <= 640 ? box.width * 0.58 : box.width * 0.6;
+      const sinkOffset = window.innerWidth <= 640 ? box.height * 0.76 : box.height * 0.92;
 
       model.anchor.set(0.5, 1);
       model.rotation = 0;
