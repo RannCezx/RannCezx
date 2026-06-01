@@ -817,6 +817,11 @@ async function setupLive2D() {
     }
   };
 
+  const getHostBox = () => ({
+    width: host.clientWidth || 300,
+    height: host.clientHeight || 460
+  });
+
   host.dataset.live2dError = '';
   host.style.display = 'block';
   host.style.pointerEvents = 'none';
@@ -865,9 +870,9 @@ async function setupLive2D() {
         {
           path: modelUrl,
           scale: 0.16,
-          position: [0, 18],
+          position: [300, 460],
           mobileScale: 0.12,
-          mobilePosition: [0, 8],
+          mobilePosition: [190, 250],
           anchor: [1, 1],
           stageStyle: {
             width: '100%',
@@ -895,6 +900,8 @@ async function setupLive2D() {
 
     const applyLayout = () => {
       try {
+        const { width, height } = getHostBox();
+
         if (typeof pet.setStageStyle === 'function') {
           pet.setStageStyle({
             position: 'absolute',
@@ -910,15 +917,13 @@ async function setupLive2D() {
         }
         if (window.innerWidth <= 640) {
           pet.setModelScale(0.12);
-          pet.setModelPosition({ x: 0, y: 8 });
         } else if (window.innerWidth <= 960) {
           pet.setModelScale(0.14);
-          pet.setModelPosition({ x: 0, y: 12 });
         } else {
           pet.setModelScale(0.16);
-          pet.setModelPosition({ x: 0, y: 18 });
         }
         pet.setModelAnchor({ x: 1, y: 1 });
+        pet.setModelPosition({ x: width, y: height });
         if (pet.stage?.element) {
           pet.stage.element.style.animation = 'none';
         }
