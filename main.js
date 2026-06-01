@@ -882,27 +882,26 @@ async function setupLive2D() {
       const insetX = window.innerWidth <= 640 ? 4 : 8;
       const insetY = window.innerWidth <= 640 ? 2 : 4;
       const maxWidth = Math.max(1, box.width - insetX * 2);
-      const sinkRatio = window.innerWidth <= 640 ? 0.5 : 0.6;
-      const topOverhangRatio = window.innerWidth <= 640 ? 0.02 : 0.04;
-      const targetWidth = Math.max(1, maxWidth * 1.02);
-      const targetHeight = Math.max(
-        1,
-        box.height * (1 + sinkRatio + topOverhangRatio)
-      );
+      const topPaddingRatio = window.innerWidth <= 640 ? 0.035 : 0.05;
+      const visibleRatio = window.innerWidth <= 640 ? 0.54 : 0.58;
+      const widthFillRatio = window.innerWidth <= 640 ? 1.02 : 1.06;
+      const targetWidth = Math.max(1, maxWidth * widthFillRatio);
+      const targetHeight = Math.max(1, (box.height * (1 - topPaddingRatio)) / visibleRatio);
       const scale = Math.max(
         0.01,
         Math.max(targetWidth / rawWidth, targetHeight / rawHeight)
       );
+      const scaledHeight = rawHeight * scale;
       const centerX = window.innerWidth <= 640 ? box.width * 0.53 : box.width * 0.54;
-      const sinkOffset = box.height * sinkRatio;
-      const yNudge = 0;
+      const topPadding = box.height * topPaddingRatio;
+      const yNudge = window.innerWidth <= 640 ? box.height * 0.01 : 0;
 
       model.anchor.set(0.5, 1);
       model.rotation = 0;
       model.interactive = false;
       model.scale.set(scale);
       model.x = centerX;
-      model.y = box.height + sinkOffset + yNudge - insetY;
+      model.y = scaledHeight + topPadding + yNudge;
     };
 
     const queueLayout = () => {
