@@ -497,8 +497,8 @@ h1 {
   position: fixed;
   right: max(12px, env(safe-area-inset-right));
   bottom: max(0px, env(safe-area-inset-bottom));
-  width: min(28vw, 320px);
-  height: min(60vh, 520px);
+  width: min(34vw, 380px);
+  height: min(42vh, 360px);
   overflow: hidden;
   z-index: 20;
   pointer-events: none;
@@ -547,8 +547,8 @@ h1 {
 
   .live2d-pet {
     right: max(8px, env(safe-area-inset-right));
-    width: min(34vw, 260px);
-    height: min(48vh, 380px);
+    width: min(40vw, 320px);
+    height: min(36vh, 300px);
   }
 }
 
@@ -568,7 +568,7 @@ h1 {
 
   .live2d-pet {
     right: max(4px, env(safe-area-inset-right));
-    width: min(44vw, 220px);
-    height: min(42vh, 320px);
+    width: min(52vw, 260px);
+    height: min(32vh, 240px);
   }
 }
