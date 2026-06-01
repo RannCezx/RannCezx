@@ -790,54 +790,19 @@ async function setupLive2D() {
     throw lastError || new Error('OML2D runtime unavailable');
   };
 
-  const getLayoutMetrics = () => {
-    const width = window.innerWidth || 1440;
-    const hostWidth = Math.max(180, Math.round(host.clientWidth || 280));
-    const hostHeight = Math.max(240, Math.round(host.clientHeight || 420));
-
-    if (width <= 640) {
-      return {
-        hostWidth,
-        hostHeight,
-        scale: 0.028,
-        x: Math.max(0, hostWidth - 4),
-        y: Math.max(0, hostHeight - 2)
-      };
-    }
-
-    if (width <= 960) {
-      return {
-        hostWidth,
-        hostHeight,
-        scale: 0.038,
-        x: Math.max(0, hostWidth - 6),
-        y: Math.max(0, hostHeight - 2)
-      };
-    }
-
-    return {
-      hostWidth,
-      hostHeight,
-      scale: 0.05,
-      x: Math.max(0, hostWidth - 8),
-      y: Math.max(0, hostHeight - 2)
-    };
-  };
-
   const styleStage = () => {
     const stage = host.querySelector('#oml2d-stage');
     if (!stage) return;
-    const { hostWidth, hostHeight } = getLayoutMetrics();
     Object.assign(stage.style, {
       position: 'absolute',
-      left: 'auto',
+      inset: '0',
+      left: '0',
       right: '0',
-      width: `${hostWidth}px`,
-      height: `${hostHeight}px`,
+      width: '100%',
+      height: '100%',
       bottom: '0',
-      top: 'auto',
+      top: '0',
       zIndex: '1',
-      transform: 'translateY(0)',
       overflow: 'hidden',
       background: 'transparent',
       pointerEvents: 'none',
@@ -863,9 +828,6 @@ async function setupLive2D() {
     }
 
     const oml2d = await ensureOML2D();
-    const initialMetrics = getLayoutMetrics();
-    let measuredModelBox = null;
-    let measuredModelRef = null;
     const pet = oml2d.loadOml2d({
       sayHello: false,
       dockedPosition: 'right',
@@ -887,109 +849,73 @@ async function setupLive2D() {
         disable: true
       },
       stageStyle: {
-        width: initialMetrics.hostWidth,
-        height: initialMetrics.hostHeight,
+        width: '100%',
+        height: '100%',
         right: '0px',
         bottom: '0px',
-        left: 'auto',
-        top: 'auto',
+        left: '0px',
+        top: '0px',
         position: 'absolute',
         zIndex: 1,
-        background: 'transparent',
-        transform: 'translateY(0)'
+        background: 'transparent'
       },
       models: [
         {
           path: modelUrl,
-          scale: initialMetrics.scale,
-          position: [initialMetrics.x, initialMetrics.y],
-          mobileScale: 0.028,
-          mobilePosition: [Math.max(0, initialMetrics.hostWidth - 4), Math.max(0, initialMetrics.hostHeight - 2)],
+          scale: 0.16,
+          position: [0, 18],
+          mobileScale: 0.12,
+          mobilePosition: [0, 8],
           anchor: [1, 1],
           stageStyle: {
-            width: initialMetrics.hostWidth,
-            height: initialMetrics.hostHeight,
+            width: '100%',
+            height: '100%',
             right: '0px',
             bottom: '0px',
-            left: 'auto',
-            top: 'auto',
-            position: 'absolute',
-            transform: 'translateY(0)'
+            left: '0px',
+            top: '0px',
+            position: 'absolute'
           },
           mobileStageStyle: {
-            width: Math.max(180, Math.round(initialMetrics.hostWidth)),
-            height: Math.max(240, Math.round(initialMetrics.hostHeight)),
+            width: '100%',
+            height: '100%',
             right: '0px',
             bottom: '0px',
-            left: 'auto',
-            top: 'auto',
-            position: 'absolute',
-            transform: 'translateY(0)'
+            left: '0px',
+            top: '0px',
+            position: 'absolute'
           }
         }
       ]
     });
 
-    const fitModelToHost = (metrics) => {
-      const model = pet.models?.model || pet.currentModel;
-      if (!model) return;
-
-      const currentScale = Number(model.scale?.x || 0);
-      const currentWidth = Number(model.width || 0);
-      const currentHeight = Number(model.height || 0);
-      if (!currentScale || !currentWidth || !currentHeight) return;
-
-      if (measuredModelRef !== model) {
-        measuredModelRef = model;
-        measuredModelBox = null;
-      }
-
-      if (!measuredModelBox) {
-        measuredModelBox = {
-          width: currentWidth / currentScale,
-          height: currentHeight / currentScale
-        };
-      }
-
-      const maxWidth = metrics.hostWidth * 0.92;
-      const maxHeight = metrics.hostHeight * 0.98;
-      const fittedScale = Math.max(
-        0.01,
-        Math.min(
-          maxWidth / measuredModelBox.width,
-          maxHeight / measuredModelBox.height
-        )
-      );
-
-      pet.setModelScale(fittedScale);
-      pet.setModelAnchor({ x: 1, y: 1 });
-      pet.setModelPosition({ x: metrics.x, y: metrics.y });
-    };
-
     const applyLayout = () => {
-      const metrics = getLayoutMetrics();
-
       try {
         if (typeof pet.setStageStyle === 'function') {
           pet.setStageStyle({
             position: 'absolute',
-            width: metrics.hostWidth,
-            height: metrics.hostHeight,
+            width: '100%',
+            height: '100%',
             right: 0,
             bottom: 0,
-            left: 'auto',
-            top: 'auto',
-            background: 'transparent',
-            transform: 'translateY(0)'
+            left: 0,
+            top: 0,
+            background: 'transparent'
           });
         }
+        if (window.innerWidth <= 640) {
+          pet.setModelScale(0.12);
+          pet.setModelPosition({ x: 0, y: 8 });
+        } else if (window.innerWidth <= 960) {
+          pet.setModelScale(0.14);
+          pet.setModelPosition({ x: 0, y: 12 });
+        } else {
+          pet.setModelScale(0.16);
+          pet.setModelPosition({ x: 0, y: 18 });
+        }
         pet.setModelAnchor({ x: 1, y: 1 });
-        pet.setModelPosition({ x: metrics.x, y: metrics.y });
-        pet.setModelScale(metrics.scale);
-        fitModelToHost(metrics);
         if (pet.stage?.element) {
           pet.stage.element.style.animation = 'none';
-          pet.stage.element.style.transform = 'translateY(0)';
         }
       } catch {}
 
