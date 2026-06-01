@@ -882,9 +882,9 @@ async function setupLive2D() {
       const insetX = window.innerWidth <= 640 ? 4 : 8;
       const insetY = window.innerWidth <= 640 ? 2 : 4;
       const maxWidth = Math.max(1, box.width - insetX * 2);
-      const sinkRatio = window.innerWidth <= 640 ? 0.34 : 0.42;
-      const topOverhangRatio = window.innerWidth <= 640 ? 0.14 : 0.24;
-      const targetWidth = Math.max(1, maxWidth * 1.18);
+      const sinkRatio = window.innerWidth <= 640 ? 0.78 : 0.96;
+      const topOverhangRatio = window.innerWidth <= 640 ? 0.08 : 0.12;
+      const targetWidth = Math.max(1, maxWidth * 1.08);
       const targetHeight = Math.max(
         1,
         box.height * (1 + sinkRatio + topOverhangRatio)
@@ -893,7 +893,7 @@ async function setupLive2D() {
         0.01,
         Math.max(targetWidth / rawWidth, targetHeight / rawHeight)
       );
-      const centerX = window.innerWidth <= 640 ? box.width * 0.58 : box.width * 0.6;
+      const centerX = window.innerWidth <= 640 ? box.width * 0.72 : box.width * 0.8;
       const sinkOffset = box.height * sinkRatio;
 
       model.anchor.set(0.5, 1);
