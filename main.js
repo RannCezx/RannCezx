@@ -883,7 +883,7 @@ async function setupLive2D() {
       const insetY = window.innerWidth <= 640 ? 2 : 4;
       const maxWidth = Math.max(1, box.width - insetX * 2);
       const topPaddingRatio = window.innerWidth <= 640 ? 0.035 : 0.05;
-      const visibleRatio = window.innerWidth <= 640 ? 0.28 : 0.24;
+      const visibleRatio = window.innerWidth <= 640 ? 0.36 : 0.33;
       const widthFillRatio = window.innerWidth <= 640 ? 1.02 : 1.06;
       const targetWidth = Math.max(1, maxWidth * widthFillRatio);
       const targetHeight = Math.max(1, (box.height * (1 - topPaddingRatio)) / visibleRatio);
