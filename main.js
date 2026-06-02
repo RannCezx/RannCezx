@@ -884,9 +884,9 @@ async function setupLive2D() {
       const maxWidth = Math.max(1, box.width - insetX * 2);
       const maxHeight = Math.max(1, box.height - insetY * 2);
       const fitScale = Math.max(0.01, Math.min(maxWidth / rawWidth, maxHeight / rawHeight));
-      const zoom = window.innerWidth <= 640 ? 0.52 : 0.62;
+      const zoom = window.innerWidth <= 640 ? 0.58 : 0.68;
       const scale = fitScale * zoom;
-      const offsetY = Math.max(box.height * 1.08, rawHeight * scale * 0.54);
+      const offsetY = rawHeight * scale * (window.innerWidth <= 640 ? 0.65 : 0.6);
       const offsetX = 0;
 
       model.anchor.set(1, 1);
