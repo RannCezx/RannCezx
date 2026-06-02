@@ -495,10 +495,10 @@ h1 {
 
 .live2d-pet {
   position: fixed;
-  right: max(18px, env(safe-area-inset-right));
-  bottom: max(0px, env(safe-area-inset-bottom));
-  width: min(34vw, 430px);
-  height: min(48vh, 470px);
+  right: max(-18px, calc(env(safe-area-inset-right) - 12px));
+  bottom: max(-42px, calc(env(safe-area-inset-bottom) - 36px));
+  width: min(42vw, 560px);
+  height: min(68vh, 720px);
   overflow: hidden;
   z-index: 20;
   pointer-events: none;
@@ -546,9 +546,10 @@ h1 {
   }
 
   .live2d-pet {
-    right: max(12px, env(safe-area-inset-right));
-    width: min(36vw, 340px);
-    height: min(38vh, 340px);
+    right: max(-12px, calc(env(safe-area-inset-right) - 8px));
+    bottom: max(-28px, calc(env(safe-area-inset-bottom) - 24px));
+    width: min(44vw, 440px);
+    height: min(54vh, 500px);
   }
 }
 
@@ -567,8 +568,9 @@ h1 {
   }
 
   .live2d-pet {
-    right: max(8px, env(safe-area-inset-right));
-    width: min(48vw, 270px);
-    height: min(32vh, 280px);
+    right: max(-10px, calc(env(safe-area-inset-right) - 6px));
+    bottom: max(-18px, calc(env(safe-area-inset-bottom) - 16px));
+    width: min(56vw, 320px);
+    height: min(44vh, 380px);
   }
 }
