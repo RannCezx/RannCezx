@@ -883,14 +883,18 @@ async function setupLive2D() {
       const insetY = window.innerWidth <= 640 ? 2 : 4;
       const maxWidth = Math.max(1, box.width - insetX * 2);
       const maxHeight = Math.max(1, box.height - insetY * 2);
-      const scale = Math.max(0.01, Math.min(maxWidth / rawWidth, maxHeight / rawHeight));
+      const fitScale = Math.max(0.01, Math.min(maxWidth / rawWidth, maxHeight / rawHeight));
+      const zoom = window.innerWidth <= 640 ? 1.45 : 1.68;
+      const scale = fitScale * zoom;
+      const offsetY = Math.max(box.height * 0.18, rawHeight * scale * 0.08);
+      const offsetX = window.innerWidth <= 640 ? 0 : box.width * 0.03;
 
       model.anchor.set(1, 1);
       model.rotation = 0;
       model.interactive = false;
       model.scale.set(scale);
-      model.x = box.width - insetX;
-      model.y = box.height - insetY;
+      model.x = box.width - insetX + offsetX;
+      model.y = box.height - insetY + offsetY;
     };
 
     const queueLayout = () => {
