@@ -649,3 +649,18 @@ h1 {
 .detail-card .content td code.inline-code {
   white-space: nowrap;
 }
+
+.detail-card .content .post-notice {
+  margin: .6rem 0 1.1rem;
+  padding: .55rem .9rem;
+  border-left: 3px solid rgba(168, 117, 42, .55);
+  background: rgba(255, 248, 230, .75);
+  border-radius: 0 10px 10px 0;
+  color: #7a5c12;
+  font-size: .95em;
+}
+
+.detail-card .content .post-notice a {
+  color: #a8752a;
+  font-weight: 700;
+}
