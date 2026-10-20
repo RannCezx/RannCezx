@@ -1,0 +1,778 @@
+<article class="wp-article">
+<section class="article-section">
+<h2 class="major-title">逆向</h2>
+<p>西电举办的新生练习赛，做着玩玩</p>
+<p>第一道入门题懒得做了（虽然后面加了前置条件害我从头到尾把签到题都做了。。）</p>
+<p>最后三题有点超出能力范围了</p>
+<section class="question-block">
+<h3 class="question-title" data-question-num="1">1. Assembly</h3>
+<p>汇编代码，解释注释在后面了</p>
+<div class="code-wrap script-only"><button type="button" class="code-copy-btn">复制</button><pre><code>; x86-64, Intel syntax
+; rdi points to output buffer
+
+start:
+    lea     rdi, [buf]
+#rdi指向buf，一般做缓冲区，是起始地址
+
+    lea     rsi, [byte_404000]
+#rsi指向byte_404000，由后面得知是第一段密文。指针起始地址
+
+    mov     ecx, 25
+#ecx一般是循环计数用的
+
+loc_401000:
+    mov     al, byte ptr [rsi]
+    mov     byte ptr [rdi], al
+    inc     rsi
+    inc     rdi
+    loop    loc_401000
+#al做寄存器，把rsi的数据逐项写入到缓冲区rdi，最后把计数器ecx-1
+
+    mov     eax, 0x2a
+    add     eax, 0x16
+    cmp     eax, 0x40
+    jne     loc_401080
+
+    mov     ebx, 0x10
+    shl     ebx, 2
+    cmp     eax, ebx
+    jne     loc_401080
+
+    mov     ecx, 0x39
+    sub     ecx, 0x20
+    cmp     ecx, 0x18
+    jg      loc_401050
+
+    jmp     loc_401080
+#上面三段棍母代码，因为0x2a+0x16=0x40恒成立，所以程序只会跳转到loc_401050
+
+loc_401050:
+    lea     rsi, [byte_404020]
+    mov     ecx, 15
+#byte_404020由后面得知是第二段密文，设另一个计数器，15
+
+loc_401060:
+    mov     al, byte ptr [rsi]
+    xor     al, 0x42
+#重点，与0x42异或
+    mov     byte ptr [rdi], al
+    inc     rsi
+    inc     rdi
+    loop    loc_401060
+ #就是逐项异或15次
+
+    jmp     loc_4010b0
+
+loc_401080:
+    lea     rsi, [byte_404030]
+    mov     ecx, 9
+ #不会执行，棍母
+loc_401090:
+    mov     al, byte ptr [rsi]
+    mov     byte ptr [rdi], al
+    inc     rsi
+    inc     rdi
+    loop    loc_401090
+
+loc_4010b0:
+    mov     byte ptr [rdi], 0
+    ret
+  #终止
+
+
+byte_404000:
+    db 0x6d, 0x6f, 0x65, 0x63, 0x74, 0x66, 0x7b
+    db 0x41, 0x73, 0x73, 0x65, 0x6d, 0x62, 0x31, 0x79
+    db 0x5f, 0x4c, 0x34, 0x6e, 0x67, 0x75, 0x61, 0x67, 0x65, 0x5f
+
+byte_404020:
+    db 0x73, 0x11, 0x1d, 0x21, 0x2d
+    db 0x72, 0x2d, 0x72, 0x0d, 0x2d
+    db 0x2d, 0x2e, 0x63, 0x63, 0x3f
+
+byte_404030:
+    db 0x63, 0x6f, 0x72, 0x72, 0x65, 0x63, 0x74, 0x21, 0x7d
+#不会用到
+
+buf:
+    db 64 dup(0)</code></pre></div>
+<p class="doc-image"><img src="assets/post-2-media/image1.png" alt="image1"></p>
+<p class="doc-image"><img src="assets/post-2-media/image2.png" alt="image2"></p>
+<p class="flag-line"><strong>moectf{Assemb1y_L4nguage_1S_co0o0Oool!!}</strong></p>
+</section>
+<section class="question-block">
+<h3 class="question-title" data-question-num="2">2. bbxor</h3>
+<p>cipher里的数据逐项与0x66异或，直接秒了</p>
+<p class="doc-image"><img src="assets/post-2-media/image3.png" alt="image3"></p>
+<p class="doc-image"><img src="assets/post-2-media/image4.png" alt="image4"></p>
+<p class="doc-image"><img src="assets/post-2-media/image5.png" alt="image5"></p>
+<p class="flag-line"><strong>moectf{B4sic_x0r_cha1lenge_solvedd!}</strong></p>
+</section>
+<section class="question-block">
+<h3 class="question-title" data-question-num="3">3. 反方向的 RC4</h3>
+<blockquote><p>RC4 喵，是一种对称加密算法喵，加密和解密都使用相同的密钥喵。</p><p>这道题目喵，需要动态调试喵。在合适的地方下断点喵，然后运行程序喵，就能看到 flag 喵。可以使用 gdb 喵，也可以 IDA 搭配 linux server 喵，喵喵喵。</p></blockquote>
+<p>按照提示应该是动调简单一点，由于是elf程序，需要在linux环境下动调，这里采用的策略是wsl里启动Ubuntu</p>
+<blockquote><p>wsl -d Ubuntu</p></blockquote>
+<p>然后将文件复制到系统中，注意路径要用linux逻辑的路径（/mnt/c/），不能用“C:/”</p>
+<blockquote><p>cp "路径" /root/chall3</p></blockquote>
+<p>gdb启动动调</p>
+<p>（没装过的用sudo apt update和 sudo apt install -y gdb来装）</p>
+<blockquote><p>gdb -q /root/chall3</p></blockquote>
+<p class="doc-image"><img src="assets/post-2-media/image6.png" alt="image6"></p>
+<p>启动完，可以输入调试命令了</p>
+<p>这题应该是直接的逻辑直接来看main的汇编</p>
+<blockquote><p>disassemble main</p></blockquote>
+<p class="doc-image"><img src="assets/post-2-media/image7.png" alt="image7"></p>
+<p>&lt;rc4_crypt&gt;应该就是题目的逻辑了</p>
+<p>下断点break（简写b）+函数名/*地址</p>
+<blockquote><p>break rc4_crypt</p></blockquote>
+<p>continue运行</p>
+<p class="doc-image"><img src="assets/post-2-media/image8.png" alt="image8"></p>
+<p>正常运行，要求用户交互，我们随便输一串字符</p>
+<p>在断点停下，应该在缓冲区进行了校验</p>
+<p>之后输finish（fin）查看缓冲区</p>
+<p class="doc-image"><img src="assets/post-2-media/image9.png" alt="image9"></p>
+<p class="flag-line"><strong>moectf{OH~Dyn4mic!}</strong></p>
+<p>实则走静态写脚本也不难，标准rc4</p>
+<p>（小趣事：给本地ai挂了工具不用，最后急头白脸地写脚本出的）</p>
+<p class="doc-image"><img src="assets/post-2-media/image10.png" alt="image10"></p>
+</section>
+<section class="question-block">
+<h3 class="question-title" data-question-num="4">4. Ultra Potato Xplosion</h3>
+<blockquote><p>超级土豆大爆炸</p></blockquote>
+<p>根据提示是upx壳，先查壳，是标准upx壳</p>
+<p class="doc-image"><img src="assets/post-2-media/image11.png" alt="image11"></p>
+<p>用upx的官方工具脱壳，把upx写进PATH命令会短很多</p>
+<blockquote><p>upx -d chall8 -o chall8.unpacked</p></blockquote>
+<p>这样可以保留源文件脱壳</p>
+<p class="doc-image"><img src="assets/post-2-media/image12.png" alt="image12"></p>
+<p>main函数，有密文</p>
+<p class="doc-image"><img src="assets/post-2-media/image13.png" alt="image13"></p>
+<p>校验逻辑</p>
+<p class="doc-image"><img src="assets/post-2-media/image14.png" alt="image14"></p>
+<p>逻辑有点晦涩，但是我超绝不经意地注意到：Fnrr68qUFDSTA5tupNAp8pgrFPJNesF3R6KNk 应该是base系列的密文</p>
+<p class="doc-image"><img src="assets/post-2-media/image15.png" alt="image15"></p>
+<p>开辉眼魔法棒秒了</p>
+<p class="flag-line"><strong>moectf{EaSy_UPX_anD_Base58}</strong></p>
+</section>
+<section class="question-block">
+<h3 class="question-title" data-question-num="5">5. 奇怪的 APP</h3>
+<blockquote><p>这个 apk 安装后怎么怪怪的，怎么什么内容都没有。用 jadx 打开看看呢，也许走两步 flag 就掉出来了吧吧吧吧吧</p></blockquote>
+<p>apk逆向，用jadx打开</p>
+<p>在config里第一串base64</p>
+<p class="doc-image"><img src="assets/post-2-media/image16.png" alt="image16"></p>
+<blockquote><p>Z2hUPyEhIX0=</p><p>ghT?!!!}</p></blockquote>
+<p>应该是尾端</p>
+<p>在strings.xml里又有一串</p>
+<p class="doc-image"><img src="assets/post-2-media/image17.png" alt="image17"></p>
+<blockquote><p>X2Z1Tl9yMQ==</p><p>_fuN_r1</p></blockquote>
+<p>中间部分</p>
+<p>在Main里的classes.dex里又有一串</p>
+<p class="doc-image"><img src="assets/post-2-media/image18.png" alt="image18"></p>
+<blockquote><p>RXYzcnNlXzFz</p><p>Ev3rse_1s</p></blockquote>
+<p>AndroidMainifest.xml里还有一串</p>
+<p class="doc-image"><img src="assets/post-2-media/image19.png" alt="image19"></p>
+<p>bW9lY3Rme0Fwa19S</p>
+<p class="flag-line"><strong>moectf{Apk_REv3rse_1s_fuN_r1ghT?!!!}</strong></p>
+</section>
+<section class="question-block">
+<h3 class="question-title" data-question-num="6">6. 请你喝茶</h3>
+<blockquote><p>fanchai 请你喝茶！请根据对 chall6 的逆向分析结果，完善 tea6solve.c 解密脚本。</p></blockquote>
+<p>TEA与XTEA</p>
+<p class="doc-image"><img src="assets/post-2-media/image20.png" alt="image20"></p>
+<p>tea的核心是delta（一般是0x9E3779B9，黄金分割数）作为加密的开始，每轮把delta累加进sum，sum再去参与轮函数，这样每轮的结果就会不同</p>
+<p>其中tea的轮函数是把cipher1[4]与key1[4]和sum进行加减等操作后进行xor，一共两条线，第一条用cipher的前两个数据循环处理32轮，第二条用后两个数据</p>
+<p>xtea则是在第一步时根据sum的值取key，加密强度更高</p>
+<p>打开ida可以看到tea_encrypt和xtea_encrypt两个函数，评价为喜欢看伪码的同学有福了，这里是加密逻辑一般用+=表示，而伪码用的-=，有点绕</p>
+<p class="doc-image"><img src="assets/post-2-media/image21.png" alt="image21"></p>
+<p>这里的1640531527（0x61C88647）就是</p>
+<blockquote><p>2³² − 0x9E3779B9（delta） = 0x100000000 − 0x9E3779B9 = 0x61C88647</p></blockquote>
+<p>看汇编就是正常逻辑</p>
+<p class="doc-image"><img src="assets/post-2-media/image22.png" alt="image22"></p>
+<p>密文/密钥都在ida的符号表里：tea_cipher、tea_key、xtea_cipher、xtea_key，注意小端存储要从后往前读</p>
+<p>标准tea的加密逻辑是+=这里解密用-=</p>
+<p>（出题人的提示好用心我好爱）</p>
+<div class="code-wrap script-only"><button type="button" class="code-copy-btn">复制</button><pre><code>#include &lt;stdio.h&gt;
+
+#define uint unsigned int
+
+void tea_decrypt(uint cipher[2], uint key[4])
+{
+    uint delta = -1640531527 * 32;
+
+    for(int i = 1; i &lt;= 32; i++)
+    {
+        cipher[1] -= (cipher[0] + delta) ^ (16 * cipher[0] + key[2]) ^ ((cipher[0] &gt;&gt; 5) + key[3]);
+        cipher[0] -= (cipher[1] + delta) ^ (16 * cipher[1] + key[0]) ^ ((cipher[1] &gt;&gt; 5) + key[1]);
+        delta += 1640531527;
+    }
+}
+
+void xtea_decrypt(uint cipher[2], uint key[4])
+{
+    uint delta = -1640531527 * 32;
+
+    for(int i = 1; i &lt;= 32; i++)
+    {
+        cipher[1] -= (((cipher[0] &gt;&gt; 5) ^ (16 * cipher[0])) + cipher[0]) ^ (key[(delta &gt;&gt; 11) &amp; 3] + delta);
+        delta += 1640531527;
+        cipher[0] -= (((cipher[1] &gt;&gt; 5) ^ (16 * cipher[1])) + cipher[1]) ^ (key[delta &amp; 3] + delta);
+    }
+}
+
+int main()
+{
+    uint cipher1[4] = {
+        0xB3E7E33E,
+        0xB4114672,
+        0x8E088C0C,
+        0x14B2C329
+    };
+
+    uint key1[4] = {
+        0x12345678,
+        0x87654321,
+        0x13572468,
+        0x24681357
+    };
+
+    tea_decrypt(cipher1, key1);
+    tea_decrypt(cipher1 + 2, key1);
+
+    uint cipher2[4] = {
+        0x60EC68AB,
+        0x940251CE,
+        0xB427534C,
+        0xDF435416
+    };
+
+    uint key2[4] = {
+        0xDEADBEEF,
+        0xCAFEBABE,
+        0x11223344,
+        0x55667788
+    };
+
+    xtea_decrypt(cipher2, key2);
+    xtea_decrypt(cipher2 + 2, key2);
+
+    printf("%.16s%.16s\n", (char *)cipher1, (char *)cipher2);
+
+    return 0;
+}</code></pre></div>
+<p class="doc-image"><img src="assets/post-2-media/image23.png" alt="image23"></p>
+<p class="flag-line"><strong>Flag: moectf{Wh4t_a_n1ce_cup_0f_TEA!!}</strong></p>
+</section>
+<section class="question-block">
+<h3 class="question-title" data-question-num="7">7. Tell Me No Lies</h3>
+<p>ida看main，感觉根据提示动调好一点 （虽然他有几个如IsDebuggerPresent反调试的函数，但强度很低，所以反直觉的：“虽然它反调试了，但是反而在提醒我们要调试”）</p>
+<p class="doc-image"><img src="assets/post-2-media/image24.png" alt="image24"></p>
+<p>是elf程序，同3题方案启动调试</p>
+<p>先断在返回点抽一下奖，顺便探路</p>
+<p class="doc-image"><img src="assets/post-2-media/image25.png" alt="image25"></p>
+<blockquote><p>b *0x401eb8</p><p>run</p></blockquote>
+<p class="doc-image"><img src="assets/post-2-media/image26.png" alt="image26"></p>
+<p>太靠后了，还没到断点就跑完了，大概率是反调试发力了</p>
+<p>实则也可以info breakpoints查看断点命中，命中了会多一行显示命中几次的</p>
+<p class="doc-image"><img src="assets/post-2-media/image27.png" alt="image27"></p>
+<p>看反调试函数的调用，这里第一行是调用，第二行返回值落栈，第三行读出</p>
+<p class="doc-image"><img src="assets/post-2-media/image28.png" alt="image28"></p>
+<p>其实在第三行这里下断点科学一点，但在调用函数那一行下断点进函数直接run+fin简单一点</p>
+<blockquote><p>b IsDebuggerPresent</p><p>run</p><p>fin</p></blockquote>
+<p>预测到后面由于返回值为1，不会正常跳转</p>
+<p class="doc-image"><img src="assets/post-2-media/image29.png" alt="image29"></p>
+<p>一般IsDebuggerPresent是0假非0真，即使不知道看main函数也可以知道</p>
+<p>改栈</p>
+<div class="code-wrap script-only"><button type="button" class="code-copy-btn">复制</button><pre><code>set $eax = 0</code></pre></div>
+<p>还有一处反调试</p>
+<p class="doc-image"><img src="assets/post-2-media/image30.png" alt="image30"></p>
+<p>一处应该是观察点</p>
+<p class="doc-image"><img src="assets/post-2-media/image31.png" alt="image31"></p>
+<p>（上面这一个似乎不是反调试，是观察点）</p>
+<p>两处都下断点</p>
+<p>第二处的逻辑似乎和一一样</p>
+<p class="doc-image"><img src="assets/post-2-media/image32.png" alt="image32"></p>
+<p>依旧fin+set $eax = 0</p>
+<p>continue</p>
+<p class="doc-image"><img src="assets/post-2-media/image33.png" alt="image33"></p>
+<p>直接出了</p>
+<p class="flag-line"><strong>moectf{Wow~h0w_do_Y0u_f1nd_IT?}</strong></p>
+<p>完整流程：</p>
+<div class="code-wrap script-only"><button type="button" class="code-copy-btn">复制</button><pre><code>b IsDebuggerPresent
+b compare_operator_token
+b self_driven_decrypt
+
+run
+
+fin
+set $eax = 0
+continue
+
+fin
+set $eax = 0
+continue
+
+fin</code></pre></div>
+</section>
+<section class="question-block">
+<h3 class="question-title" data-question-num="8">8. 成都好室友</h3>
+<blockquote><p>从成都省四川市重庆区来的好室友 PYC，想让你 cos0 = 1</p></blockquote>
+<p>给的题干是一个pyc，字节码是二进制</p>
+<p>反汇编一下（记得更新下编译器版本）</p>
+<blockquote><p>pydisasm chall15.pyc</p></blockquote>
+<p class="doc-image"><img src="assets/post-2-media/image34.png" alt="image34"></p>
+<p class="doc-image"><img src="assets/post-2-media/image35.png" alt="image35"></p>
+<p>给了一段超长的密文，然后通过反编译内容可以得知应该是base64转png</p>
+<p>用misc的思路直接把文件拖到随波逐流就可以得到一个“类似”、没有定位符的二维码</p>
+<p>（不知道为什么把密文拖进去转不了，但放文件就可以）</p>
+<p class="doc-image"><img src="assets/post-2-media/image36.png" alt="image36"></p>
+<p>结果是我用了很多添加定位符工具都失败了，还以为是工具太菜</p>
+<p>结果注意到这个二维码的定位符三个角是黑框包裹，二维码应该是白框包裹定位符才对</p>
+<p>黑白异或</p>
+<p class="doc-image"><img src="assets/post-2-media/image37.png" alt="image37"></p>
+<p>再添加定位符，解码</p>
+<p class="doc-image"><img src="assets/post-2-media/image38.png" alt="image38"></p>
+<p class="flag-line"><strong>moectf{PYC_p1us_QRc0dE_M1ssing_c0rN3r}</strong></p>
+<p>用逆向思路就是搓脚本提取荷载</p>
+<div class="code-wrap script-only"><button type="button" class="code-copy-btn">复制</button><pre><code>import re, base64 
+d = open('chall15.pyc', 'rb').read() 
+b64 = max(re.findall(rb'[A-Za-z0-9+/=]{200,}', d), key=len) 
+open('扣二扣的.png', 'wb').write(base64.b64decode(b64, validate=True))</code></pre></div>
+<p>最后还是要异或加符。。</p>
+</section>
+<section class="question-block">
+<h3 class="question-title" data-question-num="9">9. 让我们说中文</h3>
+<p>看一点ida里的main，一坨密文像base64但丢在厨子里搞不出来</p>
+<p class="doc-image"><img src="assets/post-2-media/image39.png" alt="image39"></p>
+<p>依旧动调，elf，同3题老方案</p>
+<p>这里没有定义main函数，去ida把main地址抄过来</p>
+<p class="doc-image"><img src="assets/post-2-media/image40.png" alt="image40"></p>
+<blockquote><p>.text:00000000004011A8                 call    _strcmp</p></blockquote>
+<p>0x4011a8这一行调用校验函数，下断点</p>
+<blockquote><p>b *0x4011a8</p><p>run</p><p>fin</p></blockquote>
+<p class="doc-image"><img src="assets/post-2-media/image41.png" alt="image41"></p>
+<p>看到一个base64换表</p>
+<blockquote><p>Six5tarsPJYouNgLlKEw4Ik1nGABCDFHMOQRTUVWXZbcdefhjmpqvyz0236789+/</p></blockquote>
+<p class="doc-image"><img src="assets/post-2-media/image42.png" alt="image42"></p>
+<p>又一段密文，厨子识别成hex没出来</p>
+<p class="doc-image"><img src="assets/post-2-media/image43.png" alt="image43"></p>
+<p>丢随波逐流里base16出来一坨中文</p>
+<blockquote><p>爱慕欧裔吸踢爱抚左括号大写艾斯小写辟小写役数字四大写克诶下划线小写役艾特美元小写外下划线大写达不溜数字零数字七小写地小写艾斯右括号</p></blockquote>
+<p class="flag-line"><strong>moectf{Spe4K_e@$y_W07ds}</strong></p>
+</section>
+<section class="question-block">
+<h3 class="question-title" data-question-num="10">10. Mewtype</h3>
+<p>用的lambda匿名函数和一堆自定义函数（myk和vol）（胃疼99）</p>
+<p class="doc-image"><img src="assets/post-2-media/image44.png" alt="image44"></p>
+<p>没招了，自己代码能力太差，再加上没找到解lambda混淆的工具，靠ai大人发力了</p>
+<p>首先密文部分没有混淆，我们多关注其加密或求解的逻辑，再转写脚本</p>
+<p>重点关注有==的地方，可能与解密逻辑校验有关</p>
+<p>把逻辑提出来</p>
+<div class="table-wrap"><table><thead><tr><th>偏移</th><th>内容</th><th>对应</th></tr></thead><tbody><tr><td><strong>176</strong></td><td><code class="inline-code">len(myk43) == 54</code></td><td>A.1</td></tr><tr><td><strong>363</strong></td><td><code class="inline-code">(myk19³ - myk19) % 6 == 0</code></td><td>❌ <strong>恒真，扔掉</strong></td></tr><tr><td><strong>1170</strong></td><td><code class="inline-code">(vol18² + vol18) % 2 == 0</code></td><td>❌ <strong>恒真，扔掉</strong></td></tr><tr><td>1491 / 1822</td><td><code class="inline-code">vol20 == 0</code> / <code class="inline-code">myk21 == 1</code></td><td>B 的模式选择器</td></tr><tr><td><strong>2080</strong></td><td><code class="inline-code">vol22*vol22 + myk23*myk23 + vol24³ == vol26</code></td><td><strong>B 的公式 3</strong></td></tr><tr><td><strong>2166</strong></td><td><code class="inline-code">(ord(vol40[myk41+1]))(ord(vol40[myk41]))(ord(vol40[(myk41+17)%len(vol40)]))</code></td><td><strong>B 的 a / b / c</strong></td></tr><tr><td><strong>2201</strong></td><td><code class="inline-code">(myk41 + 17) % len(vol40)</code></td><td><strong>步长 17</strong></td></tr><tr><td><strong>2237</strong></td><td><code class="inline-code">(10111, 11290, 137705, …)</code></td><td><strong>TABLE</strong></td></tr><tr><td><strong>2610</strong></td><td><code class="inline-code">[myk41] ^ 90</code></td><td><strong>K = TABLE[i] ⊕ 90</strong></td></tr><tr><td><strong>4032</strong></td><td><code class="inline-code">(vol42 + 1) % 3</code></td><td><strong>i mod 3 的模式轮换</strong></td></tr><tr><td><strong>4371</strong></td><td><code class="inline-code">ord(vol28[myk29]) + myk27(…)</code></td><td>A.2 求和</td></tr><tr><td><strong>4739</strong></td><td><code class="inline-code">ord(myk31[vol32]) ^ vol30(…)</code></td><td>A.3 异或</td></tr><tr><td><strong>5105</strong></td><td><code class="inline-code">ord(vol34[myk35]) * ord(vol34[myk35]) + …</code></td><td>A.4 平方和</td></tr><tr><td><strong>5449</strong></td><td><code class="inline-code">ord(myk37[vol38]) * ord(myk37[vol38+1]) + …</code></td><td>A.5 相邻积</td></tr></tbody></table></div>
+<p>数学逻辑：</p>
+<blockquote><p>a = f[i + 1]</p><p>b = f[i]</p><p>c = f[(i + 17) mod 54]</p><p>K = TABLE[i] ⊕ 90</p><p>i mod 3 == 0:   a + b + c²      = K</p><p>i mod 3 == 1:   a · b + c       = K</p><p>i mod 3 == 2:   a² + b² + c³    = K</p></blockquote>
+<p>用z3来求方程</p>
+<div class="code-wrap script-only"><button type="button" class="code-copy-btn">复制</button><pre><code>from z3 import *
+T = (10111, 11290, 137705, 13834, 12017, 882822, 2861, 6952, 148686, 9290, 9962,
+     153274, 13069, 9595, 871218, 9834, 10851, 1584472, 9149, 5765, 159511, 9289,
+     5093, 126222, 11887, 4921, 152566, 13114, 6109, 140607, 13366, 9447, 156018,
+     9712, 11045, 1795540, 15852, 4864, 1389923, 10278, 5369, 1586542, 10519, 5995,
+     1281695, 4298, 5674, 963368, 10232, 5085, 880083, 10095, 15119)
+
+f = [BitVec('f%d' % i, 32) for i in range(54)]
+s = Solver()
+for c in f:
+    s.add(UGE(c, 32), ULE(c, 126))
+for i, ch in enumerate('moectf{'):
+    s.add(f[i] == ord(ch))
+s.add(f[53] == ord('}'))
+
+for i, k in enumerate(T):
+    a, b, c = f[i + 1], f[i], f[(i + 17) % 54]
+    s.add([a + b + c * c, a * b + c, a * a + b * b + c * c * c][i % 3] == BitVecVal(k ^ 90, 32))
+
+assert s.check() == sat
+print(''.join(chr(s.model()[c].as_long()) for c in f))</code></pre></div>
+<p class="doc-image"><img src="assets/post-2-media/image45.png" alt="image45"></p>
+<p class="flag-line"><strong>moectf{l@mbd4_c@lcu1us_4r3_h4rd_but_z3_s0lv3r_1s_3asy}</strong></p>
+</section>
+<section class="question-block">
+<h3 class="question-title" data-question-num="11">11. Ultato Polosion Xptra</h3>
+<p class="doc-image"><img src="assets/post-2-media/image46.png" alt="image46"></p>
+<p>有upx的壳，脱壳发现失败</p>
+<p class="doc-image"><img src="assets/post-2-media/image47.png" alt="image47"></p>
+<p>去010看发现是rphupx，双层壳</p>
+<p>不硬脱，走动调</p>
+<p>elf程序同题3启动</p>
+<p>启动到程序开始</p>
+<blockquote><p>stari</p></blockquote>
+<p>看200条内存命令</p>
+<blockquote><p>x/200i $pc</p></blockquote>
+<p>jmp rax endbr64一般是进入下一部分代码的标识，这里应该就是出壳了</p>
+<p class="doc-image"><img src="assets/post-2-media/image48.png" alt="image48"></p>
+<p>下断点运行</p>
+<blockquote><p>b *0x405f4a</p><p>c</p></blockquote>
+<p>ok到出口了，si进代码</p>
+<p class="doc-image"><img src="assets/post-2-media/image49.png" alt="image49"></p>
+<p>还看不到逻辑，继续si</p>
+<p>结果是一直没看到逻辑</p>
+<p>试着继续运行</p>
+<p>跑到r13这里就死了</p>
+<p>查看内存</p>
+<p class="doc-image"><img src="assets/post-2-media/image50.png" alt="image50"></p>
+<p>这里不是死地址，但可以看到应该是被人工塞了很多“0x67”给污染了</p>
+<p>记住这里的地址，下个硬件断点</p>
+<blockquote><p>hbreak *0x7ffff7ff844f</p></blockquote>
+<p>让ai搓了个修复的脚本，注册fix67命令删除内存里的0x67</p>
+<div class="code-wrap script-only"><button type="button" class="code-copy-btn">复制</button><pre><code>python
+import gdb
+HDR = bytes.fromhex("7f454c4602010100000000000000000002003e0001000000d0104000000000004000000000000000e04500000000000000000000400038000d00400025002400")
+class Fix67(gdb.Command):
+    def __init__(self): super().__init__("fix67", gdb.COMMAND_USER)
+    def invoke(self, arg, _):
+        addr = int(gdb.parse_and_eval(arg or "$rdi"))
+        inf = gdb.selected_inferior()
+        inf.write_memory(addr, HDR)
+        phdr = bytes(inf.read_memory(addr + 0x40, 13 * 0x38)).replace(b"\x67", b"\0")
+        inf.write_memory(addr + 0x40, phdr)
+        print(f"fixed ELF header at {addr:#x}")
+Fix67()
+end</code></pre></div>
+<p>source+“路径”加载</p>
+<p>再使用fix67修复，奏效了</p>
+<p class="doc-image"><img src="assets/post-2-media/image51.png" alt="image51"></p>
+<p>现在全部重启</p>
+<p>到壳出口处全部修一下</p>
+<p class="doc-image"><img src="assets/post-2-media/image52.png" alt="image52"></p>
+<p>终于看到正常程序了</p>
+<p class="doc-image"><img src="assets/post-2-media/image53.png" alt="image53"></p>
+<p>应该抓不到明文，看一下开头几十条应该是main，这里应该是密文</p>
+<blockquote><p>0x0000000000401664:  call   0x401235   这一行应该是逻辑</p></blockquote>
+<p class="doc-image"><img src="assets/post-2-media/image54.png" alt="image54"></p>
+<p>注意是0x30（48）个字符</p>
+<p class="doc-image"><img src="assets/post-2-media/image55.png" alt="image55"></p>
+<p>401664下断点运行</p>
+<p>注意都要下hbreak硬件断点，不知道为什么普通断点似乎打不上</p>
+<p class="doc-image"><img src="assets/post-2-media/image56.png" alt="image56"></p>
+<p>进入函数看到逻辑</p>
+<div class="code-wrap script-only"><button type="button" class="code-copy-btn">复制</button><pre><code>=&gt; 0x401235:    endbr64
+   0x401239:    push   rbp
+   0x40123a:    mov    rbp,rsp
+   0x40123d:    sub    rsp,0x70
+   0x401241:    mov    QWORD PTR [rbp-0x48],rdi
+   0x401245:    mov    QWORD PTR [rbp-0x50],rsi
+   0x401249:    mov    QWORD PTR [rbp-0x58],rdx
+   0x40124d:    mov    QWORD PTR [rbp-0x60],rcx
+   0x401251:    mov    QWORD PTR [rbp-0x68],r8
+   0x401255:    mov    QWORD PTR [rbp-0x70],r9
+   0x401259:    mov    DWORD PTR [rbp-0x4],0x0
+   0x401260:    jmp    0x4014d3
+   0x401265:    mov    rax,QWORD PTR [rbp-0x48]
+   0x401269:    mov    rax,QWORD PTR [rax]
+   0x40126c:    mov    esi,0xb
+   0x401271:    mov    rdi,rax
+   0x401274:    call   0x4011ff
+   0x401279:    mov    rdx,QWORD PTR [rbp-0x48]
+   0x40127d:    mov    QWORD PTR [rdx],rax
+   0x401280:    mov    rax,QWORD PTR [rbp-0x50]
+   0x401284:    mov    rax,QWORD PTR [rax]
+   0x401287:    mov    esi,0x2d
+   0x40128c:    mov    rdi,rax
+   0x40128f:    call   0x4011ff
+   0x401294:    mov    rdx,QWORD PTR [rbp-0x50]
+   0x401298:    mov    QWORD PTR [rdx],rax
+   0x40129b:    mov    rax,QWORD PTR [rbp-0x58]
+   0x40129f:    mov    rax,QWORD PTR [rax]
+   0x4012a2:    mov    esi,0xe
+   0x4012a7:    mov    rdi,rax
+   0x4012aa:    call   0x4011ff
+   0x4012af:    mov    rdx,QWORD PTR [rbp-0x58]
+   0x4012b3:    mov    QWORD PTR [rdx],rax
+   0x4012b6:    mov    rax,QWORD PTR [rbp-0x60]
+   0x4012ba:    mov    rax,QWORD PTR [rax]
+   0x4012bd:    mov    esi,0xe
+   0x4012c2:    mov    rdi,rax
+   0x4012c5:    call   0x4011ff
+   0x4012ca:    mov    rdx,QWORD PTR [rbp-0x60]
+   0x4012ce:    mov    QWORD PTR [rdx],rax
+   0x4012d1:    mov    rax,QWORD PTR [rbp-0x68]
+   0x4012d5:    mov    rax,QWORD PTR [rax]
+   0x4012d8:    mov    esi,0x33
+   0x4012dd:    mov    rdi,rax
+   0x4012e0:    call   0x4011ff
+   0x4012e5:    mov    rdx,QWORD PTR [rbp-0x68]
+   0x4012e9:    mov    QWORD PTR [rdx],rax
+   0x4012ec:    mov    rax,QWORD PTR [rbp-0x70]
+   0x4012f0:    mov    rax,QWORD PTR [rax]
+   0x4012f3:    mov    esi,0x29
+   0x4012f8:    mov    rdi,rax
+   0x4012fb:    call   0x4011ff
+   0x401300:    mov    rdx,QWORD PTR [rbp-0x70]
+   0x401304:    mov    QWORD PTR [rdx],rax
+   0x401307:    mov    rax,QWORD PTR [rbp-0x48]
+   0x40130b:    mov    rax,QWORD PTR [rax]
+   0x40130e:    movabs rdx,0x123456789abcdef
+   0x401318:    add    rdx,rax
+   0x40131b:    mov    rax,QWORD PTR [rbp-0x48]
+   0x40131f:    mov    QWORD PTR [rax],rdx
+   0x401322:    mov    rax,QWORD PTR [rbp-0x50]
+   0x401326:    mov    rax,QWORD PTR [rax]
+   0x401329:    movabs rdx,0xfedcba9876543210
+   0x401333:    add    rdx,rax
+   0x401336:    mov    rax,QWORD PTR [rbp-0x50]
+   0x40133a:    mov    QWORD PTR [rax],rdx
+   0x40133d:    mov    rax,QWORD PTR [rbp-0x58]
+   0x401341:    mov    rax,QWORD PTR [rax]
+   0x401344:    movabs rdx,0x2152411021524111
+   0x40134e:    add    rdx,rax
+   0x401351:    mov    rax,QWORD PTR [rbp-0x58]
+   0x401355:    mov    QWORD PTR [rax],rdx
+   0x401358:    mov    rax,QWORD PTR [rbp-0x60]
+   0x40135c:    mov    rax,QWORD PTR [rax]
+   0x40135f:    movabs rdx,0xecebecebecebecec
+   0x401369:    add    rdx,rax
+   0x40136c:    mov    rax,QWORD PTR [rbp-0x60]
+   0x401370:    mov    QWORD PTR [rax],rdx
+   0x401373:    mov    rax,QWORD PTR [rbp-0x68]
+   0x401377:    mov    rdx,QWORD PTR [rax]
+   0x40137a:    mov    rax,QWORD PTR [rbp-0x48]
+   0x40137e:    mov    rcx,QWORD PTR [rax]
+   0x401381:    mov    rax,QWORD PTR [rbp-0x50]
+   0x401385:    mov    rax,QWORD PTR [rax]
+   0x401388:    xor    rcx,rax
+   0x40138b:    mov    rax,QWORD PTR [rbp-0x58]
+   0x40138f:    mov    rax,QWORD PTR [rax]
+   0x401392:    xor    rcx,rax
+   0x401395:    mov    rax,QWORD PTR [rbp-0x70]
+   0x401399:    mov    rax,QWORD PTR [rax]
+   0x40139c:    xor    rax,rcx
+   0x40139f:    xor    rdx,rax
+   0x4013a2:    mov    rax,QWORD PTR [rbp-0x68]
+   0x4013a6:    mov    QWORD PTR [rax],rdx
+   0x4013a9:    mov    rax,QWORD PTR [rbp-0x70]
+   0x4013ad:    mov    rdx,QWORD PTR [rax]
+   0x4013b0:    mov    rax,QWORD PTR [rbp-0x50]
+   0x4013b4:    mov    rcx,QWORD PTR [rax]
+   0x4013b7:    mov    rax,QWORD PTR [rbp-0x68]
+   0x4013bb:    mov    rax,QWORD PTR [rax]
+   0x4013be:    xor    rcx,rax
+   0x4013c1:    mov    rax,QWORD PTR [rbp-0x60]
+   0x4013c5:    mov    rax,QWORD PTR [rax]
+   0x4013c8:    xor    rcx,rax
+   0x4013cb:    mov    rax,QWORD PTR [rbp-0x58]
+   0x4013cf:    mov    rax,QWORD PTR [rax]
+   0x4013d2:    xor    rax,rcx
+   0x4013d5:    xor    rdx,rax
+   0x4013d8:    mov    rax,QWORD PTR [rbp-0x70]
+   0x4013dc:    mov    QWORD PTR [rax],rdx
+   0x4013df:    mov    rax,QWORD PTR [rbp-0x58]
+   0x4013e3:    mov    rdx,QWORD PTR [rax]
+   0x4013e6:    mov    rax,QWORD PTR [rbp-0x48]
+   0x4013ea:    mov    rcx,QWORD PTR [rax]
+   0x4013ed:    mov    rax,QWORD PTR [rbp-0x50]
+   0x4013f1:    mov    rax,QWORD PTR [rax]
+   0x4013f4:    xor    rcx,rax
+   0x4013f7:    mov    rax,QWORD PTR [rbp-0x60]
+   0x4013fb:    mov    rax,QWORD PTR [rax]
+   0x4013fe:    xor    rcx,rax
+   0x401401:    mov    rax,QWORD PTR [rbp-0x68]
+   0x401405:    mov    rax,QWORD PTR [rax]
+   0x401408:    xor    rax,rcx
+   0x40140b:    xor    rdx,rax
+   0x40140e:    mov    rax,QWORD PTR [rbp-0x58]
+   0x401412:    mov    QWORD PTR [rax],rdx
+   0x401415:    mov    rax,QWORD PTR [rbp-0x50]
+   0x401419:    mov    rdx,QWORD PTR [rax]
+   0x40141c:    mov    rax,QWORD PTR [rbp-0x58]
+   0x401420:    mov    rcx,QWORD PTR [rax]
+   0x401423:    mov    rax,QWORD PTR [rbp-0x60]
+   0x401427:    mov    rax,QWORD PTR [rax]
+   0x40142a:    xor    rcx,rax
+   0x40142d:    mov    rax,QWORD PTR [rbp-0x68]
+   0x401431:    mov    rax,QWORD PTR [rax]
+   0x401434:    xor    rcx,rax
+   0x401437:    mov    rax,QWORD PTR [rbp-0x70]
+   0x40143b:    mov    rax,QWORD PTR [rax]
+   0x40143e:    xor    rax,rcx
+   0x401441:    xor    rdx,rax
+   0x401444:    mov    rax,QWORD PTR [rbp-0x50]
+   0x401448:    mov    QWORD PTR [rax],rdx
+   0x40144b:    mov    rax,QWORD PTR [rbp-0x50]
+   0x40144f:    mov    rax,QWORD PTR [rax]
+   0x401452:    mov    QWORD PTR [rbp-0x10],rax
+   0x401456:    mov    rax,QWORD PTR [rbp-0x60]
+   0x40145a:    mov    rax,QWORD PTR [rax]
+   0x40145d:    mov    QWORD PTR [rbp-0x18],rax
+   0x401461:    mov    rax,QWORD PTR [rbp-0x70]
+   0x401465:    mov    rax,QWORD PTR [rax]
+   0x401468:    mov    QWORD PTR [rbp-0x20],rax
+   0x40146c:    mov    rax,QWORD PTR [rbp-0x48]
+   0x401470:    mov    rax,QWORD PTR [rax]
+   0x401473:    mov    QWORD PTR [rbp-0x28],rax
+   0x401477:    mov    rax,QWORD PTR [rbp-0x58]
+   0x40147b:    mov    rax,QWORD PTR [rax]
+   0x40147e:    mov    QWORD PTR [rbp-0x30],rax
+   0x401482:    mov    rax,QWORD PTR [rbp-0x68]
+   0x401486:    mov    rax,QWORD PTR [rax]
+   0x401489:    mov    QWORD PTR [rbp-0x38],rax
+   0x40148d:    mov    rax,QWORD PTR [rbp-0x48]
+   0x401491:    mov    rdx,QWORD PTR [rbp-0x10]
+   0x401495:    mov    QWORD PTR [rax],rdx
+   0x401498:    mov    rax,QWORD PTR [rbp-0x50]
+   0x40149c:    mov    rdx,QWORD PTR [rbp-0x18]
+   0x4014a0:    mov    QWORD PTR [rax],rdx
+   0x4014a3:    mov    rax,QWORD PTR [rbp-0x58]
+   0x4014a7:    mov    rdx,QWORD PTR [rbp-0x20]
+   0x4014ab:    mov    QWORD PTR [rax],rdx
+   0x4014ae:    mov    rax,QWORD PTR [rbp-0x60]
+   0x4014b2:    mov    rdx,QWORD PTR [rbp-0x28]
+   0x4014b6:    mov    QWORD PTR [rax],rdx
+   0x4014b9:    mov    rax,QWORD PTR [rbp-0x68]
+   0x4014bd:    mov    rdx,QWORD PTR [rbp-0x30]
+   0x4014c1:    mov    QWORD PTR [rax],rdx
+   0x4014c4:    mov    rax,QWORD PTR [rbp-0x70]
+   0x4014c8:    mov    rdx,QWORD PTR [rbp-0x38]
+   0x4014cc:    mov    QWORD PTR [rax],rdx
+   0x4014cf:    add    DWORD PTR [rbp-0x4],0x1
+   0x4014d3:    cmp    DWORD PTR [rbp-0x4],0x7e9
+   0x4014da:    jle    0x401265
+   0x4014e0:    nop
+   0x4014e1:    nop
+   0x4014e2:    leave
+   0x4014e3:    ret</code></pre></div>
+<p>解题脚本</p>
+<div class="code-wrap script-only"><button type="button" class="code-copy-btn">复制</button><pre><code>M = (1 &lt;&lt; 64) - 1
+
+v = [
+    0x907BB2B8D530EA58, 0xAD3F50E6608F1E5B,
+    0x1D40A75B8F957F88, 0xAF2F87A82608A727,
+    0x6CBAFCB9BD90E6E5, 0x6EF57B838B9A6356
+]
+
+k = [
+    0x0123456789ABCDEF, 0xFEDCBA9876543210,
+    0x2152411021524111, 0xECEBECEBECEBECEC
+]
+
+def ror(x, n):
+    return ((x &gt;&gt; n) | (x &lt;&lt; (64 - n))) &amp; M
+
+for _ in range(2026):
+    b1, d, f1, a, c1, e1 = v
+
+    b = b1 ^ c1 ^ d ^ e1 ^ f1
+    c = c1 ^ a ^ b ^ d ^ e1
+    f = f1 ^ b ^ e1 ^ d ^ c
+    e = e1 ^ a ^ b ^ c ^ f
+
+    v = [
+        ror((a - k[0]) &amp; M, 11),
+        ror((b - k[1]) &amp; M, 45),
+        ror((c - k[2]) &amp; M, 14),
+        ror((d - k[3]) &amp; M, 14),
+        ror(e, 51),
+        ror(f, 41)
+    ]
+
+print(b"".join(x.to_bytes(8, "big") for x in v).decode())</code></pre></div>
+<p class="doc-image"><img src="assets/post-2-media/image57.png" alt="image57"></p>
+<p class="flag-line"><strong>moectf{M0d1fied_UPX_c0mb1ned_w1tH_Littl3_Crypt0}</strong></p>
+</section>
+<section class="question-block">
+<h3 class="question-title" data-question-num="12">12. 请 fanchai 喝茶</h3>
+<p>我的天哪是xxtea</p>
+<p>xxtea在 xtea的基础上把固定的 2 个字的块推广成任意数量的字作为一个整体块，用环形相邻字替代同块内两字做混合，并把轮数与密钥下标都改成随长度和位置而改变</p>
+<p class="doc-image"><img src="assets/post-2-media/image58.png" alt="image58"></p>
+<p>key与密文</p>
+<p class="doc-image"><img src="assets/post-2-media/image59.png" alt="image59"></p>
+<p>想用python的xxtea库逃课但没跑出来，看来是有魔改，老老实实写脚本</p>
+<p>首先是delta值改了</p>
+<p class="doc-image"><img src="assets/post-2-media/image60.png" alt="image60"></p>
+<p>另外每组密文的顺序是反的，正常顺序是2030、2040、2050、2060，这里在调用时把2030和2040、2050和2060两两对调（无言了没有ai这辈子看不出来）</p>
+<p class="doc-image"><img src="assets/post-2-media/image61.png" alt="image61"></p>
+<p>脚本写出来ai修了又修</p>
+<div class="code-wrap script-only"><button type="button" class="code-copy-btn">复制</button><pre><code>#include &lt;stdio.h&gt;
+
+#define uint unsigned int
+
+#define MX (((z &gt;&gt; 5 ^ y &lt;&lt; 2) + (y &gt;&gt; 3 ^ z &lt;&lt; 4)) ^ ((sum ^ y) + (key[(p &amp; 3) ^ e] ^ z)))
+
+void xxtea_decrypt(uint v[16], uint key[4])
+{
+    int n = 16;
+    uint delta = 0x5F3759DF;
+    int rounds = 6 + 52 / n;
+    uint sum = delta * rounds;
+    uint y = v[0], z, e, p;
+
+    while (rounds--)
+    {
+        e = (sum &gt;&gt; 2) &amp; 3;
+        for (p = n - 1; p &gt; 0; p--)
+        {
+            z = v[p - 1];
+            v[p] -= MX;
+            y = v[p];
+        }
+        z = v[n - 1];
+        v[0] -= MX;
+        y = v[0];
+        sum -= delta;
+    }
+}
+
+int main()
+{
+    uint cipher[16] = {
+        0x8EEA087C, 0x99F3CEE5, 0x60AA5AF3, 0x8D9F4D27,
+        0x84EBDFDD, 0x646BE358, 0x37778398, 0xC4D0A558,
+        0x824AD1E8, 0xC3FEE9E5, 0xC4E5EAE9, 0x08608800,
+        0x89F425F4, 0x59779497, 0x45F537C3, 0x229B9954
+    };
+
+    uint key[4] = {
+        0x4D4F4543, 0x54463230, 0x32365858, 0x54454121
+    };
+
+    for (int i = 0; i &lt; 4; i++)
+    {
+        uint t = cipher[i];     cipher[i]      = cipher[i + 4];  cipher[i + 4]  = t;
+        t      = cipher[i + 8]; cipher[i + 8]  = cipher[i + 12]; cipher[i + 12] = t;
+    }
+
+    xxtea_decrypt(cipher, key);
+
+    printf("%.64s\n", (char *)cipher);
+
+    return 0;
+}</code></pre></div>
+</section>
+<section class="question-block">
+<h3 class="question-title" data-question-num="13">13. 广晨风语录</h3>
+<blockquote><p>我是广晨风，挑战 58.3 元在 和平饭店 的购买力到底有多强</p><p>还是推个车吧，怕拿不住</p><p>今天我们主要买可乐和 Android Native 层</p><p>58.3 元买了一杯可乐 50 元，附加费 8.3 元，可乐产生的热量全部用来打 moectf 花费 0 元</p><p>购买力很强，爆赞！</p></blockquote>
+<p>提示在 Android Native层</p>
+<p>apk本质压缩包，先解压，在lib目录下的.so文件拖到ida里看，一般看arm64-v8a的那个</p>
+<p>标准流程可以去jadx里看一下main函数入口，这里拖进去看到加粗函数JMI_Onload下的Java_com_moectf_gcfquotes_MainActivity_nativeQuote函数，应该就是校验逻辑</p>
+<p class="doc-image"><img src="assets/post-2-media/image62.png" alt="image62"></p>
+<p>校验逻辑在_ZN3gcf11QuoteEngine7processEPKc 这个函数。前面是在开栈取输入的数据，后面是在返回消息</p>
+<p class="doc-image"><img src="assets/post-2-media/image63.png" alt="image63"></p>
+<p class="doc-image"><img src="assets/post-2-media/image64.png" alt="image64"></p>
+<p>这一堆函数翻死我了，ida的反编译好奇怪，看汇编还是伪码都有好多噪音，不知道有没有其他方法来解</p>
+<p>第一处逻辑在gcf::InputSession::prepare</p>
+<p>*(_BYTE *)this_1 ^= 0xAAu</p>
+<p class="doc-image"><img src="assets/post-2-media/image65.png" alt="image65"></p>
+<p>另外一处gcf::Verifier::verify 数据在byte_3020</p>
+<p class="doc-image"><img src="assets/post-2-media/image66.png" alt="image66"></p>
+<p class="doc-image"><img src="assets/post-2-media/image67.png" alt="image67"></p>
+<p>PayloadProcessor::transform里还有逻辑</p>
+<p class="doc-image"><img src="assets/post-2-media/image68.png" alt="image68"></p>
+<p>脚本，解密顺序反一下也没事（27是长度在gcf::Verifier::verify，0x28对应40，&amp; 0xff截断整数用的）</p>
+<div class="code-wrap script-only"><button type="button" class="code-copy-btn">复制</button><pre><code>t = bytes.fromhex('c7e70d314a73878db389afef44658ea3c3e52e6ebfe11a4c65d91b')
+a = bytearray(t)
+for i in range(1, 27): a[i] ^= (((t[i-1] + 0x28) &amp; 0xff) ^ 0x67)   
+a[0] ^= 0xAA                                                     
+print(a)    </code></pre></div>
+<p class="flag-line"><strong>moectf{Ea5y_4ndroiD_Nativ3}</strong></p>
+</section>
+</section>
+</article>
